@@ -34,6 +34,8 @@ public class PlayerTurnCardGameState : CardGameState
     private void OnPressedConfirm()
     {
         Debug.Log("Attempt to enter Enemy State!");
+
         // change the enemy turn state
+        StateMachine.ChangeState<EnemyTurnCardGameState>();
     }
 }
