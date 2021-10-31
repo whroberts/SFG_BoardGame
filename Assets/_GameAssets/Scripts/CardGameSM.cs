@@ -7,6 +7,8 @@ public class CardGameSM : StateMachine
     private void Start()
     {
         // set starting State here
+        ChangeState<SetupCardGameState>();
+
     }
 
 }
