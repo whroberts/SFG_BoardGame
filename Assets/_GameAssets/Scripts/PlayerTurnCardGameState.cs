@@ -16,11 +16,24 @@ public class PlayerTurnCardGameState : CardGameState
 
         _playerTurnCount++;
         _playerTurnTextUI.text = "Player Turn: " + _playerTurnCount.ToString();
+
+        // hook into events
+        StateMachine.Input.PressedConfirm += OnPressedConfirm;
     }
 
     public override void Exit()
     {
         _playerTurnTextUI.gameObject.SetActive(false);
+
+        // unhook into events
+        StateMachine.Input.PressedConfirm -= OnPressedConfirm;
+
         Debug.Log("Player Turn: Exiting...");
+    }
+
+    private void OnPressedConfirm()
+    {
+        Debug.Log("Attempt to enter Enemy State!");
+        // change the enemy turn state
     }
 }
