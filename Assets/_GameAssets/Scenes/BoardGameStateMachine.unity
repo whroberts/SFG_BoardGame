@@ -184,8 +184,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _boardGrid: {fileID: 644230906}
-  _gamePieces: {fileID: 1303756705}
-  _spriteTile: {fileID: 21300000, guid: 697302319d876a24080a83d834ea39b3, type: 3}
+  _gamePiecesPanel: {fileID: 1303756705}
+  _gridTile: {fileID: 21300000, guid: 697302319d876a24080a83d834ea39b3, type: 3}
 --- !u!1 &261609327
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,9 +570,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5185981d88062b54daa1eb948317eedd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _generateBoardUI: {fileID: 0}
+  _generateBoardUI: {fileID: 135723894}
   _boardSizeX: 9
   _boardSizeY: 9
+  _numColors: 3
+  _numShapes: 9
 --- !u!114 &540161316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1130,7 +1132,7 @@ GameObject:
   - component: {fileID: 1993075048}
   - component: {fileID: 1993075047}
   m_Layer: 0
-  m_Name: cvs_BoardGrid
+  m_Name: cvs_GameBoard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
