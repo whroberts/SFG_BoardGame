@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace BoardGame
 {
     public class BoardGameUIController : MonoBehaviour
     {
-        [SerializeField] Text _enemyThinkingTextUI = null;
+        [SerializeField] TMP_Text _enemyThinkingTextUI = null;
 
         private void OnEnable()
         {

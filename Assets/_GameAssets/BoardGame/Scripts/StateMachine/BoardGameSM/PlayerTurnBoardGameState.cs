@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace BoardGame
 {
     public class PlayerTurnBoardGameState : BoardGameState
     {
-        [SerializeField] Text _playerTurnTextUI = null;
+        [SerializeField] TMP_Text _playerTurnTextUI = null;
 
         private int _playerTurnCount = 0;
 
