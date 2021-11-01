@@ -12,6 +12,6 @@ namespace BoardGame
         private void Awake()
         {
             StateMachine = GetComponent<BoardGameSM>();
-        }
+        } 
     }
 }

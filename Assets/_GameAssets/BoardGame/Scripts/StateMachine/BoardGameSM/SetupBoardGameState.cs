@@ -6,16 +6,15 @@ namespace BoardGame
 {
     public class SetupBoardGameState : BoardGameState
     {
-        [SerializeField] int _startingCardNumber = 10;
-        [SerializeField] int _numberOfPlayers = 2;
+        [SerializeField] int _boardSizeX = 9;
+        [SerializeField] int _boardSizeY = 9;
 
         private bool _activated = false;
 
         public override void Enter()
         {
             Debug.Log("Setup: ...Entering");
-            Debug.Log("Creating " + _numberOfPlayers + " players.");
-            Debug.Log("Creating deck with " + _startingCardNumber + " cards.");
+            Debug.Log("Creating board of size: (" + _boardSizeX + "," + _boardSizeY + ")");
 
             // CANT change state while still in Enter() / Exit() transition!
             // DONT put ChangeState<> here.
