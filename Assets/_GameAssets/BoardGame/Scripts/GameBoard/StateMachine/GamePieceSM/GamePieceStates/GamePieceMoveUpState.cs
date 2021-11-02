@@ -10,8 +10,7 @@ namespace BoardGame
         public override void Enter()
         {
             Debug.Log("Move Up Enter");
-            MoveUp(StateMachine.BoardManager.CurrentButton);
-            StateMachine.Input.PressedConfirm += EndTurn;
+            StartCoroutine(MoveUp(StateMachine.BoardManager.CurrentButton));
         }
 
         public override void Exit()
@@ -20,9 +19,26 @@ namespace BoardGame
             StateMachine.Input.PressedConfirm -= EndTurn;
         }
 
-        void MoveUp(Button button)
+        IEnumerator MoveUp(Button button)
         {
-            button.transform.position = new Vector3(button.transform.position.x, button.transform.position.y + 100, button.transform.position.z);
+            Vector2 moveToPosition = new Vector2(button.transform.position.x, button.transform.position.y + 100);
+            Vector2 savedPosition = button.transform.position;
+
+            button.transform.position = moveToPosition;
+
+            yield return new WaitForSeconds(0.1f);
+            if (!StateMachine.BoardManager.MoveLocationCheck(button, moveToPosition))
+            {
+                yield return new WaitForSeconds(0.1f);
+                button.transform.position = moveToPosition;
+                StateMachine.Input.PressedConfirm += EndTurn;
+            }
+            else
+            {
+                yield return new WaitForSeconds(0.5f);
+                button.transform.position = savedPosition;
+                EndTurn();
+            }
         }
 
         private void EndTurn()

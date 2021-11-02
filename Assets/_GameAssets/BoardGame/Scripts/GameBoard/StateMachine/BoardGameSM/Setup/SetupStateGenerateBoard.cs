@@ -21,13 +21,17 @@ namespace BoardGame
 
         private Vector2 _gridSize;
         private Vector2 _boardSize;
-        private Vector2[,] _gridPositions;
+        private Vector2[,] _gridID;
+        private Vector2[,] _gridPosition;
+        private Vector2[,] _playerPiecesGridPositions;
         private Sprite[] _gamePieces;
         private Sprite _gridTile;
         private GameObject[] _playerPieces;
         private GameObject[] _enemyPieces;
 
-        public Vector2[,] GridPositions => _gridPositions;
+        public Vector2[,] GridID => _gridID;
+        public Vector2[,] GridPosition => _gridPosition;
+        public Vector2[,] PlayerPiecesGridPosition => _playerPiecesGridPositions;
         public GameObject[] PlayerPieces => _playerPieces;
         public GameObject[] EnemyPieces => _enemyPieces;
 
@@ -59,8 +63,8 @@ namespace BoardGame
             _gridSize = new Vector2(cols - 1, rows - 1);
             _boardSize = (_tileSize * _gridSize);
 
-            _gridPositions = new Vector2[(int)_gridSize.x+1, (int)_gridSize.y+1];
-            
+            _gridID = new Vector2[(int)_gridSize.x+1, (int)_gridSize.y+1];
+            _gridPosition = new Vector2[(int)_gridSize.x + 1, (int)_gridSize.y + 1];
 
             for (int row = 0; row < rows; row++)
             {
@@ -68,38 +72,49 @@ namespace BoardGame
                 {
                     float posX = col * _tileSize - _boardGrid.rect.x;
                     float posY = row * -_tileSize - _boardGrid.rect.y;
-                    _gridPositions[col,row] = new Vector2(posX, posY);
+                    _gridID[col,row] = new Vector2(col, row);
+                    
 
-                    GameObject grid = new GameObject("grid", typeof(Image));
+                    GameObject grid = new GameObject("grid", typeof(Image), typeof(GridScript));
                     grid.gameObject.transform.SetParent(_boardGrid);
                     Image img = grid.GetComponent<Image>();
+                    GridScript script = grid.GetComponent<GridScript>();
+                    script.GridPosition = new Vector2(col, row);
+
                     img.sprite = _gridTile;
 
-                    grid.transform.position = new Vector2(_gridPositions[col,row].x - (_boardSize.x / 2), _gridPositions[col,row].y + (_boardSize.y / 2));
+                    grid.transform.position = new Vector2(posX - (_boardSize.x / 2), posY + (_boardSize.y / 2));
+                    _gridPosition[col, row] = new Vector2(posX - (_boardSize.x / 2), posY + (_boardSize.y / 2));
                 }
             }
         }
 
         public IEnumerator GenerateGamePieces(int shapes, int colors)
         {
-            int i = 0;
+            int i = _gamePieces.Length - 1;
             _playerPieces = new GameObject[shapes * colors];
             _enemyPieces = new GameObject[shapes * colors];
 
+            _playerPiecesGridPositions = new Vector2[shapes, (int)_gridSize.y+1];
             // Player Pieces creation
 
-            for (int color = (int)_gridSize.x; color > (int)_gridSize.x - colors; color--)
+            for (int color = (int)_gridSize.x - colors + 1; color < (int)_gridSize.x + 1; color++)
             {
-                for (int shape = (int)_gridSize.y; shape > (int)_gridSize.y - shapes; shape--)
+                //for (int shape = 0; shape < shapes; shape++)
+                for (int shape = shapes-1; shape >= 0; shape--)
                 {
                     yield return new WaitForSeconds(_waitTime);
+
+                    _playerPiecesGridPositions[shape, color] = new Vector2(shape, color);
 
                     float posX = shape * _tileSize - _gamePiecesPanel.rect.x;
                     float posY = color * -_tileSize - _gamePiecesPanel.rect.y;
 
-                    GameObject gamePiece = new GameObject("Player: " + _gamePieces[i].name, typeof(Image), typeof(Button));
+                    GameObject gamePiece = new GameObject("Player: " + _gamePieces[i].name, typeof(Image), typeof(Button), typeof(ButtonScript));
                     Image img = gamePiece.GetComponent<Image>();
                     Button button = gamePiece.GetComponent<Button>();
+                    ButtonScript script = gamePiece.GetComponent<ButtonScript>();
+                    script.GridID = _playerPiecesGridPositions[shape, color];
                     ButtonSetup(button);
 
                     gamePiece.gameObject.transform.SetParent(_gamePiecesPanel);
@@ -107,7 +122,8 @@ namespace BoardGame
 
                     gamePiece.transform.position = new Vector2(posX - (_boardSize.x / 2), posY + (_boardSize.y / 2));
                     _playerPieces[i] = gamePiece;
-                    i++;
+   
+                    i--;
                 }
             }
 
@@ -143,6 +159,8 @@ namespace BoardGame
 
         private void ButtonSetup(Button button)
         {
+
+
             ColorBlock cb = button.colors;
             cb.highlightedColor = cb.pressedColor;
             cb.pressedColor = new Color(150f / 255f, 150f / 255f, 150f / 255f, 1f);
