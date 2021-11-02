@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 namespace BoardGame
 {
     public class PlayerTurnBoardGameState : BoardGameState
     {
+        [SerializeField] BoardManager _bm = null;
+
         [SerializeField] TMP_Text _playerTurnTextUI = null;
 
         private int _playerTurnCount = 0;
@@ -22,12 +25,14 @@ namespace BoardGame
 
             // hook into events
             StateMachine.Input.PressedConfirm += OnPressedConfirm;
+
+            StartTurn();
         }
 
         public override void Exit()
         {
             _playerTurnTextUI.gameObject.SetActive(false);
-
+            
             // unhook into events
             StateMachine.Input.PressedConfirm -= OnPressedConfirm;
 
@@ -40,6 +45,33 @@ namespace BoardGame
 
             // change the enemy turn state
             StateMachine.ChangeState<EnemyTurnBoardGameState>();
+        }
+
+        private void StartTurn()
+        {
+            foreach (GameObject piece in _bm.PlayerPieces)
+            {
+                Button button = piece.GetComponent<Button>();
+                button.interactable = true;
+
+                button.onClick.AddListener(() => OnClickButton(button));
+                //button.onClick.AddListener(EndTurn);
+            }
+        }
+        
+        private void EndTurn()
+        {
+            foreach (GameObject piece in _bm.PlayerPieces)
+            {
+                Button button = piece.GetComponent<Button>();
+                button.interactable = false;
+                button.onClick.RemoveAllListeners();
+            }
+            StateMachine.ChangeState<EnemyTurnBoardGameState>();
+        }
+        public void OnClickButton(Button button)
+        {
+            //GamePieceStateMachine.ChangeState<PieceSetupState>();
         }
     }
 }

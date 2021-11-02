@@ -20,6 +20,8 @@ namespace BoardGame
         private GameObject[] _enemyPieces;
         private Vector2[,] _gridPositions;
 
+        public GameObject[] PlayerPieces => _playerPieces;
+
         private void OnEnable()
         {
             SetupStateGenerateBoard.BoardData += GetData;
@@ -35,8 +37,6 @@ namespace BoardGame
             _gridPositions = GenerateBoard.GridPositions;
             _playerPieces = GenerateBoard.PlayerPieces;
             _enemyPieces = GenerateBoard.EnemyPieces;
-
-            Debug.Log(_playerPieces[4]);
         }
     }
 }
