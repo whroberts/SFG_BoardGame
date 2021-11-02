@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using System;
 
 namespace BoardGame
@@ -148,6 +150,7 @@ namespace BoardGame
             if (button.name.Contains("blue"))
             {
                 cb.selectedColor = Color.blue;
+
             }
             else if (button.name.Contains("green"))
             {
@@ -158,6 +161,7 @@ namespace BoardGame
                 cb.selectedColor = Color.red;
             }
             button.colors = cb;
+
             button.interactable = false;
         }
 

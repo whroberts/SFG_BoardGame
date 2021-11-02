@@ -16,7 +16,6 @@ namespace BoardGame
         public void ChangeState<T>() where T : State
         {
             T targetState = GetComponent<T>();
-
             if (targetState == null)
             {
                 Debug.LogWarning("Cannot change to state, as it " +

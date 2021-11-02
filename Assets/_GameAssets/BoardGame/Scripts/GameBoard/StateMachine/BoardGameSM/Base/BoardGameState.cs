@@ -8,6 +8,7 @@ namespace BoardGame
     public class BoardGameState : State
     {
         protected BoardGameSM StateMachine { get; private set; }
+        public BoardGameSM PubStateMachine => StateMachine;
 
         private void Awake()
         {

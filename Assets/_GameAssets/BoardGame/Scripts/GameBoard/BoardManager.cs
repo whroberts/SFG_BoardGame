@@ -11,11 +11,14 @@ namespace BoardGame
         [SerializeField] SetupStateGenerateBoard GenerateBoard = null;
         [SerializeField] SetupBoardGameBaseState SetupBoard = null;
 
+        private Button _currentButton = null;
+        public Button CurrentButton => _currentButton;
+
         private int BoardSizeX;
         private int BoardSizeY;
         private int Colors;
         private int Shapes;
-
+    
         private GameObject[] _playerPieces;
         private GameObject[] _enemyPieces;
         private Vector2[,] _gridPositions;
@@ -37,6 +40,12 @@ namespace BoardGame
             _gridPositions = GenerateBoard.GridPositions;
             _playerPieces = GenerateBoard.PlayerPieces;
             _enemyPieces = GenerateBoard.EnemyPieces;
+        }
+
+        public void GetCurrentButton(Button button)
+        {
+            _currentButton = button;
+            //Debug.Log(_currentButton.name);
         }
     }
 }

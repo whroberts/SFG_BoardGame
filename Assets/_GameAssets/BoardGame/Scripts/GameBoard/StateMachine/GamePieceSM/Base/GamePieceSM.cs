@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BoardGame
 {
-    public class BoardGameSM : StateMachine
+    public class GamePieceSM : StateMachine
     {
         [SerializeField] InputController _input = null;
         [SerializeField] BoardManager _bm = null;
@@ -15,23 +15,22 @@ namespace BoardGame
 
         private void Start()
         {
-            // set starting State here
             if (!_init)
             {
-                ChangeState<SetupBoardGameBaseState>();
+                ChangeState<GamePieceState>();
+                ChangeState<GamePieceIdleState>();
                 _init = true;
             }
         }
 
-
+        
         private void OnEnable()
         {
             if (_init)
             {
-                ChangeState<BoardGameState>();
-                ChangeState<SetupBoardGameBaseState>();
+                ChangeState<GamePieceIdleState>();
             }
-
         }
+
     }
 }

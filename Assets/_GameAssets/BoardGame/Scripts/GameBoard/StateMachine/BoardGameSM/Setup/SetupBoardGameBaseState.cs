@@ -47,7 +47,6 @@ namespace BoardGame
         
         public override void Exit()
         {
-            _createdBoard = false;
             Debug.Log("Setup: Exiting...");
         }
 

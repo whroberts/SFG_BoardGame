@@ -9,8 +9,6 @@ namespace BoardGame
 {
     public class PlayerTurnBoardGameState : BoardGameState
     {
-        [SerializeField] BoardManager _bm = null;
-
         [SerializeField] TMP_Text _playerTurnTextUI = null;
 
         private int _playerTurnCount = 0;
@@ -23,55 +21,41 @@ namespace BoardGame
             _playerTurnCount++;
             _playerTurnTextUI.text = "Player Turn: " + _playerTurnCount.ToString();
 
-            // hook into events
-            StateMachine.Input.PressedConfirm += OnPressedConfirm;
+            StateMachine.Input.PressedConfirm += OnClickButton;
 
             StartTurn();
         }
 
         public override void Exit()
         {
-            _playerTurnTextUI.gameObject.SetActive(false);
-            
-            // unhook into events
-            StateMachine.Input.PressedConfirm -= OnPressedConfirm;
+            //_playerTurnTextUI.gameObject.SetActive(false);
+            StateMachine.Input.PressedConfirm -= OnClickButton;
 
             Debug.Log("Player Turn: Exiting...");
         }
 
-        private void OnPressedConfirm()
-        {
-            Debug.Log("Attempt to enter Enemy State!");
-
-            // change the enemy turn state
-            StateMachine.ChangeState<EnemyTurnBoardGameState>();
-        }
-
         private void StartTurn()
         {
-            foreach (GameObject piece in _bm.PlayerPieces)
+            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieces)
             {
                 Button button = piece.GetComponent<Button>();
                 button.interactable = true;
+                button.onClick.AddListener(() => StateMachine.BoardManager.GetCurrentButton(button));
+            }
 
-                button.onClick.AddListener(() => OnClickButton(button));
-                //button.onClick.AddListener(EndTurn);
-            }
         }
-        
-        private void EndTurn()
+
+        public void OnClickButton()
         {
-            foreach (GameObject piece in _bm.PlayerPieces)
+            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieces)
             {
-                Button button = piece.GetComponent<Button>();
-                button.interactable = false;
-                button.onClick.RemoveAllListeners();
+                if (piece.name != StateMachine.BoardManager.CurrentButton.name)
+                {
+                    Button newButton = piece.GetComponent<Button>();
+                    newButton.interactable = false;
+                }
             }
-            StateMachine.ChangeState<EnemyTurnBoardGameState>();
-        }
-        public void OnClickButton(Button button)
-        {
-            //GamePieceStateMachine.ChangeState<PieceSetupState>();
+            StateMachine.ChangeState<BoardGameTransitionState>();
         }
     }
 }
