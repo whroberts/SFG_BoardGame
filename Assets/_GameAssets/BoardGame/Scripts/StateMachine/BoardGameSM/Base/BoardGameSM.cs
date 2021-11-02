@@ -12,7 +12,7 @@ namespace BoardGame
         private void Start()
         {
             // set starting State here
-            ChangeState<SetupBoardGameState>();
+            ChangeState<SetupBoardGameBaseState>();
 
         }
 

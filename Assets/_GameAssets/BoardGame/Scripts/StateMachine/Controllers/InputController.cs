@@ -12,6 +12,7 @@ namespace BoardGame
         public event Action PressedLeft = delegate { };
         public event Action PressedRight = delegate { };
 
+
         private void Update()
         {
             DetectConfirm();

@@ -1,18 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace BoardGame
 {
-    public class SetupBoardGameState : BoardGameState
+    public class SetupBoardGameBaseState : BoardGameState
     {
-        [SerializeField] GenerateBoardUI _generateBoardUI = null;
+        [Header("Board Data")]
         [SerializeField] int _boardSizeX = 9;
         [SerializeField] int _boardSizeY = 9;
         [SerializeField] int _numColors = 3;
         [SerializeField] int _numShapes = 9;
 
-        private bool _createdBoard = false;
+        public int BoardSizeX => _boardSizeX;
+        public int BoardSizeY => _boardSizeY;
+        public int Colors => _numColors;
+        public int Shapes => _numShapes;
+
+        [HideInInspector] public bool _createdBoard = false;
+
 
         public override void Enter()
         {
@@ -22,15 +29,17 @@ namespace BoardGame
             Debug.Log("Setup: ...Entering");
 
             BoardRules();
-            CreateBoard();
         }
 
         
         public override void Tick()
         {
+            if (!_createdBoard)
+            {
+                StateMachine.ChangeState<SetupStateGenerateBoard>();
+            }
             if (_createdBoard)
             {
-                _createdBoard = false;
                 StateMachine.ChangeState<PlayerTurnBoardGameState>();
             }
         }
@@ -49,14 +58,6 @@ namespace BoardGame
 
             _numColors = Mathf.Clamp(_numColors, 0, 3);
             _boardSizeY = Mathf.Clamp(_boardSizeY, 0, 9);
-        }
-
-        private void CreateBoard()
-        {
-            Debug.Log("Creating board of size: (" + _boardSizeX + "," + _boardSizeY + ")");
-            _generateBoardUI.GenerateGrid(_boardSizeX, _boardSizeY);
-            _generateBoardUI.GenerateGamePieces(_numShapes, _numColors);
-            _createdBoard = true;
         }
     }
 }
