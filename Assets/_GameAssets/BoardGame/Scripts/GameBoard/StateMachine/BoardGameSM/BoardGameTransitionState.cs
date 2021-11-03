@@ -13,11 +13,19 @@ namespace BoardGame
             Debug.Log("Entering Board Game Transition State");
             _gamePieceController.SetActive(true);
             gameObject.SetActive(false);
+
         }
 
         public override void Exit()
         {
             Debug.Log("Exiting Board Game Transition State");
+            StateMachine.BoardManager.SetCurrentButton(null);
+            
+            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieces)
+            {
+                Button button = piece.GetComponent<Button>();
+                button.onClick.RemoveAllListeners();
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace BoardGame
 {
@@ -9,6 +10,7 @@ namespace BoardGame
         public override void Enter()
         {
             Debug.Log("Entering Lose State");
+            SceneManager.LoadScene(3);
         }
 
         public override void Exit()

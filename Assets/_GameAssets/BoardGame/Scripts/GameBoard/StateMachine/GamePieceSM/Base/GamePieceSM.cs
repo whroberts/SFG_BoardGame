@@ -18,7 +18,7 @@ namespace BoardGame
             if (!_init)
             {
                 ChangeState<GamePieceState>();
-                ChangeState<GamePieceIdleState>();
+                ChangeState<ChooseGamePieceState>();
                 _init = true;
             }
         }
@@ -28,7 +28,7 @@ namespace BoardGame
         {
             if (_init)
             {
-                ChangeState<GamePieceIdleState>();
+                ChangeState<ChooseGamePieceState>();
             }
         }
 

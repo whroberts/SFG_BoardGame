@@ -49,7 +49,7 @@ namespace BoardGame
 
         private void DetectCancel()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.C))
             {
                 PressedCancel?.Invoke();
             }

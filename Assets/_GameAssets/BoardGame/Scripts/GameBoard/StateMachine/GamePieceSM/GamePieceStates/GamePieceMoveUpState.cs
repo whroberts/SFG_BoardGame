@@ -9,14 +9,15 @@ namespace BoardGame
     {
         public override void Enter()
         {
-            Debug.Log("Move Up Enter");
+            Debug.Log("Moving Piece Up");
             StartCoroutine(MoveUp(StateMachine.BoardManager.CurrentButton));
+            StateMachine.Input.PressedCancel += OnCancelCurrentPiece;
         }
 
         public override void Exit()
         {
-            Debug.Log("Move Up Exit");
-            StateMachine.Input.PressedConfirm -= EndTurn;
+            Debug.Log("Moved Piece Up");
+            StateMachine.Input.PressedCancel -= OnCancelCurrentPiece;
         }
 
         IEnumerator MoveUp(Button button)
@@ -27,29 +28,33 @@ namespace BoardGame
             button.transform.position = moveToPosition;
 
             yield return new WaitForSeconds(0.1f);
-            if (!StateMachine.BoardManager.MoveLocationCheck(button, moveToPosition))
+
+            Turn(StateMachine.BoardManager.MovePiece(button, moveToPosition, savedPosition));
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        private void Turn(bool moveState)
+        {   
+            if (moveState)
             {
-                yield return new WaitForSeconds(0.1f);
-                button.transform.position = moveToPosition;
-                StateMachine.Input.PressedConfirm += EndTurn;
+                foreach (GameObject piece in StateMachine.BoardManager.PlayerPieces)
+                {
+                    Button button = piece.GetComponent<Button>();
+                    button.interactable = false;
+                }
+
+                StateMachine.ChangeState<GamePieceTransitionState>();
             }
-            else
+            else if (!moveState)
             {
-                yield return new WaitForSeconds(0.5f);
-                button.transform.position = savedPosition;
-                EndTurn();
+                StateMachine.ChangeState<GamePieceIdleState>();
             }
         }
 
-        private void EndTurn()
+        private void OnCancelCurrentPiece()
         {
-
-            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieces)
-            {
-                Button button = piece.GetComponent<Button>();
-                button.interactable = false;
-            }
-            StateMachine.ChangeState<GamePieceTransitionState>();
+            StateMachine.ChangeState<GamePieceIdleState>();
         }
     }
 }

@@ -9,31 +9,52 @@ namespace BoardGame
     {
         public override void Enter()
         {
-            Debug.Log("Move Jump Enter");
-            MoveJump(StateMachine.BoardManager.CurrentButton);
-            StateMachine.Input.PressedConfirm += EndTurn;
+            Debug.Log("Jumping Piece");
+            StartCoroutine(MoveJump(StateMachine.BoardManager.CurrentButton));
+            StateMachine.Input.PressedConfirm += OnCancelCurrentPiece;
         }
 
         public override void Exit()
         {
-            Debug.Log("Move Jump Exit");
-            StateMachine.Input.PressedConfirm -= EndTurn;
+            Debug.Log("Jumped Piece");
+            StateMachine.Input.PressedConfirm -= OnCancelCurrentPiece;
         }
 
-        void MoveJump(Button button)
+        IEnumerator MoveJump(Button button)
         {
-            button.transform.position = new Vector3(button.transform.position.x, button.transform.position.y + 200, button.transform.position.z);
+            Vector2 moveToPosition = new Vector2(button.transform.position.x, button.transform.position.y + 200);
+            Vector2 savedPosition = button.transform.position;
+
+            button.transform.position = moveToPosition;
+
+            yield return new WaitForSeconds(0.1f);
+
+            Turn(StateMachine.BoardManager.MovePiece(button, moveToPosition, savedPosition));
+
+            yield return new WaitForSeconds(0.1f);
         }
 
-        private void EndTurn()
+        private void Turn(bool moveState)
         {
-
-            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieces)
+            if (moveState)
             {
-                Button button = piece.GetComponent<Button>();
-                button.interactable = false;
+                foreach (GameObject piece in StateMachine.BoardManager.PlayerPieces)
+                {
+                    Button button = piece.GetComponent<Button>();
+                    button.interactable = false;
+                }
+
+                StateMachine.ChangeState<GamePieceTransitionState>();
             }
-            StateMachine.ChangeState<GamePieceTransitionState>();
+            else if (!moveState)
+            {
+                StateMachine.ChangeState<GamePieceIdleState>();
+            }
+        }
+
+        private void OnCancelCurrentPiece()
+        {
+            StateMachine.ChangeState<GamePieceIdleState>();
         }
     }
 }

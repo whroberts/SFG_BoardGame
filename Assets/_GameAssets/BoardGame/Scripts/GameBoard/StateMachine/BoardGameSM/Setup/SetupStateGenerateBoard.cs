@@ -180,6 +180,10 @@ namespace BoardGame
             }
             button.colors = cb;
 
+            Navigation newNav = new Navigation();
+            newNav.mode = Navigation.Mode.None;
+            button.navigation = newNav;
+
             button.interactable = false;
         }
 

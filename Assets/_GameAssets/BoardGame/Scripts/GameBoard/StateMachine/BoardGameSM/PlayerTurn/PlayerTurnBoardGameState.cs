@@ -21,40 +21,39 @@ namespace BoardGame
             _playerTurnCount++;
             _playerTurnTextUI.text = "Player Turn: " + _playerTurnCount.ToString();
 
-            StateMachine.Input.PressedConfirm += OnClickButton;
-
-            StartTurn();
+            StartCoroutine(Transition(null));
         }
 
         public override void Exit()
         {
             //_playerTurnTextUI.gameObject.SetActive(false);
-            StateMachine.Input.PressedConfirm -= OnClickButton;
 
-            Debug.Log("Player Turn: Exiting...");
+            Debug.Log("Player Turn: Exiting to chose piece");
         }
 
-        private void StartTurn()
+        IEnumerator Transition(Button button)
+        {
+            yield return new WaitForSeconds(0.1f);
+
+            StateMachine.BoardManager.SetCurrentButton(button);
+            ResetButtons();
+        }
+
+        private void ResetButtons()
         {
             foreach (GameObject piece in StateMachine.BoardManager.PlayerPieces)
             {
-                Button button = piece.GetComponent<Button>();
-                button.interactable = true;
-                button.onClick.AddListener(() => StateMachine.BoardManager.GetCurrentButton(button));
+                Button newButton = piece.GetComponent<Button>();
+
+                Navigation newNav = new Navigation();
+                newNav.mode = Navigation.Mode.Explicit;
+                newButton.navigation = newNav;
+                newButton.interactable = true;
+
+                newButton.onClick.RemoveAllListeners();
             }
 
-        }
-
-        public void OnClickButton()
-        {
-            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieces)
-            {
-                if (piece.name != StateMachine.BoardManager.CurrentButton.name)
-                {
-                    Button newButton = piece.GetComponent<Button>();
-                    newButton.interactable = false;
-                }
-            }
+            //StateMachine.BoardManager.SetCurrentButton(button);
             StateMachine.ChangeState<BoardGameTransitionState>();
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 namespace BoardGame
 {
@@ -10,6 +11,8 @@ namespace BoardGame
     {
         [SerializeField] SetupStateGenerateBoard GenerateBoard = null;
         [SerializeField] SetupBoardGameBaseState SetupBoard = null;
+
+        [SerializeField] TMP_Text _chosenPieceTitle = null;
 
         private Button _currentButton = null;
         public Button CurrentButton => _currentButton;
@@ -21,7 +24,7 @@ namespace BoardGame
 
         private bool[,] _isOccupied;
         public bool[,] IsOccupied => _isOccupied;
-    
+
         private GameObject[] _playerPieces;
         private GameObject[] _enemyPieces;
         private Vector2[,] _gridID;
@@ -54,23 +57,18 @@ namespace BoardGame
             _isOccupied = new bool[_gridID.GetLength(0), _gridID.GetLength(1)];
             SetOccupied();
         }
-    
 
-        public void GetCurrentButton(Button button)
+        public void SetCurrentButton(Button button)
         {
             _currentButton = button;
 
-            for (int i = 0; i < _playerPieces.Length; i ++)
+            if (button != null)
             {
-                if (_currentButton.name == _playerPieces[i].name)
-                {
-                    ButtonScript script = _currentButton.gameObject.GetComponent<ButtonScript>();
-
-                    if (script != null)
-                    {
-                    
-                    }
-                }
+                _chosenPieceTitle.text = "Chosen Piece: \n" + button.name.ToString();
+            }
+            else
+            {
+                _chosenPieceTitle.text = "Chosen Piece: \n";
             }
         }
 
@@ -126,6 +124,20 @@ namespace BoardGame
                 }
             }
             return false;
+        }
+
+        public bool MovePiece(Button button, Vector2 moveToPosition, Vector2 savedPosition)
+        {
+            if (!MoveLocationCheck(button, moveToPosition))
+            {
+                button.transform.position = moveToPosition;
+                return true;
+            }
+            else
+            {
+                button.transform.position = savedPosition;
+                return false;
+            }
         }
     }
 }

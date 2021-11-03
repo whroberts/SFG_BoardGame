@@ -40,7 +40,7 @@ namespace BoardGame
             }
             if (_createdBoard)
             {
-                StateMachine.ChangeState<PlayerTurnBoardGameState>();
+                StateMachine.ChangeState<StartGameState>();
             }
         }
         

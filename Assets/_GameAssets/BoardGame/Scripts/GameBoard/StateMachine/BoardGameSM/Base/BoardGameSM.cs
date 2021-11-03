@@ -29,7 +29,7 @@ namespace BoardGame
             if (_init)
             {
                 ChangeState<BoardGameState>();
-                ChangeState<SetupBoardGameBaseState>();
+                ChangeState<PlayerTurnBoardGameState>();
             }
 
         }
