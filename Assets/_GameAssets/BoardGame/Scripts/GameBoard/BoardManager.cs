@@ -33,6 +33,8 @@ namespace BoardGame
         private Color[,] _playerPiecesColor;
         private String[,] _playerPiecesShape;
 
+        public GameObject[] EnemyPieces => _enemyPieces;
+
         public GameObject[] PlayerPieces => _playerPieces;
         public Vector2[,] GridPositions => _gridID;
         public Vector2[,] GridPosition => _gridPosition;
@@ -61,7 +63,6 @@ namespace BoardGame
             _playerPiecesShape = GenerateBoard.PlayerPiecesShape;
 
             _isOccupied = new bool[_gridID.GetLength(0), _gridID.GetLength(1)];
-            SetOccupied();
         }
 
         public void SetCurrentButton(Button button)

@@ -23,11 +23,13 @@ namespace BoardGame
         private Vector2 _boardSize;
         private Vector2[,] _gridID;
         private Vector2[,] _gridPosition;
-        private Vector2[,] _playerPiecesGridPositions;
+
         private Sprite[] _gamePieces;
         private Sprite _gridTile;
-        private GameObject[] _playerPieces;
         private GameObject[] _enemyPieces;
+
+        private Vector2[,] _playerPiecesGridPositions;
+        private GameObject[] _playerPieces;
         private Color[,] _playerPiecesColor;
         private String[,] _playerPiecesShape;
 
@@ -148,8 +150,12 @@ namespace BoardGame
                     float posX = shape * _tileSize - _gamePiecesPanel.rect.x;
                     float posY = color * -_tileSize - _gamePiecesPanel.rect.y;
 
-                    GameObject gamePiece = new GameObject("Enemy: "+_gamePieces[i].name, typeof(Image));
+                    GameObject gamePiece = new GameObject("Enemy: "+_gamePieces[i].name, typeof(Image), typeof(Button), typeof(ButtonScript));
                     Image img = gamePiece.GetComponent<Image>();
+                    Button button = gamePiece.GetComponent<Button>();
+                    ButtonScript script = gamePiece.GetComponent<ButtonScript>();
+                    script.GridID = _playerPiecesGridPositions[shape, color];
+                    ButtonSetup(button);
 
                     gamePiece.gameObject.transform.SetParent(_gamePiecesPanel);
                     img.sprite = _gamePieces[i];

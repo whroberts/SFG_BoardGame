@@ -9,7 +9,6 @@ namespace BoardGame
     public class GamePieceIdleState : GamePieceState
     {
         [SerializeField] TMP_Text _pieceControls = null;
-        [SerializeField] TMP_Text _chosenPieceTitle = null;
 
         bool _moveUp = false;
         bool _moveDiagonal = false;

@@ -12,10 +12,12 @@ namespace BoardGame
         [SerializeField] Canvas _gamePieceUI = null;
         [SerializeField] TMP_Text _chosenPieceTitle = null;
         [SerializeField] TMP_Text _controlsText = null;
+        [SerializeField] TMP_Text _chosePieceState = null;
 
         public override void Enter()
         {
             Debug.Log("Entering Choose Piece State");
+            _chosePieceState.gameObject.SetActive(true);
             OnEnter();
         }
 
@@ -24,7 +26,7 @@ namespace BoardGame
             Debug.Log("Exiting Choose Piece State");
             StateMachine.Input.PressedConfirm -= OnPressedConfirm;
             StateMachine.Input.PressedCancel -= OnPressedCancel;
-
+            _chosePieceState.gameObject.SetActive(false);
             _controlsText.gameObject.SetActive(false);
         }
 

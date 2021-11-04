@@ -29,12 +29,10 @@ namespace BoardGame
 
             yield return new WaitForSeconds(0.1f);
 
-            Turn(StateMachine.BoardManager.MovePiece(button, moveToPosition, savedPosition));
-
-            yield return new WaitForSeconds(0.1f);
+            StartCoroutine(Turn(StateMachine.BoardManager.MovePiece(button, moveToPosition, savedPosition)));
         }
 
-        private void Turn(bool moveState)
+        private IEnumerator Turn(bool moveState)
         {
             if (moveState)
             {
@@ -44,10 +42,12 @@ namespace BoardGame
                     button.interactable = false;
                 }
 
+                yield return new WaitForSeconds(0.5f);
                 StateMachine.ChangeState<GamePieceTransitionState>();
             }
             else if (!moveState)
             {
+                yield return new WaitForSeconds(0.1f);
                 StateMachine.ChangeState<GamePieceIdleState>();
             }
         }

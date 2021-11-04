@@ -23,15 +23,14 @@ namespace BoardGame
             }
         }
 
-
         private void OnEnable()
         {
             if (_init)
             {
-                ChangeState<BoardGameState>();
-                ChangeState<PlayerTurnBoardGameState>();
+                //ChangeState<BoardGameState>();
+                //ChangeState<PlayerTurnBoardGameState>();
+                ChangeState<EnemyTurnBoardGameState>();
             }
-
         }
     }
 }
