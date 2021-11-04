@@ -30,11 +30,15 @@ namespace BoardGame
         private Vector2[,] _gridID;
         private Vector2[,] _gridPosition;
         private Vector2[,] _playerPiecesGridPositions;
+        private Color[,] _playerPiecesColor;
+        private String[,] _playerPiecesShape;
 
         public GameObject[] PlayerPieces => _playerPieces;
         public Vector2[,] GridPositions => _gridID;
         public Vector2[,] GridPosition => _gridPosition;
         public Vector2[,] PlayerPiecesGridPosition => _playerPiecesGridPositions;
+        public Color[,] PlayerPiecesColor => _playerPiecesColor;
+        public String[,] PlayerPiecesShape => _playerPiecesShape;
 
         private void OnEnable()
         {
@@ -53,6 +57,8 @@ namespace BoardGame
             _playerPiecesGridPositions = GenerateBoard.PlayerPiecesGridPosition;
             _playerPieces = GenerateBoard.PlayerPieces;
             _enemyPieces = GenerateBoard.EnemyPieces;
+            _playerPiecesColor = GenerateBoard.PlayerPiecesColor;
+            _playerPiecesShape = GenerateBoard.PlayerPiecesShape;
 
             _isOccupied = new bool[_gridID.GetLength(0), _gridID.GetLength(1)];
             SetOccupied();
@@ -94,7 +100,33 @@ namespace BoardGame
             }
         }
 
-        public bool MoveLocationCheck(Button button, Vector2 moveToPosition)
+        public bool MovementValid(Button button, Vector2 moveToPosition)
+        {
+            ButtonScript script = button.gameObject.GetComponent<ButtonScript>();
+
+            for (int i = 0; i < _gridPosition.GetLength(0); i++)
+            {
+                for (int j = 0; j < _gridPosition.GetLength(1); j++)
+                {
+                    if (_gridPosition[j, i] == moveToPosition)
+                    {
+                        if (_playerPiecesColor[j,i-1] != _playerPiecesColor[j,i])
+                        {
+                            Debug.Log("Cannot jump this piece");
+                        }
+                        else
+                        {
+                            Debug.Log("Test Color: " + _playerPiecesColor[j, i - 1]);
+                            Debug.Log("Test Color: " + _playerPiecesColor[j, i]);
+                            Debug.Log("Can jump this piece");
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool LocationEmptyCheck(Button button, Vector2 moveToPosition)
         {
             ButtonScript script = button.gameObject.GetComponent<ButtonScript>();
 
@@ -106,7 +138,6 @@ namespace BoardGame
                     {
                         if (_gridPosition[j, i] == moveToPosition)
                         {
-                            Debug.Log(_isOccupied[j, i]);
                             if (_isOccupied[j, i])
                             {
                                 SetOccupied();
@@ -128,7 +159,9 @@ namespace BoardGame
 
         public bool MovePiece(Button button, Vector2 moveToPosition, Vector2 savedPosition)
         {
-            if (!MoveLocationCheck(button, moveToPosition))
+            Debug.Log(MovementValid(button, moveToPosition));
+
+            if (!LocationEmptyCheck(button, moveToPosition))
             {
                 button.transform.position = moveToPosition;
                 return true;

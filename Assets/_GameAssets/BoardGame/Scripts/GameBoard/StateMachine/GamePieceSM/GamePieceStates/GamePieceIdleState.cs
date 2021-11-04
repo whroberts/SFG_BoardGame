@@ -35,6 +35,7 @@ namespace BoardGame
 
             _pieceControls.gameObject.SetActive(true);
             StateMachine.BoardManager.CurrentButton.onClick.RemoveAllListeners();
+
         }
 
         public override void Exit()

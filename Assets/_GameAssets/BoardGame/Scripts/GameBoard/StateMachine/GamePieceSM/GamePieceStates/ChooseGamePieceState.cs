@@ -30,7 +30,6 @@ namespace BoardGame
 
         void OnEnter()
         {
-            Debug.Log(StateMachine.BoardManager.CurrentButton);
             if (StateMachine.BoardManager.CurrentButton != null)
             {
                 ReselectPiece();

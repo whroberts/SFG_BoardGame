@@ -28,12 +28,16 @@ namespace BoardGame
         private Sprite _gridTile;
         private GameObject[] _playerPieces;
         private GameObject[] _enemyPieces;
+        private Color[,] _playerPiecesColor;
+        private String[,] _playerPiecesShape;
 
         public Vector2[,] GridID => _gridID;
         public Vector2[,] GridPosition => _gridPosition;
         public Vector2[,] PlayerPiecesGridPosition => _playerPiecesGridPositions;
         public GameObject[] PlayerPieces => _playerPieces;
         public GameObject[] EnemyPieces => _enemyPieces;
+        public Color[,] PlayerPiecesColor => _playerPiecesColor;
+        public String[,] PlayerPiecesShape => _playerPiecesShape;
 
         float _waitTime = 0.01f;
 
@@ -94,7 +98,8 @@ namespace BoardGame
             int i = _gamePieces.Length - 1;
             _playerPieces = new GameObject[shapes * colors];
             _enemyPieces = new GameObject[shapes * colors];
-
+            _playerPiecesColor = new Color[shapes, (int)_gridSize.y + 1];
+            _playerPiecesShape = new String[shapes, (int)_gridSize.y + 1];
             _playerPiecesGridPositions = new Vector2[shapes, (int)_gridSize.y+1];
             // Player Pieces creation
 
@@ -116,6 +121,9 @@ namespace BoardGame
                     ButtonScript script = gamePiece.GetComponent<ButtonScript>();
                     script.GridID = _playerPiecesGridPositions[shape, color];
                     ButtonSetup(button);
+
+                    _playerPiecesColor[shape, color] = script.Color;
+                    _playerPiecesShape[shape, color] = script.Shape;
 
                     gamePiece.gameObject.transform.SetParent(_gamePiecesPanel);
                     img.sprite = _gamePieces[i];
@@ -159,26 +167,71 @@ namespace BoardGame
 
         private void ButtonSetup(Button button)
         {
-
-
             ColorBlock cb = button.colors;
             cb.highlightedColor = cb.pressedColor;
             cb.pressedColor = new Color(150f / 255f, 150f / 255f, 150f / 255f, 1f);
 
-            if (button.name.Contains("blue"))
+            foreach (GameObject pieces in _playerPieces)
             {
-                cb.selectedColor = Color.blue;
+                ButtonScript script = button.GetComponent<ButtonScript>();
 
+                if (script != null)
+                {
+                    if (button.name.Contains("blue"))
+                    {
+                        cb.selectedColor = Color.blue;
+                        script.Color = Color.blue;
+                    }
+                    else if (button.name.Contains("green"))
+                    {
+                        cb.selectedColor = Color.green;
+                        script.Color = Color.green;
+                    }
+                    else if (button.name.Contains("red"))
+                    {
+                        cb.selectedColor = Color.red;
+                        script.Color = Color.red;
+                    }
+                    button.colors = cb;
+
+                    if (button.name.Contains("Circle"))
+                    {
+                        script.Shape = "Circle";
+                    }
+                    else if (button.name.Contains("Lamda"))
+                    {
+                        script.Shape = "Lamda";
+                    }
+                    else if (button.name.Contains("Omega"))
+                    {
+                        script.Shape = "Omega";
+                    }
+                    else if (button.name.Contains("Plus"))
+                    {
+                        script.Shape = "Plus";
+                    }
+                    else if (button.name.Contains("Star"))
+                    {
+                        script.Shape = "Star";
+                    }
+                    else if (button.name.Contains("Trap"))
+                    {
+                        script.Shape = "Trap";
+                    }
+                    else if (button.name.Contains("Triangle"))
+                    {
+                        script.Shape = "Triangle";
+                    }
+                    else if (button.name.Contains("TripCircle"))
+                    {
+                        script.Shape = "Triangle";
+                    }
+                    else if (button.name.Contains("X"))
+                    {
+                        script.Shape = "X";
+                    }
+                }
             }
-            else if (button.name.Contains("green"))
-            {
-                cb.selectedColor = Color.green;
-            }
-            else if (button.name.Contains("red"))
-            {
-                cb.selectedColor = Color.red;
-            }
-            button.colors = cb;
 
             Navigation newNav = new Navigation();
             newNav.mode = Navigation.Mode.None;

@@ -10,6 +10,8 @@ namespace BoardGame
     public class StartGameState : BoardGameState
     {
         [SerializeField] Button _startButton = null;
+        [SerializeField] Button _winButton = null;
+        [SerializeField] Button _loseButton = null;
 
         public override void Enter()
         {
@@ -27,6 +29,8 @@ namespace BoardGame
         private void StartTurn()
         {
             _startButton.onClick.AddListener(() => StartCoroutine(Transition()));
+            _winButton.onClick.AddListener(WinGame);
+            _loseButton.onClick.AddListener(LoseGame);
         }
 
         IEnumerator Transition()
@@ -50,6 +54,16 @@ namespace BoardGame
             }
 
             StateMachine.ChangeState<PlayerTurnBoardGameState>();
+        }
+
+        void WinGame()
+        {
+            StateMachine.ChangeState<WinBoardGameState>();
+        }
+
+        void LoseGame()
+        {
+            StateMachine.ChangeState<LoseBoardGameState>();
         }
     }
 }
