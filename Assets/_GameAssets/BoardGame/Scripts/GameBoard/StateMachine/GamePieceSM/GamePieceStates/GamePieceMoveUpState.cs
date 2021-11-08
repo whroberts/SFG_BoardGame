@@ -29,7 +29,7 @@ namespace BoardGame
 
             yield return new WaitForSeconds(0.1f);
 
-            Turn(StateMachine.BoardManager.MovePiece(button, moveToPosition, savedPosition));
+            //Turn(StateMachine.BoardManager.MovePiece(button, moveToPosition, savedPosition));
 
             yield return new WaitForSeconds(0.1f);
         }

@@ -117,11 +117,12 @@ namespace BoardGame
                     float posX = shape * _tileSize - _gamePiecesPanel.rect.x;
                     float posY = color * -_tileSize - _gamePiecesPanel.rect.y;
 
-                    GameObject gamePiece = new GameObject("Player: " + _gamePieces[i].name, typeof(Image), typeof(Button), typeof(ButtonScript));
+                    GameObject gamePiece = new GameObject("Player: " + _gamePieces[i].name, typeof(Image), typeof(Button), typeof(PlayerGamePiece));
                     Image img = gamePiece.GetComponent<Image>();
                     Button button = gamePiece.GetComponent<Button>();
-                    ButtonScript script = gamePiece.GetComponent<ButtonScript>();
+                    PlayerGamePiece script = gamePiece.GetComponent<PlayerGamePiece>();
                     script.GridID = _playerPiecesGridPositions[shape, color];
+                    script.BoardManager = StateMachine.BoardManager;
                     ButtonSetup(button);
 
                     _playerPiecesColor[shape, color] = script.Color;
@@ -150,10 +151,10 @@ namespace BoardGame
                     float posX = shape * _tileSize - _gamePiecesPanel.rect.x;
                     float posY = color * -_tileSize - _gamePiecesPanel.rect.y;
 
-                    GameObject gamePiece = new GameObject("Enemy: "+_gamePieces[i].name, typeof(Image), typeof(Button), typeof(ButtonScript));
+                    GameObject gamePiece = new GameObject("Enemy: "+_gamePieces[i].name, typeof(Image), typeof(Button), typeof(PlayerGamePiece));
                     Image img = gamePiece.GetComponent<Image>();
                     Button button = gamePiece.GetComponent<Button>();
-                    ButtonScript script = gamePiece.GetComponent<ButtonScript>();
+                    PlayerGamePiece script = gamePiece.GetComponent<PlayerGamePiece>();
                     script.GridID = _playerPiecesGridPositions[shape, color];
                     ButtonSetup(button);
 
@@ -179,7 +180,7 @@ namespace BoardGame
 
             foreach (GameObject pieces in _playerPieces)
             {
-                ButtonScript script = button.GetComponent<ButtonScript>();
+                PlayerGamePiece script = button.GetComponent<PlayerGamePiece>();
 
                 if (script != null)
                 {

@@ -43,7 +43,7 @@ namespace BoardGame
             EnemyTurnEnded?.Invoke();
             ResetButtons();
 
-            StateMachine.ChangeState<PlayerTurnBoardGameState>();
+            StateMachine.ChangeState<PlayerSelectingPieceState>();
         }
 
         private void SetButtons()

@@ -53,7 +53,7 @@ namespace BoardGame
                 newButton.interactable = true;
             }
 
-            StateMachine.ChangeState<PlayerTurnBoardGameState>();
+            StateMachine.ChangeState<PlayerSelectingPieceState>();
         }
 
         void WinGame()

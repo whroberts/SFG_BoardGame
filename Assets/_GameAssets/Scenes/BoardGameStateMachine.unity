@@ -783,6 +783,7 @@ GameObject:
   - component: {fileID: 540161315}
   - component: {fileID: 540161317}
   - component: {fileID: 540161321}
+  - component: {fileID: 540161322}
   - component: {fileID: 540161314}
   - component: {fileID: 540161313}
   - component: {fileID: 540161319}
@@ -832,10 +833,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 540161311}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fad5edb9e17f54b4dba4ff4d65ee3cd7, type: 3}
+  m_Script: {fileID: 11500000, guid: c4c2e4a2c7a94fd4bb4efa8d9f3413ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerTurnTextUI: {fileID: 40097411}
 --- !u!114 &540161315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -933,6 +933,19 @@ MonoBehaviour:
   _startButton: {fileID: 181800993}
   _winButton: {fileID: 1655482705}
   _loseButton: {fileID: 586279772}
+--- !u!114 &540161322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540161311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 194606b1517a11c4fbdf1d15d7ede619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerTurnTextUI: {fileID: 40097411}
 --- !u!1 &586279770
 GameObject:
   m_ObjectHideFlags: 0

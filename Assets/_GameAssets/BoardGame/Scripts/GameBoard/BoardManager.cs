@@ -68,7 +68,7 @@ namespace BoardGame
         public void SetCurrentButton(Button button)
         {
             _currentButton = button;
-
+            SetOccupied();
             if (button != null)
             {
                 _chosenPieceTitle.text = "Chosen Piece: \n" + button.name.ToString();
@@ -79,11 +79,11 @@ namespace BoardGame
             }
         }
 
-        private void SetOccupied()
+        public void SetOccupied()
         {
             foreach (GameObject pieces in _playerPieces)
             {
-                ButtonScript script = pieces.GetComponent<ButtonScript>();
+                PlayerGamePiece script = pieces.GetComponent<PlayerGamePiece>();
 
                 if (script != null)
                 {
@@ -103,7 +103,7 @@ namespace BoardGame
 
         public bool MovementValid(Button button, Vector2 moveToPosition)
         {
-            ButtonScript script = button.gameObject.GetComponent<ButtonScript>();
+            PlayerGamePiece script = button.gameObject.GetComponent<PlayerGamePiece>();
 
             for (int i = 0; i < _gridPosition.GetLength(0); i++)
             {
@@ -127,11 +127,9 @@ namespace BoardGame
             return false;
         }
 
-        public bool LocationEmptyCheck(Button button, Vector2 moveToPosition)
+        public bool IsOccupiedCheck(PlayerGamePiece piece, Vector2 moveToPosition)
         {
-            ButtonScript script = button.gameObject.GetComponent<ButtonScript>();
-
-            if (script != null)
+            if (piece != null)
             {
                 for (int i = 0; i < _gridPosition.GetLength(0); i++)
                 {
@@ -146,8 +144,8 @@ namespace BoardGame
                             }
                             else if (!_isOccupied[j, i])
                             {
-                                _isOccupied[(int)script.GridID.x, (int)script.GridID.y] = false;
-                                script.GridID = _gridID[j, i];
+                                _isOccupied[(int)piece.GridID.x, (int)piece.GridID.y] = false;
+                                piece.GridID = _gridID[j, i];
                                 _isOccupied[j, i] = true;
                                 SetOccupied();
                             }
@@ -158,20 +156,38 @@ namespace BoardGame
             return false;
         }
 
-        public bool MovePiece(Button button, Vector2 moveToPosition, Vector2 savedPosition)
+        public IEnumerator MovePiece(PlayerGamePiece piece, Vector2 moveToPosition, Vector2 savedPosition)
         {
-            Debug.Log(MovementValid(button, moveToPosition));
+            //Debug.Log(MovementValid(button, moveToPosition));
 
-            if (!LocationEmptyCheck(button, moveToPosition))
+            yield return new WaitForSeconds(0.1f);
+
+            if (!IsOccupiedCheck(piece, moveToPosition))
             {
-                button.transform.position = moveToPosition;
-                return true;
+                piece.gameObject.transform.position = moveToPosition;
+                piece._moved = true;
             }
             else
             {
-                button.transform.position = savedPosition;
-                return false;
+                piece.gameObject.transform.position = savedPosition;
+                piece._moved = false;
             }
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        public void MovePieceBack(PlayerGamePiece piece, Vector2 moveToPosition, Vector2 savedPosition)
+        {
+            if (!IsOccupiedCheck(piece, savedPosition))
+            {
+                piece.gameObject.transform.position = savedPosition;
+            }
+            else
+            {
+                piece.gameObject.transform.position = moveToPosition;
+            }
+
+            piece._moved = false;
         }
     }
 }
