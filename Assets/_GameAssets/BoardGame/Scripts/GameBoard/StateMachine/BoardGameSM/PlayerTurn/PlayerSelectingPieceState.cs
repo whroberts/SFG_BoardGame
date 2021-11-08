@@ -16,7 +16,6 @@ namespace BoardGame
         public override void Enter()
         {
             Debug.Log("Selecting Piece");
-            _playerTurnTextUI.gameObject.SetActive(true);
 
             _playerTurnCount++;
             _playerTurnTextUI.text = "Player Turn: " + _playerTurnCount.ToString();
@@ -29,7 +28,6 @@ namespace BoardGame
         public override void Exit()
         {
             //_playerTurnTextUI.gameObject.SetActive(false);
-
             Debug.Log("Selected Piece");
         }
 

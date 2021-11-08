@@ -5,13 +5,14 @@ using UnityEngine;
 public interface IMoveable
 {
     void MoveUp();
-    void MoveDiagonalLeft();
-    void MoveDiagonalRight();
-    void MoveJump();
-
-    /*
     void MoveDown();
+    void MoveDiagonalUpLeft();
+    void MoveDiagonalDownLeft();
+    void MoveDiagonalUpRight();
+    void MoveDiagonalDownRight();
+    void MoveJumpUp();
+    void MoveJumpDown();
     void MoveLeft();
     void MoveRight();
-    */
+
 }

@@ -12,8 +12,6 @@ namespace BoardGame
         [SerializeField] SetupStateGenerateBoard GenerateBoard = null;
         [SerializeField] SetupBoardGameBaseState SetupBoard = null;
 
-        [SerializeField] TMP_Text _chosenPieceTitle = null;
-
         private Button _currentButton = null;
         public Button CurrentButton => _currentButton;
 
@@ -25,19 +23,23 @@ namespace BoardGame
         private bool[,] _isOccupied;
         public bool[,] IsOccupied => _isOccupied;
 
-        private GameObject[] _playerPieces;
         private GameObject[] _enemyPieces;
         private Vector2[,] _gridID;
         private Vector2[,] _gridPosition;
+
+        private GameObject[] _playerPieces;
+        private GameObject[,] _playerPiecesOnGrid;
         private Vector2[,] _playerPiecesGridPositions;
         private Color[,] _playerPiecesColor;
         private String[,] _playerPiecesShape;
 
         public GameObject[] EnemyPieces => _enemyPieces;
 
-        public GameObject[] PlayerPieces => _playerPieces;
-        public Vector2[,] GridPositions => _gridID;
+        public Vector2[,] GridID => _gridID;
         public Vector2[,] GridPosition => _gridPosition;
+        public GameObject[,] PlayerPiecesOnGrid => _playerPiecesOnGrid;
+
+        public GameObject[] PlayerPieces => _playerPieces;
         public Vector2[,] PlayerPiecesGridPosition => _playerPiecesGridPositions;
         public Color[,] PlayerPiecesColor => _playerPiecesColor;
         public String[,] PlayerPiecesShape => _playerPiecesShape;
@@ -57,6 +59,7 @@ namespace BoardGame
             _gridID = GenerateBoard.GridID;
             _gridPosition = GenerateBoard.GridPosition;
             _playerPiecesGridPositions = GenerateBoard.PlayerPiecesGridPosition;
+            _playerPiecesOnGrid = GenerateBoard.PlayerPiecesOnGrid;
             _playerPieces = GenerateBoard.PlayerPieces;
             _enemyPieces = GenerateBoard.EnemyPieces;
             _playerPiecesColor = GenerateBoard.PlayerPiecesColor;
@@ -68,22 +71,14 @@ namespace BoardGame
         public void SetCurrentButton(Button button)
         {
             _currentButton = button;
-            SetOccupied();
-            if (button != null)
-            {
-                _chosenPieceTitle.text = "Chosen Piece: \n" + button.name.ToString();
-            }
-            else
-            {
-                _chosenPieceTitle.text = "Chosen Piece: \n";
-            }
+            SetBoard();
         }
 
-        public void SetOccupied()
+        public void SetBoard()
         {
             foreach (GameObject pieces in _playerPieces)
             {
-                PlayerGamePiece script = pieces.GetComponent<PlayerGamePiece>();
+                GamePiece script = pieces.GetComponent<GamePiece>();
 
                 if (script != null)
                 {
@@ -101,90 +96,79 @@ namespace BoardGame
             }
         }
 
-        public bool MovementValid(Button button, Vector2 moveToPosition)
-        {
-            PlayerGamePiece script = button.gameObject.GetComponent<PlayerGamePiece>();
-
-            for (int i = 0; i < _gridPosition.GetLength(0); i++)
-            {
-                for (int j = 0; j < _gridPosition.GetLength(1); j++)
-                {
-                    if (_gridPosition[j, i] == moveToPosition)
-                    {
-                        if (_playerPiecesColor[j,i-1] != _playerPiecesColor[j,i])
-                        {
-                            Debug.Log("Cannot jump this piece");
-                        }
-                        else
-                        {
-                            Debug.Log("Test Color: " + _playerPiecesColor[j, i - 1]);
-                            Debug.Log("Test Color: " + _playerPiecesColor[j, i]);
-                            Debug.Log("Can jump this piece");
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-
-        public bool IsOccupiedCheck(PlayerGamePiece piece, Vector2 moveToPosition)
+        public bool IsOccupiedCheck(GamePiece piece, Vector2 newGridID)
         {
             if (piece != null)
             {
-                for (int i = 0; i < _gridPosition.GetLength(0); i++)
+                if (_isOccupied[(int)newGridID.x, (int)newGridID.y])
                 {
-                    for (int j = 0; j < _gridPosition.GetLength(1); j++)
+                    SetBoard();
+                    return true;
+                }
+                else
+                {
+                    _isOccupied[(int)piece.GridID.x, (int)piece.GridID.y] = false;
+                    piece.GridID = _gridID[(int)newGridID.x, (int)newGridID.y];
+                    _isOccupied[(int)newGridID.x, (int)newGridID.y] = true;
+                    SetBoard();
+                }
+            }
+            return false;
+        }
+
+        public bool JumpCheck(GamePiece piece, Vector2 jumpedGridID)
+        {
+            if (piece != null)
+            {
+                if (_isOccupied[(int)jumpedGridID.x, (int)jumpedGridID.y])
+                {
+                    GameObject jumpedPiece = _playerPiecesOnGrid[(int)jumpedGridID.x, (int)jumpedGridID.y];
+                    GamePiece jumpedScript = jumpedPiece.GetComponent<GamePiece>();
+
+                    Debug.Log(jumpedScript.Shape);
+
+                    if (jumpedScript.Shape == piece.Shape || jumpedScript.Color == piece.Color)
                     {
-                        if (_gridPosition[j, i] == moveToPosition)
-                        {
-                            if (_isOccupied[j, i])
-                            {
-                                SetOccupied();
-                                return true;
-                            }
-                            else if (!_isOccupied[j, i])
-                            {
-                                _isOccupied[(int)piece.GridID.x, (int)piece.GridID.y] = false;
-                                piece.GridID = _gridID[j, i];
-                                _isOccupied[j, i] = true;
-                                SetOccupied();
-                            }
-                        }
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
                     }
                 }
             }
             return false;
         }
 
-        public IEnumerator MovePiece(PlayerGamePiece piece, Vector2 moveToPosition, Vector2 savedPosition)
+        public IEnumerator MovePiece(GamePiece piece, Vector2 newGridID, Vector2 savedGridID)
         {
-            //Debug.Log(MovementValid(button, moveToPosition));
-
             yield return new WaitForSeconds(0.1f);
 
-            if (!IsOccupiedCheck(piece, moveToPosition))
+            if (!IsOccupiedCheck(piece, newGridID))
             {
-                piece.gameObject.transform.position = moveToPosition;
+                piece.gameObject.transform.position = _gridPosition[(int)newGridID.x, (int)newGridID.y];
                 piece._moved = true;
+                _playerPiecesOnGrid[(int)newGridID.x, (int)newGridID.y] = piece.gameObject;
+                _playerPiecesOnGrid[(int)savedGridID.x, (int)savedGridID.y] = null;
             }
             else
             {
-                piece.gameObject.transform.position = savedPosition;
+                piece.gameObject.transform.position = _gridPosition[(int)savedGridID.x, (int)savedGridID.y];
                 piece._moved = false;
             }
-
             yield return new WaitForSeconds(0.1f);
         }
 
-        public void MovePieceBack(PlayerGamePiece piece, Vector2 moveToPosition, Vector2 savedPosition)
+        public void MovePieceBack(GamePiece piece, Vector2 newGridID, Vector2 savedGridID)
         {
-            if (!IsOccupiedCheck(piece, savedPosition))
+
+            if (!IsOccupiedCheck(piece, savedGridID))
             {
-                piece.gameObject.transform.position = savedPosition;
+                piece.gameObject.transform.position = _gridPosition[(int)savedGridID.x, (int)savedGridID.y];
             }
             else
             {
-                piece.gameObject.transform.position = moveToPosition;
+                piece.gameObject.transform.position = _gridPosition[(int)newGridID.x, (int)newGridID.y];
             }
 
             piece._moved = false;

@@ -26,20 +26,25 @@ namespace BoardGame
 
         private Sprite[] _gamePieces;
         private Sprite _gridTile;
+
         private GameObject[] _enemyPieces;
 
-        private Vector2[,] _playerPiecesGridPositions;
         private GameObject[] _playerPieces;
+        private GameObject[,] _playerPiecesOnGrid;
+        private Vector2[,] _playerPiecesGridPositions;
         private Color[,] _playerPiecesColor;
         private String[,] _playerPiecesShape;
 
         public Vector2[,] GridID => _gridID;
         public Vector2[,] GridPosition => _gridPosition;
-        public Vector2[,] PlayerPiecesGridPosition => _playerPiecesGridPositions;
+        public GameObject[,] PlayerPiecesOnGrid => _playerPiecesOnGrid;
+
         public GameObject[] PlayerPieces => _playerPieces;
-        public GameObject[] EnemyPieces => _enemyPieces;
+        public Vector2[,] PlayerPiecesGridPosition => _playerPiecesGridPositions;
         public Color[,] PlayerPiecesColor => _playerPiecesColor;
         public String[,] PlayerPiecesShape => _playerPiecesShape;
+
+        public GameObject[] EnemyPieces => _enemyPieces;
 
         float _waitTime = 0.01f;
 
@@ -100,14 +105,16 @@ namespace BoardGame
             int i = _gamePieces.Length - 1;
             _playerPieces = new GameObject[shapes * colors];
             _enemyPieces = new GameObject[shapes * colors];
+
+            _playerPiecesOnGrid = new GameObject[(int)_gridSize.x + 1, (int)_gridSize.y + 1];
             _playerPiecesColor = new Color[shapes, (int)_gridSize.y + 1];
             _playerPiecesShape = new String[shapes, (int)_gridSize.y + 1];
             _playerPiecesGridPositions = new Vector2[shapes, (int)_gridSize.y+1];
+
             // Player Pieces creation
 
             for (int color = (int)_gridSize.x - colors + 1; color < (int)_gridSize.x + 1; color++)
             {
-                //for (int shape = 0; shape < shapes; shape++)
                 for (int shape = shapes-1; shape >= 0; shape--)
                 {
                     yield return new WaitForSeconds(_waitTime);
@@ -117,16 +124,20 @@ namespace BoardGame
                     float posX = shape * _tileSize - _gamePiecesPanel.rect.x;
                     float posY = color * -_tileSize - _gamePiecesPanel.rect.y;
 
-                    GameObject gamePiece = new GameObject("Player: " + _gamePieces[i].name, typeof(Image), typeof(Button), typeof(PlayerGamePiece));
+                    GameObject gamePiece = new GameObject("Player: " + _gamePieces[i].name, typeof(Image), typeof(Button), typeof(GamePiece));
                     Image img = gamePiece.GetComponent<Image>();
                     Button button = gamePiece.GetComponent<Button>();
-                    PlayerGamePiece script = gamePiece.GetComponent<PlayerGamePiece>();
+                    GamePiece script = gamePiece.GetComponent<GamePiece>();
+
                     script.GridID = _playerPiecesGridPositions[shape, color];
                     script.BoardManager = StateMachine.BoardManager;
                     ButtonSetup(button);
 
+                    _playerPiecesOnGrid[shape, color] = gamePiece;
                     _playerPiecesColor[shape, color] = script.Color;
                     _playerPiecesShape[shape, color] = script.Shape;
+
+
 
                     gamePiece.gameObject.transform.SetParent(_gamePiecesPanel);
                     img.sprite = _gamePieces[i];
@@ -151,10 +162,10 @@ namespace BoardGame
                     float posX = shape * _tileSize - _gamePiecesPanel.rect.x;
                     float posY = color * -_tileSize - _gamePiecesPanel.rect.y;
 
-                    GameObject gamePiece = new GameObject("Enemy: "+_gamePieces[i].name, typeof(Image), typeof(Button), typeof(PlayerGamePiece));
+                    GameObject gamePiece = new GameObject("Enemy: "+_gamePieces[i].name, typeof(Image), typeof(Button), typeof(GamePiece));
                     Image img = gamePiece.GetComponent<Image>();
                     Button button = gamePiece.GetComponent<Button>();
-                    PlayerGamePiece script = gamePiece.GetComponent<PlayerGamePiece>();
+                    GamePiece script = gamePiece.GetComponent<GamePiece>();
                     script.GridID = _playerPiecesGridPositions[shape, color];
                     ButtonSetup(button);
 
@@ -180,7 +191,7 @@ namespace BoardGame
 
             foreach (GameObject pieces in _playerPieces)
             {
-                PlayerGamePiece script = button.GetComponent<PlayerGamePiece>();
+                GamePiece script = button.GetComponent<GamePiece>();
 
                 if (script != null)
                 {

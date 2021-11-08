@@ -13,10 +13,12 @@ namespace BoardGame
         [SerializeField] Button _winButton = null;
         [SerializeField] Button _loseButton = null;
 
+        [SerializeField] Canvas _gamePieceCanvas = null;
+
         public override void Enter()
         {
             Debug.Log("Starting Game");
-            _startButton.gameObject.SetActive(true);
+            _gamePieceCanvas.gameObject.SetActive(true);
             StartTurn();
         }
 
@@ -52,7 +54,7 @@ namespace BoardGame
 
                 newButton.interactable = true;
             }
-
+            _startButton.gameObject.SetActive(true);
             StateMachine.ChangeState<PlayerSelectingPieceState>();
         }
 

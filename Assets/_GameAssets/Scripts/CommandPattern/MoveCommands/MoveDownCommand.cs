@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MoveUpCommand : ICommand
+public class MoveDownCommand : ICommand
 {
-    PlayerGamePiece _moveablePiece;
-    public MoveUpCommand(Button currentButton)
+    GamePiece _moveablePiece;
+    public MoveDownCommand(Button currentButton)
     {
-        _moveablePiece = currentButton.GetComponent<PlayerGamePiece>();
+        _moveablePiece = currentButton.GetComponent<GamePiece>();
     }
 
     public void Execute()
     {
-        _moveablePiece.MoveUp();
+        _moveablePiece.MoveDown();
     }
 
     public void UndoMove()

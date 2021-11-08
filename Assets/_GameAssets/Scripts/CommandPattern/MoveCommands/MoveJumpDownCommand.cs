@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MoveJumpCommand : ICommand
+public class MoveJumpDownCommand : ICommand
 {
-    PlayerGamePiece _moveablePiece;
+    GamePiece _moveablePiece;
 
-    public MoveJumpCommand(Button currentButton)
+    public MoveJumpDownCommand(Button currentButton)
     {
-        _moveablePiece = currentButton.GetComponent<PlayerGamePiece>();
+        _moveablePiece = currentButton.GetComponent<GamePiece>();
     }
 
     public void Execute()
     {
-        _moveablePiece.MoveJump();
+        _moveablePiece.MoveJumpDown();
     }
 
     public void UndoMove()
