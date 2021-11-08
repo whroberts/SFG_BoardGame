@@ -16,9 +16,9 @@ namespace BoardGame
 
         public override void Enter()
         {
-            Debug.Log("Moving Piece");
+            Debug.Log("Player Moving Piece");
 
-            _chosenPieceText.text = StateMachine.BoardManager.CurrentButton.name;
+            _chosenPieceText.text = StateMachine.BoardManager.PlayerCurrentButton.name;
             _pieceControlsText.gameObject.SetActive(true);
 
             StateMachine.Input.PressedUp += MovePieceUp;
@@ -31,7 +31,7 @@ namespace BoardGame
 
         public override void Exit()
         {
-            Debug.Log("Moved Piece");
+            Debug.Log("Player Moved Piece");
 
             _chosenPieceText.text = "None";
             _pieceControlsText.gameObject.SetActive(false);
@@ -46,44 +46,44 @@ namespace BoardGame
 
         public void MovePieceUp()
         {
-            ICommand moveUpCommand = new MoveUpCommand(StateMachine.BoardManager.CurrentButton);
+            ICommand moveUpCommand = new MoveUpCommand(StateMachine.BoardManager.PlayerCurrentButton);
             _commandStack.ExecuteCommand(moveUpCommand);
         }
 
         public void MovePieceDiagonalLeft()
         {
-            ICommand moveDiagonalLeft = new MoveDiagonalUpLeftCommand(StateMachine.BoardManager.CurrentButton);
+            ICommand moveDiagonalLeft = new MoveDiagonalUpLeftCommand(StateMachine.BoardManager.PlayerCurrentButton);
             _commandStack.ExecuteCommand(moveDiagonalLeft);
         }
 
         public void MovePieceDiagonalRight()
         {
-            ICommand moveDiagonalRight = new MoveDiagonalUpRightCommand(StateMachine.BoardManager.CurrentButton);
+            ICommand moveDiagonalRight = new MoveDiagonalUpRightCommand(StateMachine.BoardManager.PlayerCurrentButton);
             _commandStack.ExecuteCommand(moveDiagonalRight);
         }
 
         public void MovePieceJump()
         {
-            ICommand moveJumpCommand = new MoveJumpUpCommand(StateMachine.BoardManager.CurrentButton);
+            ICommand moveJumpCommand = new MoveJumpUpCommand(StateMachine.BoardManager.PlayerCurrentButton);
             _commandStack.ExecuteCommand(moveJumpCommand);
         }
 
         public void ConfirmPiece()
         {
-            if (StateMachine.BoardManager.CurrentButton.GetComponent<GamePiece>()._moved) {
+            if (StateMachine.BoardManager.PlayerCurrentButton.GetComponent<GamePiece>()._moved) {
                 foreach (GameObject pieces in StateMachine.BoardManager.PlayerPieces)
                 {
                     Button button = pieces.GetComponent<Button>();
                     button.interactable = false;
                 }
-                StateMachine.ChangeState<EnemyTurnBoardGameState>();
-                StateMachine.BoardManager.CurrentButton.GetComponent<GamePiece>()._moved = false;
+                StateMachine.BoardManager.PlayerCurrentButton.GetComponent<GamePiece>()._moved = false;
+                StateMachine.ChangeState<EnemySelectingPieceState>();
             }
         }
 
         public void UndoPiece()
         {
-            GamePiece piece = StateMachine.BoardManager.CurrentButton.GetComponent<GamePiece>();
+            GamePiece piece = StateMachine.BoardManager.PlayerCurrentButton.GetComponent<GamePiece>();
             if (piece._moved)
             {
                 piece.UndoMove();

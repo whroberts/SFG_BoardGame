@@ -11,26 +11,9 @@ namespace BoardGame
         public InputController Input => _input;
         public BoardManager BoardManager => _bm;
 
-        bool _init = false;
-
         private void Start()
         {
-            // set starting State here
-            if (!_init)
-            {
-                ChangeState<SetupBoardGameBaseState>();
-                _init = true;
-            }
-        }
-
-        private void OnEnable()
-        {
-            if (_init)
-            {
-                //ChangeState<BoardGameState>();
-                //ChangeState<PlayerTurnBoardGameState>();
-                ChangeState<EnemyTurnBoardGameState>();
-            }
+            ChangeState<SetupBoardGameBaseState>();
         }
     }
 }

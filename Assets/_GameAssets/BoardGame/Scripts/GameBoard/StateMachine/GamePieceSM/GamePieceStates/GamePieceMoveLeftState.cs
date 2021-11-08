@@ -10,7 +10,7 @@ namespace BoardGame
         public override void Enter()
         {
             Debug.Log("Moving Piece Left");
-            StartCoroutine(MoveLeft(StateMachine.BoardManager.CurrentButton));
+            StartCoroutine(MoveLeft(StateMachine.BoardManager.PlayerCurrentButton));
             StateMachine.Input.PressedConfirm += OnCancelCurrentPiece;
         }
 

@@ -58,7 +58,7 @@ TextureImporter:
     second: redLamda
   - first:
       213: -7854286256306127659
-    second: redTripCircle
+    second: redTripCirc
   - first:
       213: 6433588983409711840
     second: Roberts_Henry_gamePeices_19
@@ -73,7 +73,7 @@ TextureImporter:
     second: blueLamda
   - first:
       213: 7828708116930334480
-    second: blueTripCircle
+    second: blueTripCirc
   - first:
       213: 6049944281770753390
     second: Roberts_Henry_gamePeices_24
@@ -88,7 +88,7 @@ TextureImporter:
     second: greenLamda
   - first:
       213: -4093287470414330104
-    second: greenTripCircle
+    second: greenTripCirc
   - first:
       213: 7217339013052578564
     second: Roberts_Henry_gamePeices_29
@@ -610,7 +610,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: redTripCircle
+      name: redTripCirc
       rect:
         serializedVersion: 2
         x: 1512
@@ -694,7 +694,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: blueTripCircle
+      name: blueTripCirc
       rect:
         serializedVersion: 2
         x: 1510
@@ -778,10 +778,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: greenTripCircle
+      name: greenTripCirc
       rect:
         serializedVersion: 2
-        x: 1510
+        x: 1503
         y: 520
         width: 470
         height: 470

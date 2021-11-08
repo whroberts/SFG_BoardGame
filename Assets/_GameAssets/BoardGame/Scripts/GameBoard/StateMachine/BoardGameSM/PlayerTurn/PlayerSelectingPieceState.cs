@@ -27,7 +27,6 @@ namespace BoardGame
 
         public override void Exit()
         {
-            //_playerTurnTextUI.gameObject.SetActive(false);
             Debug.Log("Selected Piece");
         }
 

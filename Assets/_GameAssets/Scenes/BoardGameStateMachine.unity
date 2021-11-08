@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 40097412}
   - component: {fileID: 40097411}
   m_Layer: 5
-  m_Name: txt_PlayerPieces
+  m_Name: txt_PlayerTurns
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -268,7 +268,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 135723893}
-  - component: {fileID: 135723892}
   m_Layer: 0
   m_Name: BoardGameUIController
   m_TagString: Untagged
@@ -276,19 +275,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &135723892
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 135723891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 532f6539ecb574a46bb2b2cd349f3fb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _enemyThinkingTextUI: {fileID: 1220612410}
 --- !u!4 &135723893
 Transform:
   m_ObjectHideFlags: 0
@@ -783,9 +769,9 @@ GameObject:
   - component: {fileID: 540161321}
   - component: {fileID: 540161322}
   - component: {fileID: 540161314}
-  - component: {fileID: 540161313}
   - component: {fileID: 540161319}
   - component: {fileID: 540161318}
+  - component: {fileID: 540161313}
   - component: {fileID: 540161320}
   m_Layer: 0
   m_Name: BoardGameStateController
@@ -817,11 +803,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 540161311}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 777d726592c35ad4cbccacee7f1bc10e, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c68de19b4363f847962e04b720c6791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pauseDuration: 1.5
+  _enemyThinkingTextUI: {fileID: 1220612410}
   _enemyTurnsText: {fileID: 1223717736}
+  _pauseDuration: 1.5
 --- !u!114 &540161314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -914,10 +901,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 540161311}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38f67b17ceae443468903084d6dccbbb, type: 3}
+  m_Script: {fileID: 11500000, guid: ee72b0fd1237dba45a4fe2af5f650fc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gamePieceController: {fileID: 0}
+  _enemyThinkingTextUI: {fileID: 1220612410}
+  _pauseDuration: 1.5
 --- !u!114 &540161321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1785,7 +1773,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1220612409
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1914,7 +1902,7 @@ GameObject:
   - component: {fileID: 1223717737}
   - component: {fileID: 1223717736}
   m_Layer: 5
-  m_Name: txt_EnemyPieces
+  m_Name: txt_EnemyTurns
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

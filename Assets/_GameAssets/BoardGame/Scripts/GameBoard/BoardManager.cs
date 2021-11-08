@@ -12,8 +12,10 @@ namespace BoardGame
         [SerializeField] SetupStateGenerateBoard GenerateBoard = null;
         [SerializeField] SetupBoardGameBaseState SetupBoard = null;
 
-        private Button _currentButton = null;
-        public Button CurrentButton => _currentButton;
+        private Button _playerCurrentButton = null;
+        private Button _enemyCurrentButton = null;
+        public Button EnemyCurrentButton => _enemyCurrentButton;
+        public Button PlayerCurrentButton => _playerCurrentButton;
 
         private int BoardSizeX;
         private int BoardSizeY;
@@ -22,10 +24,11 @@ namespace BoardGame
 
         private bool[,] _isOccupied;
         public bool[,] IsOccupied => _isOccupied;
-
-        private GameObject[] _enemyPieces;
         private Vector2[,] _gridID;
         private Vector2[,] _gridPosition;
+
+        private GameObject[,] _alllPiecesOnBoard;
+        private GameObject[] _allPieces;
 
         private GameObject[] _playerPieces;
         private GameObject[,] _playerPiecesOnGrid;
@@ -33,16 +36,30 @@ namespace BoardGame
         private Color[,] _playerPiecesColor;
         private String[,] _playerPiecesShape;
 
-        public GameObject[] EnemyPieces => _enemyPieces;
+        private GameObject[] _enemyPieces;
+        public GameObject[,] _enemyPiecesOnGrid;
+        public Vector2[,] _enemyPiecesGridPositions;
+        public Color[,] _enemyPiecesColor;
+        public String[,] _enemyPiecesShape;
 
         public Vector2[,] GridID => _gridID;
         public Vector2[,] GridPosition => _gridPosition;
+
+        public GameObject[,] AllPiecesOnBoard => _alllPiecesOnBoard;
+        public GameObject[] AllPieces => _allPieces;
+
         public GameObject[,] PlayerPiecesOnGrid => _playerPiecesOnGrid;
 
         public GameObject[] PlayerPieces => _playerPieces;
         public Vector2[,] PlayerPiecesGridPosition => _playerPiecesGridPositions;
         public Color[,] PlayerPiecesColor => _playerPiecesColor;
         public String[,] PlayerPiecesShape => _playerPiecesShape;
+
+        public GameObject[] EnemyPieces => _enemyPieces;
+        public GameObject[,] EnemyPiecesOnGrid => _enemyPiecesOnGrid;
+        public Vector2[,] EnemyPiecesGridPositions => _enemyPiecesGridPositions;
+        public Color[,] EnemyPiecesColor => _enemyPiecesColor;
+        public String[,] EnemyPiecesShape => _enemyPiecesShape;
 
         private void OnEnable()
         {
@@ -58,19 +75,28 @@ namespace BoardGame
 
             _gridID = GenerateBoard.GridID;
             _gridPosition = GenerateBoard.GridPosition;
+
+            _allPieces = GenerateBoard.AllPieces;
+
             _playerPiecesGridPositions = GenerateBoard.PlayerPiecesGridPosition;
             _playerPiecesOnGrid = GenerateBoard.PlayerPiecesOnGrid;
             _playerPieces = GenerateBoard.PlayerPieces;
             _enemyPieces = GenerateBoard.EnemyPieces;
             _playerPiecesColor = GenerateBoard.PlayerPiecesColor;
             _playerPiecesShape = GenerateBoard.PlayerPiecesShape;
+            _enemyPieces = GenerateBoard.EnemyPieces;
+            _enemyPiecesOnGrid = GenerateBoard.EnemyPiecesOnGrid;
+            _enemyPiecesGridPositions = GenerateBoard.EnemyPiecesGridPositions;
+            _enemyPiecesColor = GenerateBoard.EnemyPiecesColor;
+            _enemyPiecesShape = GenerateBoard.EnemyPiecesShape;
 
-            _isOccupied = new bool[_gridID.GetLength(0), _gridID.GetLength(1)];
+        _isOccupied = new bool[_gridID.GetLength(0), _gridID.GetLength(1)];
         }
 
         public void SetCurrentButton(Button button)
         {
-            _currentButton = button;
+            _playerCurrentButton = button;
+            _enemyCurrentButton = button;
             SetBoard();
         }
 
@@ -92,6 +118,18 @@ namespace BoardGame
                             }
                         }
                     }
+                }
+            }
+
+            _alllPiecesOnBoard = new GameObject[BoardSizeX, BoardSizeY];
+
+            foreach (GameObject piece in _allPieces)
+            {
+                GamePiece script = piece.GetComponent<GamePiece>();
+                
+                if (script != null)
+                {
+                    _alllPiecesOnBoard[(int)script.GridID.x, (int)script.GridID.y] = piece;
                 }
             }
         }
@@ -144,12 +182,15 @@ namespace BoardGame
         {
             yield return new WaitForSeconds(0.1f);
 
+            Debug.Log(newGridID);
+            Debug.Log(savedGridID);
+
             if (!IsOccupiedCheck(piece, newGridID))
             {
                 piece.gameObject.transform.position = _gridPosition[(int)newGridID.x, (int)newGridID.y];
                 piece._moved = true;
-                _playerPiecesOnGrid[(int)newGridID.x, (int)newGridID.y] = piece.gameObject;
-                _playerPiecesOnGrid[(int)savedGridID.x, (int)savedGridID.y] = null;
+                _alllPiecesOnBoard[(int)newGridID.x, (int)newGridID.y] = piece.gameObject;
+                _alllPiecesOnBoard[(int)savedGridID.x, (int)savedGridID.y] = null;
             }
             else
             {

@@ -24,10 +24,16 @@ namespace BoardGame
         private Vector2[,] _gridID;
         private Vector2[,] _gridPosition;
 
-        private Sprite[] _gamePieces;
+        private Sprite[] _gamePieceSprites;
         private Sprite _gridTile;
 
+        private GameObject[] _allPieces;
+
         private GameObject[] _enemyPieces;
+        private GameObject[,] _enemyPiecesOnGrid;
+        private Vector2[,] _enemyPiecesGridPositions;
+        private Color[,] _enemyPiecesColor;
+        private String[,] _enemyPiecesShape;
 
         private GameObject[] _playerPieces;
         private GameObject[,] _playerPiecesOnGrid;
@@ -39,12 +45,19 @@ namespace BoardGame
         public Vector2[,] GridPosition => _gridPosition;
         public GameObject[,] PlayerPiecesOnGrid => _playerPiecesOnGrid;
 
+        public GameObject[] AllPieces => _allPieces;
+
         public GameObject[] PlayerPieces => _playerPieces;
         public Vector2[,] PlayerPiecesGridPosition => _playerPiecesGridPositions;
         public Color[,] PlayerPiecesColor => _playerPiecesColor;
         public String[,] PlayerPiecesShape => _playerPiecesShape;
 
         public GameObject[] EnemyPieces => _enemyPieces;
+        public GameObject[,] EnemyPiecesOnGrid => _enemyPiecesOnGrid;
+        public Vector2[,] EnemyPiecesGridPositions => _enemyPiecesGridPositions;
+        public Color[,] EnemyPiecesColor => _enemyPiecesColor;
+        public String[,] EnemyPiecesShape => _enemyPiecesShape;
+
 
         float _waitTime = 0.01f;
 
@@ -54,7 +67,7 @@ namespace BoardGame
 
             SetupBoard = GetComponent<SetupBoardGameBaseState>();
 
-            _gamePieces = (Sprite[])Resources.LoadAll<Sprite>("GamePieces");
+            _gamePieceSprites = (Sprite[])Resources.LoadAll<Sprite>("GamePieces");
             _gridTile = (Sprite)Resources.Load<Sprite>("GridSprite");
 
             SetupBoard._createdBoard = false;
@@ -102,14 +115,21 @@ namespace BoardGame
 
         public IEnumerator GenerateGamePieces(int shapes, int colors)
         {
-            int i = _gamePieces.Length - 1;
+            int i = _gamePieceSprites.Length - 1;
+            int k = 0;
             _playerPieces = new GameObject[shapes * colors];
             _enemyPieces = new GameObject[shapes * colors];
+            _allPieces = new GameObject[_gamePieceSprites.Length * 2];
 
             _playerPiecesOnGrid = new GameObject[(int)_gridSize.x + 1, (int)_gridSize.y + 1];
             _playerPiecesColor = new Color[shapes, (int)_gridSize.y + 1];
             _playerPiecesShape = new String[shapes, (int)_gridSize.y + 1];
             _playerPiecesGridPositions = new Vector2[shapes, (int)_gridSize.y+1];
+
+            _enemyPiecesOnGrid = new GameObject[(int)_gridSize.x + 1, (int)_gridSize.y + 1];
+            _enemyPiecesColor = new Color[shapes, (int)_gridSize.y + 1];
+            _enemyPiecesShape = new String[shapes, (int)_gridSize.y + 1];
+            _enemyPiecesGridPositions = new Vector2[shapes, (int)_gridSize.y + 1];
 
             // Player Pieces creation
 
@@ -124,7 +144,7 @@ namespace BoardGame
                     float posX = shape * _tileSize - _gamePiecesPanel.rect.x;
                     float posY = color * -_tileSize - _gamePiecesPanel.rect.y;
 
-                    GameObject gamePiece = new GameObject("Player: " + _gamePieces[i].name, typeof(Image), typeof(Button), typeof(GamePiece));
+                    GameObject gamePiece = new GameObject("Player: " + _gamePieceSprites[i].name, typeof(Image), typeof(Button), typeof(GamePiece));
                     Image img = gamePiece.GetComponent<Image>();
                     Button button = gamePiece.GetComponent<Button>();
                     GamePiece script = gamePiece.GetComponent<GamePiece>();
@@ -137,20 +157,20 @@ namespace BoardGame
                     _playerPiecesColor[shape, color] = script.Color;
                     _playerPiecesShape[shape, color] = script.Shape;
 
-
-
                     gamePiece.gameObject.transform.SetParent(_gamePiecesPanel);
-                    img.sprite = _gamePieces[i];
+                    img.sprite = _gamePieceSprites[i];
 
                     gamePiece.transform.position = new Vector2(posX - (_boardSize.x / 2), posY + (_boardSize.y / 2));
                     _playerPieces[i] = gamePiece;
-   
+                    _allPieces[k] = gamePiece;
+                    k++;
                     i--;
                 }
             }
 
             yield return new WaitForSeconds(_waitTime * 5);
             i = 0;
+
 
             // Enemy Pieces creation
 
@@ -159,24 +179,36 @@ namespace BoardGame
                 for (int shape = 0; shape < shapes; shape++)
                 {
                     yield return new WaitForSeconds(_waitTime);
+
+                    _enemyPiecesGridPositions[shape, color] = new Vector2(shape, color);
+
                     float posX = shape * _tileSize - _gamePiecesPanel.rect.x;
                     float posY = color * -_tileSize - _gamePiecesPanel.rect.y;
 
-                    GameObject gamePiece = new GameObject("Enemy: "+_gamePieces[i].name, typeof(Image), typeof(Button), typeof(GamePiece));
+                    GameObject gamePiece = new GameObject("Enemy: "+_gamePieceSprites[i].name, typeof(Image), typeof(Button), typeof(GamePiece));
                     Image img = gamePiece.GetComponent<Image>();
                     Button button = gamePiece.GetComponent<Button>();
                     GamePiece script = gamePiece.GetComponent<GamePiece>();
-                    script.GridID = _playerPiecesGridPositions[shape, color];
+
+                    script.GridID = _enemyPiecesGridPositions[shape, color];
+                    script.BoardManager = StateMachine.BoardManager;
                     ButtonSetup(button);
 
+                    _enemyPiecesOnGrid[shape, color] = gamePiece;
+                    _enemyPiecesColor[shape, color] = script.Color;
+                    _enemyPiecesShape[shape, color] = script.Shape;
+
                     gamePiece.gameObject.transform.SetParent(_gamePiecesPanel);
-                    img.sprite = _gamePieces[i];
+                    img.sprite = _gamePieceSprites[i];
 
                     gamePiece.transform.position = new Vector2(posX - (_boardSize.x / 2), posY + (_boardSize.y / 2));
                     _enemyPieces[i] = gamePiece;
+                    _allPieces[k] = gamePiece;
+                    k++;
                     i++;
                 }
             }
+
             yield return new WaitForSeconds(_waitTime * 5);
             SetupBoard._createdBoard = true;
 
@@ -240,9 +272,9 @@ namespace BoardGame
                     {
                         script.Shape = "Triangle";
                     }
-                    else if (button.name.Contains("TripCircle"))
+                    else if (button.name.Contains("TripCirc"))
                     {
-                        script.Shape = "Triangle";
+                        script.Shape = "TripCircle";
                     }
                     else if (button.name.Contains("X"))
                     {

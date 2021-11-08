@@ -10,7 +10,7 @@ namespace BoardGame
         public override void Enter()
         {
             Debug.Log("Jumping Piece");
-            StartCoroutine(MoveJump(StateMachine.BoardManager.CurrentButton));
+            StartCoroutine(MoveJump(StateMachine.BoardManager.PlayerCurrentButton));
             StateMachine.Input.PressedConfirm += OnCancelCurrentPiece;
         }
 

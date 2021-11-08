@@ -10,16 +10,9 @@ namespace BoardGame
     {
         [SerializeField] TMP_Text _pieceControls = null;
 
-        bool _moveUp = false;
-        bool _moveDiagonal = false;
-        bool _moveLeft = false;
-        bool _moveRight = false;
-        bool _moveDown = false;
-        bool _moveJump = false;
-
         public override void Enter()
         {
-            Debug.Log("Entering Piece: " + StateMachine.BoardManager.CurrentButton.name + " idle state");
+            Debug.Log("Entering Piece: " + StateMachine.BoardManager.PlayerCurrentButton.name + " idle state");
             /*
             StateMachine.Input.PressedUp += MoveUp;
             StateMachine.Input.PressedLeft += MoveLeft;
@@ -33,17 +26,17 @@ namespace BoardGame
             StateMachine.Input.PressedCancel += Cancel;
 
             _pieceControls.gameObject.SetActive(true);
-            StateMachine.BoardManager.CurrentButton.onClick.RemoveAllListeners();
+            StateMachine.BoardManager.PlayerCurrentButton.onClick.RemoveAllListeners();
 
         }
 
         public override void Exit()
         {
-            Debug.Log(StateMachine.BoardManager.CurrentButton);
+            Debug.Log(StateMachine.BoardManager.PlayerCurrentButton);
 
-            if (StateMachine.BoardManager.CurrentButton != null)
+            if (StateMachine.BoardManager.PlayerCurrentButton != null)
             {
-                Debug.Log("Exiting Piece: " + StateMachine.BoardManager.CurrentButton.name + " idle state");
+                Debug.Log("Exiting Piece: " + StateMachine.BoardManager.PlayerCurrentButton.name + " idle state");
             }
             else
             {
