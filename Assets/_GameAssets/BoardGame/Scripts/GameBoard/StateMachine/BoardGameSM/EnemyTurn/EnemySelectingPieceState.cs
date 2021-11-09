@@ -43,23 +43,16 @@ namespace BoardGame
                 newButton.navigation = newNav;
 
                 newButton.interactable = true;
-
-                ColorBlock cb = newButton.colors;
-                cb.disabledColor = Color.white;
-                newButton.colors = cb;
             }
         }
 
         private IEnumerator SelectButton()
         {
 
-            //Button button = StateMachine.BoardManager.EnemyPieces[Random.Range(0, StateMachine.BoardManager.EnemyPieces.Length)].GetComponent<Button>();
-            Button button = StateMachine.BoardManager.EnemyPieces[12].GetComponent<Button>();
+            Button button = StateMachine.BoardManager.EnemyPieces[Random.Range(0, StateMachine.BoardManager.EnemyPieces.Length)].GetComponent<Button>();
 
             StateMachine.BoardManager.SetCurrentButton(button);
             button.Select();
-
-            Debug.Log(button.name);
 
             yield return new WaitForSeconds(_pauseDuration / 3);
             End();

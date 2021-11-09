@@ -905,7 +905,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyThinkingTextUI: {fileID: 1220612410}
-  _pauseDuration: 1.5
 --- !u!114 &540161321
 MonoBehaviour:
   m_ObjectHideFlags: 0

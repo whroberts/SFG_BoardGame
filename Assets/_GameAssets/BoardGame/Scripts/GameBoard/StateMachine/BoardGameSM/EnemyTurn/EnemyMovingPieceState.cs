@@ -18,6 +18,12 @@ namespace BoardGame
             MovePieceDown();
         }
 
+        public override void Tick()
+        {
+            ChooseDifferntPiece();
+            ConfirmPiece();
+        }
+
         public override void Exit()
         {
             _enemyThinkingTextUI.gameObject.SetActive(false);
@@ -47,15 +53,28 @@ namespace BoardGame
             ICommand moveJumpCommand = new MoveJumpUpCommand(StateMachine.BoardManager.PlayerCurrentButton);
             _commandStack.ExecuteCommand(moveJumpCommand);
         }
+        
+        public void ChooseDifferntPiece()
+        {
+            if (StateMachine.BoardManager.EnemyCurrentButton.GetComponent<GamePiece>()._cantMove)
+            {
+                StateMachine.ChangeState<EnemySelectingPieceState>();
+            }
+        }
 
         public void ConfirmPiece()
         {
-            if (StateMachine.BoardManager.EnemyCurrentButton.GetComponent<GamePiece>()._moved)
+            if (StateMachine.BoardManager.EnemyCurrentButton.GetComponent<GamePiece>()._moved && 
+                !StateMachine.BoardManager.EnemyCurrentButton.GetComponent<GamePiece>()._cantMove)
             {
                 foreach (GameObject pieces in StateMachine.BoardManager.EnemyPieces)
                 {
                     Button button = pieces.GetComponent<Button>();
+                    GamePiece script = pieces.GetComponent<GamePiece>();
+                    script._cantMove = false;
+                    script._moved = false;
                     button.interactable = false;
+                    
                 }
                 StateMachine.BoardManager.EnemyCurrentButton.GetComponent<GamePiece>()._moved = false;
                 StateMachine.ChangeState<PlayerSelectingPieceState>();

@@ -217,70 +217,92 @@ namespace BoardGame
 
         private void ButtonSetup(Button button)
         {
-            ColorBlock cb = button.colors;
-            cb.highlightedColor = cb.pressedColor;
-            cb.pressedColor = new Color(150f / 255f, 150f / 255f, 150f / 255f, 1f);
+            GamePiece script = button.GetComponent<GamePiece>();
 
-            foreach (GameObject pieces in _playerPieces)
+            if (script != null && button.name.Contains("Player"))
             {
-                GamePiece script = button.GetComponent<GamePiece>();
+                ColorBlock cb = button.colors;
+                cb.normalColor = new Color(175f / 255f, 1f, 175f / 255f, 1f);
+                cb.selectedColor = new Color(0f, 1f, 0f, 1f);
+                cb.highlightedColor = cb.selectedColor;
+                cb.pressedColor = cb.selectedColor;
+                cb.disabledColor = new Color(200f / 255f, 1f, 200f / 255f, 1f);
 
-                if (script != null)
+                if (button.name.Contains("blue"))
                 {
-                    if (button.name.Contains("blue"))
-                    {
-                        cb.selectedColor = Color.blue;
-                        script.Color = Color.blue;
-                    }
-                    else if (button.name.Contains("green"))
-                    {
-                        cb.selectedColor = Color.green;
-                        script.Color = Color.green;
-                    }
-                    else if (button.name.Contains("red"))
-                    {
-                        cb.selectedColor = Color.red;
-                        script.Color = Color.red;
-                    }
-                    button.colors = cb;
-
-                    if (button.name.Contains("Circle"))
-                    {
-                        script.Shape = "Circle";
-                    }
-                    else if (button.name.Contains("Lamda"))
-                    {
-                        script.Shape = "Lamda";
-                    }
-                    else if (button.name.Contains("Omega"))
-                    {
-                        script.Shape = "Omega";
-                    }
-                    else if (button.name.Contains("Plus"))
-                    {
-                        script.Shape = "Plus";
-                    }
-                    else if (button.name.Contains("Star"))
-                    {
-                        script.Shape = "Star";
-                    }
-                    else if (button.name.Contains("Trap"))
-                    {
-                        script.Shape = "Trap";
-                    }
-                    else if (button.name.Contains("Triangle"))
-                    {
-                        script.Shape = "Triangle";
-                    }
-                    else if (button.name.Contains("TripCirc"))
-                    {
-                        script.Shape = "TripCircle";
-                    }
-                    else if (button.name.Contains("X"))
-                    {
-                        script.Shape = "X";
-                    }
+                    script.Color = Color.blue;
                 }
+                else if (button.name.Contains("green"))
+                {
+                    script.Color = Color.green;
+                }
+                else if (button.name.Contains("red"))
+                {
+                    script.Color = Color.red;
+                }
+                button.colors = cb;
+            }
+            else if (script != null && button.name.Contains("Enemy"))
+            {
+                ColorBlock cb = button.colors;
+                cb.disabledColor = new Color(1f, 200f / 255f, 200f / 255f, 1);
+                cb.normalColor = new Color(1f, 175f / 255f, 175f / 255f, 1);
+                cb.highlightedColor = cb.normalColor;
+                cb.pressedColor = cb.normalColor;
+
+                if (button.name.Contains("blue"))
+                {
+                    cb.selectedColor = Color.blue;
+                    script.Color = Color.blue;
+                }
+                else if (button.name.Contains("green"))
+                {
+                    cb.selectedColor = Color.green;
+                    script.Color = Color.green;
+                }
+                else if (button.name.Contains("red"))
+                {
+                    cb.selectedColor = Color.red;
+                    script.Color = Color.red;
+                }
+                button.colors = cb;
+            }
+
+            if (button.name.Contains("Circle"))
+            {
+                script.Shape = "Circle";
+            }
+            else if (button.name.Contains("Lamda"))
+            {
+                script.Shape = "Lamda";
+            }
+            else if (button.name.Contains("Omega"))
+            {
+                script.Shape = "Omega";
+            }
+            else if (button.name.Contains("Plus"))
+            {
+                script.Shape = "Plus";
+            }
+            else if (button.name.Contains("Star"))
+            {
+                script.Shape = "Star";
+            }
+            else if (button.name.Contains("Trap"))
+            {
+                script.Shape = "Trap";
+            }
+            else if (button.name.Contains("Triangle"))
+            {
+                script.Shape = "Triangle";
+            }
+            else if (button.name.Contains("TripCirc"))
+            {
+                script.Shape = "TripCircle";
+            }
+            else if (button.name.Contains("X"))
+            {
+                script.Shape = "X";
             }
 
             Navigation newNav = new Navigation();

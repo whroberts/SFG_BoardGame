@@ -24,6 +24,8 @@ namespace BoardGame
 
         private bool[,] _isOccupied;
         public bool[,] IsOccupied => _isOccupied;
+
+
         private Vector2[,] _gridID;
         private Vector2[,] _gridPosition;
 
@@ -90,7 +92,7 @@ namespace BoardGame
             _enemyPiecesColor = GenerateBoard.EnemyPiecesColor;
             _enemyPiecesShape = GenerateBoard.EnemyPiecesShape;
 
-        _isOccupied = new bool[_gridID.GetLength(0), _gridID.GetLength(1)];
+            _isOccupied = new bool[_gridID.GetLength(0), _gridID.GetLength(1)];
         }
 
         public void SetCurrentButton(Button button)
@@ -102,7 +104,7 @@ namespace BoardGame
 
         public void SetBoard()
         {
-            foreach (GameObject pieces in _playerPieces)
+            foreach (GameObject pieces in _allPieces)
             {
                 GamePiece script = pieces.GetComponent<GamePiece>();
 
@@ -182,13 +184,11 @@ namespace BoardGame
         {
             yield return new WaitForSeconds(0.1f);
 
-            Debug.Log(newGridID);
-            Debug.Log(savedGridID);
-
             if (!IsOccupiedCheck(piece, newGridID))
             {
                 piece.gameObject.transform.position = _gridPosition[(int)newGridID.x, (int)newGridID.y];
                 piece._moved = true;
+                piece._cantMove = false;
                 _alllPiecesOnBoard[(int)newGridID.x, (int)newGridID.y] = piece.gameObject;
                 _alllPiecesOnBoard[(int)savedGridID.x, (int)savedGridID.y] = null;
             }
@@ -196,7 +196,9 @@ namespace BoardGame
             {
                 piece.gameObject.transform.position = _gridPosition[(int)savedGridID.x, (int)savedGridID.y];
                 piece._moved = false;
+                piece._cantMove = true;
             }
+            Attacking(piece);
             yield return new WaitForSeconds(0.1f);
         }
 
@@ -206,13 +208,30 @@ namespace BoardGame
             if (!IsOccupiedCheck(piece, savedGridID))
             {
                 piece.gameObject.transform.position = _gridPosition[(int)savedGridID.x, (int)savedGridID.y];
+                piece._cantMove = false;
             }
             else
             {
                 piece.gameObject.transform.position = _gridPosition[(int)newGridID.x, (int)newGridID.y];
+                piece._cantMove = true;
             }
-
             piece._moved = false;
+        }
+
+        public void Attacking(GamePiece piece)
+        {
+            for (int i = -1 + (int)piece.GridID.y; i <= 1 + (int)piece.GridID.y; i++)
+            {
+                for (int j = -1 + (int)piece.GridID.x; j <= 1 + (int)piece.GridID.x; j++)
+                {
+                    Debug.Log(j.ToString() + ", " + i.ToString() + ": " + _isOccupied[j, i]);
+                }
+            }
+        }
+
+        public void EqualAttacking()
+        {
+
         }
     }
 }

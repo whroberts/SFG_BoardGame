@@ -12,10 +12,11 @@ public class GamePiece : MonoBehaviour, IMoveable
     [SerializeField] public Color Color = new Color(0, 0, 0, 0);
     [SerializeField] public string Shape = "";
 
-    [HideInInspector] public bool _moved = false;
-
-    [HideInInspector] public Vector2 _savedGridID = new Vector2(0, 0);
-    [HideInInspector] public Vector2 _newGridID = new Vector2(0, 0);
+    [HideInInspector] 
+    public bool _moved = false;
+    public bool _cantMove = false;
+    public Vector2 _savedGridID = new Vector2(0, 0);
+    public Vector2 _newGridID = new Vector2(0, 0);
 
     void MovePiece(int newLocX, int newLocY)
     {
