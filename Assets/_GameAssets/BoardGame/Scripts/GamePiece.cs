@@ -30,7 +30,6 @@ public class GamePiece : MonoBehaviour, IMoveable
 
     public void MoveUp()
     {
-
         MovePiece(0, -1);
     }
 

@@ -29,7 +29,7 @@ namespace BoardGame
         private Vector2[,] _gridID;
         private Vector2[,] _gridPosition;
 
-        private GameObject[,] _alllPiecesOnBoard;
+        private GameObject[,] _allPiecesOnBoard;
         private GameObject[] _allPieces;
 
         private GameObject[] _playerPieces;
@@ -47,7 +47,7 @@ namespace BoardGame
         public Vector2[,] GridID => _gridID;
         public Vector2[,] GridPosition => _gridPosition;
 
-        public GameObject[,] AllPiecesOnBoard => _alllPiecesOnBoard;
+        public GameObject[,] AllPiecesOnBoard => _allPiecesOnBoard;
         public GameObject[] AllPieces => _allPieces;
 
         public GameObject[,] PlayerPiecesOnGrid => _playerPiecesOnGrid;
@@ -123,7 +123,7 @@ namespace BoardGame
                 }
             }
 
-            _alllPiecesOnBoard = new GameObject[BoardSizeX, BoardSizeY];
+            _allPiecesOnBoard = new GameObject[BoardSizeX, BoardSizeY];
 
             foreach (GameObject piece in _allPieces)
             {
@@ -131,7 +131,7 @@ namespace BoardGame
                 
                 if (script != null)
                 {
-                    _alllPiecesOnBoard[(int)script.GridID.x, (int)script.GridID.y] = piece;
+                    _allPiecesOnBoard[(int)script.GridID.x, (int)script.GridID.y] = piece;
                 }
             }
         }
@@ -189,16 +189,16 @@ namespace BoardGame
                 piece.gameObject.transform.position = _gridPosition[(int)newGridID.x, (int)newGridID.y];
                 piece._moved = true;
                 piece._cantMove = false;
-                _alllPiecesOnBoard[(int)newGridID.x, (int)newGridID.y] = piece.gameObject;
-                _alllPiecesOnBoard[(int)savedGridID.x, (int)savedGridID.y] = null;
+                _allPiecesOnBoard[(int)newGridID.x, (int)newGridID.y] = piece.gameObject;
+                _allPiecesOnBoard[(int)savedGridID.x, (int)savedGridID.y] = null;
             }
             else
             {
                 piece.gameObject.transform.position = _gridPosition[(int)savedGridID.x, (int)savedGridID.y];
                 piece._moved = false;
                 piece._cantMove = true;
+                Attacking(piece);
             }
-            Attacking(piece);
             yield return new WaitForSeconds(0.1f);
         }
 
@@ -224,7 +224,8 @@ namespace BoardGame
             {
                 for (int j = -1 + (int)piece.GridID.x; j <= 1 + (int)piece.GridID.x; j++)
                 {
-                    Debug.Log(j.ToString() + ", " + i.ToString() + ": " + _isOccupied[j, i]);
+                    //Debug.Log(j.ToString() + ", " + i.ToString());
+                    //Debug.Log(_allPiecesOnBoard[j,i].name);
                 }
             }
         }

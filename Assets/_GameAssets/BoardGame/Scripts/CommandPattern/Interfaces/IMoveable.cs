@@ -10,6 +10,7 @@ public interface IMoveable
     void MoveDiagonalDownLeft();
     void MoveDiagonalUpRight();
     void MoveDiagonalDownRight();
+
     void MoveJumpUp();
     void MoveJumpDown();
     void MoveLeft();

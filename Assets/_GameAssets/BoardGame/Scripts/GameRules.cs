@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameRules
 {
-    // only move while jumping without jumping
+    // only move while diagonal without jumping
 
     // jumping forward and diagonal
 
