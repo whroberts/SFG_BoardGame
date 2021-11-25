@@ -16,10 +16,14 @@ namespace BoardGame
         public event Action PressedDown = delegate { };
         public event Action PressedLeft = delegate { };
         public event Action PressedRight = delegate { };
+        
         public event Action PressedJump = delegate { };
         public event Action PressedDiagonalLeft = delegate { };
         public event Action PressedDiagonalRight = delegate { };
-
+        
+        public event Action PressedJumpDiagonalUpLeft = delegate { };
+        public event Action PressedJumpDiagonalUpRight = delegate { };
+        
 
         private void Update()
         {
@@ -34,6 +38,8 @@ namespace BoardGame
             DetectLeft();
             DetectRight();
 
+            DetectJumpDiagonalUpLeft();
+            DetectJumpDiagonalUpRight();
             DetectJump();
             DetectDiagonalLeft();
             DetectDiagonalRight();
@@ -102,6 +108,23 @@ namespace BoardGame
             }
         }
 
+        
+        private void DetectJumpDiagonalUpLeft()
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && Input.GetKeyDown(KeyCode.Q))
+            {
+                PressedJumpDiagonalUpLeft?.Invoke();
+            }
+        }
+
+        private void DetectJumpDiagonalUpRight()
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && Input.GetKeyDown(KeyCode.E))
+            {
+                PressedJumpDiagonalUpRight?.Invoke();
+            }
+        }
+
         private void DetectJump()
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -109,7 +132,8 @@ namespace BoardGame
                 PressedJump?.Invoke();
             }
         }
-
+        
+        
         private void DetectDiagonalLeft()
         {
             if (Input.GetKeyDown(KeyCode.Q))

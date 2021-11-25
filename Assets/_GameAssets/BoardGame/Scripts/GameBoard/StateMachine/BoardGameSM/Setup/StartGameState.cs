@@ -17,14 +17,14 @@ namespace BoardGame
 
         public override void Enter()
         {
-            Debug.Log("Starting Game");
+            //Debug.Log("Starting Game");
             _gamePieceCanvas.gameObject.SetActive(true);
             StartTurn();
         }
 
         public override void Exit()
         {
-            Debug.Log("Started Game");
+            //Debug.Log("Started Game");
             _startButton.gameObject.SetActive(false);
         }
 

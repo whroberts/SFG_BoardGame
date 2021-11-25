@@ -11,8 +11,9 @@ public class GamePiece : MonoBehaviour, IMoveable
     [SerializeField] public Vector2 GridID = new Vector2(0, 0);
     [SerializeField] public Color Color = new Color(0, 0, 0, 0);
     [SerializeField] public string Shape = "";
+    [SerializeField] public bool isPlayerPiece = false;
+    [SerializeField] public int numPiecesInContact = 0;
 
-    [HideInInspector] 
     public bool _moved = false;
     public bool _cantMove = false;
     public Vector2 _savedGridID = new Vector2(0, 0);
@@ -22,20 +23,17 @@ public class GamePiece : MonoBehaviour, IMoveable
     {
         if (!_moved)
         {
-            _newGridID = new Vector2(GridID.x + newLocX, GridID.y + newLocY);
+            //_newGridID = new Vector2(GridID.x + newLocX, GridID.y + newLocY);
+            Vector2 _gridMovement = new Vector2(newLocX, newLocY);
             _savedGridID = GridID;
-            StartCoroutine(BoardManager.MovePiece(this, _newGridID, _savedGridID));
+            StartCoroutine(BoardManager.MovePiece(this, _gridMovement, _savedGridID));
         }
     }
 
+    // Player Movement
     public void MoveUp()
     {
         MovePiece(0, -1);
-    }
-
-    public void MoveDown()
-    {
-        MovePiece(0, 1);
     }
 
     public void MoveDiagonalUpLeft()
@@ -48,6 +46,38 @@ public class GamePiece : MonoBehaviour, IMoveable
         MovePiece(1, -1);
     }
 
+    
+    public void MoveJumpDiagonalUpLeft()
+    {
+        if (BoardManager.JumpCheck(this, new Vector2(GridID.x - 1, GridID.y - 1)))
+        {
+            MovePiece(-2, -2);
+        }
+    }
+
+    public void MoveJumpDiagonalUpRight()
+    {
+        if (BoardManager.JumpCheck(this, new Vector2(GridID.x + 1, GridID.y - 1)))
+        {
+            MovePiece(2, -2);
+        }
+    }
+
+    public void MoveJumpUp()
+    {
+        if (BoardManager.JumpCheck(this, new Vector2(GridID.x, GridID.y-1)))
+        {
+            MovePiece(0, -2);
+        }
+    }
+    
+
+    // Enemy Movement
+    public void MoveDown()
+    {
+        MovePiece(0, 1);
+    }
+
     public void MoveDiagonalDownLeft()
     {
         MovePiece(-1, 1);
@@ -58,19 +88,14 @@ public class GamePiece : MonoBehaviour, IMoveable
         MovePiece(1, 1);
     }
 
-    public void MoveJumpUp()
-    {
-        if (BoardManager.JumpCheck(this, new Vector2(GridID.x, GridID.y-1)))
-        {
-            MovePiece(0, -2);
-        }
-    }
-
+    
     public void MoveJumpDown()
     {
         MovePiece(0, 2);
     }
+    
 
+    // not needed
     public void MoveLeft()
     {
         MovePiece(-1, 0);

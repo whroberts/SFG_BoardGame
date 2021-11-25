@@ -28,6 +28,7 @@ namespace BoardGame
         private Sprite _gridTile;
 
         private GameObject[] _allPieces;
+        List<GameObject> _allPiecesList = new List<GameObject>();
 
         private GameObject[] _enemyPieces;
         private GameObject[,] _enemyPiecesOnGrid;
@@ -46,6 +47,7 @@ namespace BoardGame
         public GameObject[,] PlayerPiecesOnGrid => _playerPiecesOnGrid;
 
         public GameObject[] AllPieces => _allPieces;
+        public List<GameObject> AllPiecesList => _allPiecesList;
 
         public GameObject[] PlayerPieces => _playerPieces;
         public Vector2[,] PlayerPiecesGridPosition => _playerPiecesGridPositions;
@@ -63,7 +65,7 @@ namespace BoardGame
 
         public override void Enter()
         {
-            Debug.Log("Creating game board...");
+            //Debug.Log("Creating game board...");
 
             SetupBoard = GetComponent<SetupBoardGameBaseState>();
 
@@ -79,7 +81,7 @@ namespace BoardGame
         public override void Exit()
         {
             BoardData?.Invoke();
-            Debug.Log("Finished creating game board");
+            //Debug.Log("Finished creating game board");
         }
 
         public void GenerateGrid(int cols, int rows)
@@ -151,6 +153,7 @@ namespace BoardGame
 
                     script.GridID = _playerPiecesGridPositions[shape, color];
                     script.BoardManager = StateMachine.BoardManager;
+                    script.isPlayerPiece = true;
                     ButtonSetup(button);
 
                     _playerPiecesOnGrid[shape, color] = gamePiece;
@@ -163,6 +166,7 @@ namespace BoardGame
                     gamePiece.transform.position = new Vector2(posX - (_boardSize.x / 2), posY + (_boardSize.y / 2));
                     _playerPieces[i] = gamePiece;
                     _allPieces[k] = gamePiece;
+                    _allPiecesList.Add(gamePiece);
                     k++;
                     i--;
                 }
@@ -204,6 +208,7 @@ namespace BoardGame
                     gamePiece.transform.position = new Vector2(posX - (_boardSize.x / 2), posY + (_boardSize.y / 2));
                     _enemyPieces[i] = gamePiece;
                     _allPieces[k] = gamePiece;
+                    _allPiecesList.Add(gamePiece);
                     k++;
                     i++;
                 }

@@ -26,7 +26,7 @@ namespace BoardGame
             // CANT change state while still in Enter() / Exit() transition!
             // DONT put ChangeState<> here.
 
-            Debug.Log("Setup: ...Entering");
+            //Debug.Log("Setup: ...Entering");
 
             BoardRules();
         }
@@ -47,7 +47,7 @@ namespace BoardGame
         
         public override void Exit()
         {
-            Debug.Log("Setup: Exiting...");
+            //Debug.Log("Setup: Exiting...");
         }
 
         private void BoardRules()

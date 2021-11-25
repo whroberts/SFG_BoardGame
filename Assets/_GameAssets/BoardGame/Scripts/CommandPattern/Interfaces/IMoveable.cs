@@ -8,11 +8,17 @@ public interface IMoveable
     void MoveDown();
     void MoveDiagonalUpLeft();
     void MoveDiagonalDownLeft();
+    
+    void MoveJumpDiagonalUpLeft();
+    void MoveJumpDiagonalUpRight();
+    
+    
     void MoveDiagonalUpRight();
     void MoveDiagonalDownRight();
-
+    
     void MoveJumpUp();
     void MoveJumpDown();
+    
     void MoveLeft();
     void MoveRight();
 

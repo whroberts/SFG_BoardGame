@@ -15,7 +15,7 @@ namespace BoardGame
 
         public override void Enter()
         {
-            Debug.Log("Selecting Piece");
+            //Debug.Log("Selecting Piece");
 
             _playerTurnCount++;
             _playerTurnTextUI.text = "Player Turn: " + _playerTurnCount.ToString();
@@ -27,7 +27,7 @@ namespace BoardGame
 
         public override void Exit()
         {
-            Debug.Log("Selected Piece");
+            //Debug.Log("Selected Piece");
         }
 
         private void ResetButtons()

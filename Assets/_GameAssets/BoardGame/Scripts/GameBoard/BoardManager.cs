@@ -30,7 +30,9 @@ namespace BoardGame
         private Vector2[,] _gridPosition;
 
         private GameObject[,] _allPiecesOnBoard;
-        private GameObject[] _allPieces;
+        //private GameObject[] _allPieces;
+
+        List<GameObject> _allPiecesList = new List<GameObject>();
 
         private GameObject[] _playerPieces;
         private GameObject[,] _playerPiecesOnGrid;
@@ -48,7 +50,7 @@ namespace BoardGame
         public Vector2[,] GridPosition => _gridPosition;
 
         public GameObject[,] AllPiecesOnBoard => _allPiecesOnBoard;
-        public GameObject[] AllPieces => _allPieces;
+        //public GameObject[] AllPieces => _allPieces;
 
         public GameObject[,] PlayerPiecesOnGrid => _playerPiecesOnGrid;
 
@@ -78,12 +80,12 @@ namespace BoardGame
             _gridID = GenerateBoard.GridID;
             _gridPosition = GenerateBoard.GridPosition;
 
-            _allPieces = GenerateBoard.AllPieces;
+            //_allPieces = GenerateBoard.AllPieces;
+            _allPiecesList = GenerateBoard.AllPiecesList;
 
             _playerPiecesGridPositions = GenerateBoard.PlayerPiecesGridPosition;
             _playerPiecesOnGrid = GenerateBoard.PlayerPiecesOnGrid;
             _playerPieces = GenerateBoard.PlayerPieces;
-            _enemyPieces = GenerateBoard.EnemyPieces;
             _playerPiecesColor = GenerateBoard.PlayerPiecesColor;
             _playerPiecesShape = GenerateBoard.PlayerPiecesShape;
             _enemyPieces = GenerateBoard.EnemyPieces;
@@ -104,7 +106,7 @@ namespace BoardGame
 
         public void SetBoard()
         {
-            foreach (GameObject pieces in _allPieces)
+            foreach (GameObject pieces in _allPiecesList)
             {
                 GamePiece script = pieces.GetComponent<GamePiece>();
 
@@ -125,10 +127,10 @@ namespace BoardGame
 
             _allPiecesOnBoard = new GameObject[BoardSizeX, BoardSizeY];
 
-            foreach (GameObject piece in _allPieces)
+            foreach (GameObject piece in _allPiecesList)
             {
                 GamePiece script = piece.GetComponent<GamePiece>();
-                
+
                 if (script != null)
                 {
                     _allPiecesOnBoard[(int)script.GridID.x, (int)script.GridID.y] = piece;
@@ -162,10 +164,9 @@ namespace BoardGame
             {
                 if (_isOccupied[(int)jumpedGridID.x, (int)jumpedGridID.y])
                 {
-                    GameObject jumpedPiece = _playerPiecesOnGrid[(int)jumpedGridID.x, (int)jumpedGridID.y];
+                    GameObject jumpedPiece = _allPiecesOnBoard[(int)jumpedGridID.x, (int)jumpedGridID.y];
                     GamePiece jumpedScript = jumpedPiece.GetComponent<GamePiece>();
 
-                    Debug.Log(jumpedScript.Shape);
 
                     if (jumpedScript.Shape == piece.Shape || jumpedScript.Color == piece.Color)
                     {
@@ -180,9 +181,12 @@ namespace BoardGame
             return false;
         }
 
-        public IEnumerator MovePiece(GamePiece piece, Vector2 newGridID, Vector2 savedGridID)
+        public IEnumerator MovePiece(GamePiece piece, Vector2 gridMovement, Vector2 savedGridID)
         {
             yield return new WaitForSeconds(0.1f);
+
+            Vector2 newGridID = new Vector2(piece.GridID.x + gridMovement.x, piece.GridID.y + gridMovement.y);
+            Vector2 jumpGridMovement = gridMovement * 2;
 
             if (!IsOccupiedCheck(piece, newGridID))
             {
@@ -191,14 +195,44 @@ namespace BoardGame
                 piece._cantMove = false;
                 _allPiecesOnBoard[(int)newGridID.x, (int)newGridID.y] = piece.gameObject;
                 _allPiecesOnBoard[(int)savedGridID.x, (int)savedGridID.y] = null;
+                Debug.Log("Succeeded On Move");
             }
             else
             {
-                piece.gameObject.transform.position = _gridPosition[(int)savedGridID.x, (int)savedGridID.y];
-                piece._moved = false;
-                piece._cantMove = true;
-                Attacking(piece);
+                Debug.Log("Failed On Move");
+                Vector2 jumpGridID = new Vector2(piece.GridID.x + jumpGridMovement.x, piece.GridID.y + jumpGridMovement.y);
+
+                if (!IsOccupiedCheck(piece, jumpGridID))
+                {
+                    if (JumpCheck(piece, newGridID))
+                    {
+                        piece.gameObject.transform.position = _gridPosition[(int)jumpGridID.x, (int)jumpGridID.y];
+                        piece._moved = true;
+                        piece._cantMove = false;
+                        _allPiecesOnBoard[(int)jumpGridID.x, (int)jumpGridID.y] = piece.gameObject;
+                        _allPiecesOnBoard[(int)savedGridID.x, (int)savedGridID.y] = null;
+                        Debug.Log("Succeeded On Jump Retry");
+                    }
+                    else
+                    {
+                        piece.gameObject.transform.position = _gridPosition[(int)savedGridID.x, (int)savedGridID.y];
+                        piece._moved = false;
+                        piece._cantMove = true;
+                        piece.GridID = piece._savedGridID;
+                        Debug.Log("Failed On Jump Retry");
+                    }
+                }
+                else
+                {
+                    piece.gameObject.transform.position = _gridPosition[(int)savedGridID.x, (int)savedGridID.y];
+                    piece._moved = false;
+                    piece._cantMove = true;
+                    piece.GridID = piece._savedGridID;
+                    Debug.Log("Failed On Jump Retry");
+                }
+                
             }
+            Attacking(piece);
             yield return new WaitForSeconds(0.1f);
         }
 
@@ -224,9 +258,43 @@ namespace BoardGame
             {
                 for (int j = -1 + (int)piece.GridID.x; j <= 1 + (int)piece.GridID.x; j++)
                 {
-                    //Debug.Log(j.ToString() + ", " + i.ToString());
-                    //Debug.Log(_allPiecesOnBoard[j,i].name);
+
+                    if (i >= 0 && i <= 8 && j >= 0 && j <= 8)
+                    {
+                        if (_allPiecesOnBoard[j, i] != null)
+                        {
+                            GamePiece script = _allPiecesOnBoard[j, i].GetComponent<GamePiece>();
+
+                            //Debug.Log("Piece Name: " + script.name + " Shape: " + script.Shape);
+
+                            if (script.isPlayerPiece != piece.isPlayerPiece)
+                            {
+                                piece.numPiecesInContact++;
+                            }
+                        }
+                    }
                 }
+            }
+
+            Debug.Log(piece.numPiecesInContact);
+        }
+
+        public void Attacked(Button piece)
+        {
+            GamePiece script = piece.GetComponent<GamePiece>();
+
+            if (script.numPiecesInContact > 1)
+            {
+                /*
+                _allPiecesOnBoard;
+                _allPieces;
+                _playerPieces;
+                _playerPiecesOnGrid;
+                _enemyPieces;
+                _enemyPiecesOnGrid;
+                */
+                _isOccupied[(int)script.GridID.x, (int)script.GridID.y] = false;
+                Destroy(piece.gameObject);
             }
         }
 
