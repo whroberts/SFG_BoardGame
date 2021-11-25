@@ -36,7 +36,7 @@ namespace BoardGame
         {
             if (moveState)
             {
-                foreach (GameObject piece in StateMachine.BoardManager.PlayerPieces)
+                foreach (GameObject piece in StateMachine.BoardManager.PlayerPieceList)
                 {
                     Button button = piece.GetComponent<Button>();
                     button.interactable = false;

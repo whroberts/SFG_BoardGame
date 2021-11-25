@@ -30,17 +30,20 @@ namespace BoardGame
         private Vector2[,] _gridPosition;
 
         private GameObject[,] _allPiecesOnBoard;
-        //private GameObject[] _allPieces;
 
         List<GameObject> _allPiecesList = new List<GameObject>();
+        List<GameObject> _destroyedPiecesList = new List<GameObject>();
+        List<GamePiece> _piecesInContact = new List<GamePiece>();
 
-        private GameObject[] _playerPieces;
+        private List<GameObject> _playerPieceList = new List<GameObject>();
+
         private GameObject[,] _playerPiecesOnGrid;
         private Vector2[,] _playerPiecesGridPositions;
         private Color[,] _playerPiecesColor;
         private String[,] _playerPiecesShape;
 
-        private GameObject[] _enemyPieces;
+        private List<GameObject> _enemyPieceList = new List<GameObject>();
+
         public GameObject[,] _enemyPiecesOnGrid;
         public Vector2[,] _enemyPiecesGridPositions;
         public Color[,] _enemyPiecesColor;
@@ -50,16 +53,19 @@ namespace BoardGame
         public Vector2[,] GridPosition => _gridPosition;
 
         public GameObject[,] AllPiecesOnBoard => _allPiecesOnBoard;
-        //public GameObject[] AllPieces => _allPieces;
+        public List<GameObject> AllPiecesList => _allPiecesList;
+        public List<GamePiece> PiecesInContact => _piecesInContact;
 
         public GameObject[,] PlayerPiecesOnGrid => _playerPiecesOnGrid;
 
-        public GameObject[] PlayerPieces => _playerPieces;
+        public List<GameObject> PlayerPieceList => _playerPieceList;
+
         public Vector2[,] PlayerPiecesGridPosition => _playerPiecesGridPositions;
         public Color[,] PlayerPiecesColor => _playerPiecesColor;
         public String[,] PlayerPiecesShape => _playerPiecesShape;
 
-        public GameObject[] EnemyPieces => _enemyPieces;
+        public List<GameObject> EnemyPieceList => _enemyPieceList;
+
         public GameObject[,] EnemyPiecesOnGrid => _enemyPiecesOnGrid;
         public Vector2[,] EnemyPiecesGridPositions => _enemyPiecesGridPositions;
         public Color[,] EnemyPiecesColor => _enemyPiecesColor;
@@ -85,10 +91,14 @@ namespace BoardGame
 
             _playerPiecesGridPositions = GenerateBoard.PlayerPiecesGridPosition;
             _playerPiecesOnGrid = GenerateBoard.PlayerPiecesOnGrid;
-            _playerPieces = GenerateBoard.PlayerPieces;
+
+            _playerPieceList = GenerateBoard.PlayerPiecesList;
+
             _playerPiecesColor = GenerateBoard.PlayerPiecesColor;
             _playerPiecesShape = GenerateBoard.PlayerPiecesShape;
-            _enemyPieces = GenerateBoard.EnemyPieces;
+
+            _enemyPieceList = GenerateBoard.EnemyPiecesList;
+
             _enemyPiecesOnGrid = GenerateBoard.EnemyPiecesOnGrid;
             _enemyPiecesGridPositions = GenerateBoard.EnemyPiecesGridPositions;
             _enemyPiecesColor = GenerateBoard.EnemyPiecesColor;
@@ -254,48 +264,96 @@ namespace BoardGame
 
         public void Attacking(GamePiece piece)
         {
+            int contactedPieces = 0;
+
             for (int i = -1 + (int)piece.GridID.y; i <= 1 + (int)piece.GridID.y; i++)
             {
                 for (int j = -1 + (int)piece.GridID.x; j <= 1 + (int)piece.GridID.x; j++)
                 {
-
                     if (i >= 0 && i <= 8 && j >= 0 && j <= 8)
                     {
                         if (_allPiecesOnBoard[j, i] != null)
                         {
-                            GamePiece script = _allPiecesOnBoard[j, i].GetComponent<GamePiece>();
+                            GamePiece oppPiece = _allPiecesOnBoard[j, i].GetComponent<GamePiece>();
+                            _piecesInContact.Add(_allPiecesOnBoard[j, i].GetComponent<GamePiece>());
 
-                            //Debug.Log("Piece Name: " + script.name + " Shape: " + script.Shape);
-
-                            if (script.isPlayerPiece != piece.isPlayerPiece)
+                            if (oppPiece.isPlayerPiece != piece.isPlayerPiece)
                             {
-                                piece.numPiecesInContact++;
+                                contactedPieces++;
+                                Defending(oppPiece);
                             }
                         }
                     }
                 }
             }
-
-            Debug.Log(piece.numPiecesInContact);
+            piece.numPiecesInContact = contactedPieces;
         }
 
-        public void Attacked(Button piece)
+        public void Defending(GamePiece piece)
         {
-            GamePiece script = piece.GetComponent<GamePiece>();
+            int contactedPieces = 0;
 
-            if (script.numPiecesInContact > 1)
+            for (int i = -1 + (int)piece.GridID.y; i <= 1 + (int)piece.GridID.y; i++)
             {
-                /*
-                _allPiecesOnBoard;
-                _allPieces;
-                _playerPieces;
-                _playerPiecesOnGrid;
-                _enemyPieces;
-                _enemyPiecesOnGrid;
-                */
-                _isOccupied[(int)script.GridID.x, (int)script.GridID.y] = false;
-                Destroy(piece.gameObject);
+                for (int j = -1 + (int)piece.GridID.x; j <= 1 + (int)piece.GridID.x; j++)
+                {
+                    if (i >= 0 && i <= 8 && j >= 0 && j <= 8)
+                    {
+                        if (_allPiecesOnBoard[j, i] != null)
+                        {
+                            GamePiece oppPiece = _allPiecesOnBoard[j, i].GetComponent<GamePiece>();
+
+
+                            if (oppPiece.isPlayerPiece != piece.isPlayerPiece)
+                            {
+                                contactedPieces++;
+                            }
+                        }
+                    }
+                }
             }
+            piece.numPiecesInContact = contactedPieces;
+        }
+
+        public void Attacked()
+        {
+            foreach (GamePiece piece in _piecesInContact)
+            {
+
+                if (piece.numPiecesInContact > 1)
+                {
+                    /*
+                    _allPiecesOnBoard;
+                    _playerPiecesOnGrid;
+                    _enemyPiecesOnGrid;
+                    */
+                    _allPiecesList.Remove(piece.gameObject);
+
+                    if (_playerPieceList.Contains(piece.gameObject))
+                    {
+                        _playerPieceList.Remove(piece.gameObject);
+                    }
+
+                    if (_enemyPieceList.Contains(piece.gameObject))
+                    {
+                        _enemyPieceList.Remove(piece.gameObject);
+                    }
+
+                    _destroyedPiecesList.Add(piece.gameObject);
+                    _allPiecesOnBoard[(int)piece.GridID.x, (int)piece.GridID.y] = null;
+                    _isOccupied[(int)piece.GridID.x, (int)piece.GridID.y] = false;
+
+                    Button button = piece.GetComponent<Button>();
+                    ColorBlock cb = button.colors;
+                    cb.disabledColor = new Color(75f / 255f, 75f / 255f, 75f / 255f, 255f);
+                    
+                    button.colors = cb;
+                    button.interactable = false;
+
+                    //Destroy(piece.gameObject);
+                }
+            }
+            _piecesInContact.Clear();
         }
 
         public void EqualAttacking()

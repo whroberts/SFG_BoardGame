@@ -21,7 +21,7 @@ namespace BoardGame
             Debug.Log("Exiting Board Game Transition State");
             StateMachine.BoardManager.SetCurrentButton(null);
             
-            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieces)
+            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieceList)
             {
                 Button button = piece.GetComponent<Button>();
                 button.onClick.RemoveAllListeners();

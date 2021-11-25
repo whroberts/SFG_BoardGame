@@ -21,6 +21,7 @@ namespace BoardGame
             _chosenPieceText.text = StateMachine.BoardManager.PlayerCurrentButton.name;
             _pieceControlsText.gameObject.SetActive(true);
 
+
             StateMachine.Input.PressedUp += MovePieceUp;
             StateMachine.Input.PressedJumpDiagonalUpLeft += MovePieceJumpDiagonalUpLeft;
             StateMachine.Input.PressedJumpDiagonalUpRight += MovePieceJumpDiagonalUpRight;
@@ -89,13 +90,14 @@ namespace BoardGame
         public void ConfirmPiece()
         {
             if (StateMachine.BoardManager.PlayerCurrentButton.GetComponent<GamePiece>()._moved) {
-                foreach (GameObject pieces in StateMachine.BoardManager.PlayerPieces)
+                foreach (GameObject pieces in StateMachine.BoardManager.PlayerPieceList)
                 {
                     Button button = pieces.GetComponent<Button>();
                     button.interactable = false;
                 }
                 StateMachine.BoardManager.PlayerCurrentButton.GetComponent<GamePiece>()._moved = false;
-                StateMachine.BoardManager.Attacked(StateMachine.BoardManager.PlayerCurrentButton);
+                StateMachine.BoardManager.Attacked();
+
                 StateMachine.ChangeState<EnemySelectingPieceState>();
             }
         }
@@ -109,7 +111,7 @@ namespace BoardGame
             }
             else
             {
-                foreach (GameObject pieces in StateMachine.BoardManager.PlayerPieces)
+                foreach (GameObject pieces in StateMachine.BoardManager.PlayerPieceList)
                 {
                     Button button = pieces.GetComponent<Button>();
                     button.interactable = false;

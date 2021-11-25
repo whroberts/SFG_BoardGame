@@ -34,7 +34,7 @@ namespace BoardGame
 
         private void ResetButtons()
         {
-            foreach (GameObject piece in StateMachine.BoardManager.EnemyPieces)
+            foreach (GameObject piece in StateMachine.BoardManager.EnemyPieceList)
             {
                 Button newButton = piece.GetComponent<Button>();
 
@@ -49,7 +49,7 @@ namespace BoardGame
         private IEnumerator SelectButton()
         {
 
-            Button button = StateMachine.BoardManager.EnemyPieces[Random.Range(0, StateMachine.BoardManager.EnemyPieces.Length)].GetComponent<Button>();
+            Button button = StateMachine.BoardManager.EnemyPieceList[Random.Range(0, StateMachine.BoardManager.EnemyPieceList.Count)].GetComponent<Button>();
 
             StateMachine.BoardManager.SetCurrentButton(button);
             button.Select();

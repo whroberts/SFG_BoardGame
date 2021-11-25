@@ -30,13 +30,14 @@ namespace BoardGame
         private GameObject[] _allPieces;
         List<GameObject> _allPiecesList = new List<GameObject>();
 
-        private GameObject[] _enemyPieces;
+        private List<GameObject> _enemyPieceList = new List<GameObject>();
         private GameObject[,] _enemyPiecesOnGrid;
         private Vector2[,] _enemyPiecesGridPositions;
         private Color[,] _enemyPiecesColor;
         private String[,] _enemyPiecesShape;
 
-        private GameObject[] _playerPieces;
+        private List<GameObject> _playerPieceList = new List<GameObject>();
+
         private GameObject[,] _playerPiecesOnGrid;
         private Vector2[,] _playerPiecesGridPositions;
         private Color[,] _playerPiecesColor;
@@ -49,12 +50,12 @@ namespace BoardGame
         public GameObject[] AllPieces => _allPieces;
         public List<GameObject> AllPiecesList => _allPiecesList;
 
-        public GameObject[] PlayerPieces => _playerPieces;
+        public List<GameObject> PlayerPiecesList => _playerPieceList;
         public Vector2[,] PlayerPiecesGridPosition => _playerPiecesGridPositions;
         public Color[,] PlayerPiecesColor => _playerPiecesColor;
         public String[,] PlayerPiecesShape => _playerPiecesShape;
 
-        public GameObject[] EnemyPieces => _enemyPieces;
+        public List<GameObject> EnemyPiecesList => _enemyPieceList;
         public GameObject[,] EnemyPiecesOnGrid => _enemyPiecesOnGrid;
         public Vector2[,] EnemyPiecesGridPositions => _enemyPiecesGridPositions;
         public Color[,] EnemyPiecesColor => _enemyPiecesColor;
@@ -119,8 +120,6 @@ namespace BoardGame
         {
             int i = _gamePieceSprites.Length - 1;
             int k = 0;
-            _playerPieces = new GameObject[shapes * colors];
-            _enemyPieces = new GameObject[shapes * colors];
             _allPieces = new GameObject[_gamePieceSprites.Length * 2];
 
             _playerPiecesOnGrid = new GameObject[(int)_gridSize.x + 1, (int)_gridSize.y + 1];
@@ -164,7 +163,7 @@ namespace BoardGame
                     img.sprite = _gamePieceSprites[i];
 
                     gamePiece.transform.position = new Vector2(posX - (_boardSize.x / 2), posY + (_boardSize.y / 2));
-                    _playerPieces[i] = gamePiece;
+                    _playerPieceList.Add(gamePiece);
                     _allPieces[k] = gamePiece;
                     _allPiecesList.Add(gamePiece);
                     k++;
@@ -206,7 +205,7 @@ namespace BoardGame
                     img.sprite = _gamePieceSprites[i];
 
                     gamePiece.transform.position = new Vector2(posX - (_boardSize.x / 2), posY + (_boardSize.y / 2));
-                    _enemyPieces[i] = gamePiece;
+                    _enemyPieceList.Add(gamePiece);
                     _allPieces[k] = gamePiece;
                     _allPiecesList.Add(gamePiece);
                     k++;

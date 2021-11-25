@@ -67,7 +67,7 @@ namespace BoardGame
             if (StateMachine.BoardManager.EnemyCurrentButton.GetComponent<GamePiece>()._moved && 
                 !StateMachine.BoardManager.EnemyCurrentButton.GetComponent<GamePiece>()._cantMove)
             {
-                foreach (GameObject pieces in StateMachine.BoardManager.EnemyPieces)
+                foreach (GameObject pieces in StateMachine.BoardManager.EnemyPieceList)
                 {
                     Button button = pieces.GetComponent<Button>();
                     GamePiece script = pieces.GetComponent<GamePiece>();
@@ -77,6 +77,7 @@ namespace BoardGame
                     
                 }
                 StateMachine.BoardManager.EnemyCurrentButton.GetComponent<GamePiece>()._moved = false;
+                StateMachine.BoardManager.Attacked();
                 StateMachine.ChangeState<PlayerSelectingPieceState>();
             }
         }
@@ -90,7 +91,7 @@ namespace BoardGame
             }
             else
             {
-                foreach (GameObject pieces in StateMachine.BoardManager.PlayerPieces)
+                foreach (GameObject pieces in StateMachine.BoardManager.PlayerPieceList)
                 {
                     Button button = pieces.GetComponent<Button>();
                     button.interactable = false;

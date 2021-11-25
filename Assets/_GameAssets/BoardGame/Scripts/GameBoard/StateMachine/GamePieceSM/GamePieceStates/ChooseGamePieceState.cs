@@ -48,7 +48,7 @@ namespace BoardGame
 
         void AddListeners()
         {
-            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieces)
+            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieceList)
             {
                 Button button = piece.GetComponent<Button>();
                 button.onClick.AddListener(() => OnClickButton(button));
@@ -60,7 +60,7 @@ namespace BoardGame
             StateMachine.BoardManager.SetCurrentButton(null);
             Navigation newNav = new Navigation();
 
-            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieces)
+            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieceList)
             {
                 Button newButton = piece.GetComponent<Button>();
                 newButton.interactable = true;
@@ -81,7 +81,7 @@ namespace BoardGame
         {
             StateMachine.BoardManager.SetCurrentButton(button);
 
-            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieces)
+            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieceList)
             {
                 if (piece.name != button.name)
                 {
@@ -108,7 +108,7 @@ namespace BoardGame
         {
             StateMachine.BoardManager.SetCurrentButton(null);
 
-            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieces)
+            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieceList)
             {
                 Button newButton = piece.GetComponent<Button>();
                 newButton.interactable = true;

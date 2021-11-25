@@ -32,7 +32,7 @@ namespace BoardGame
 
         private void ResetButtons()
         {
-            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieces)
+            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieceList)
             {
                 Button newButton = piece.GetComponent<Button>();
 
@@ -41,13 +41,14 @@ namespace BoardGame
                 newButton.navigation = newNav;
 
                 newButton.interactable = true;
+                
                 newButton.onClick.RemoveAllListeners();
             }
         }
 
         private void AddListeners()
         {
-            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieces)
+            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieceList)
             {
                 Button button = piece.GetComponent<Button>();
                 button.onClick.AddListener(() => SelectButton(button));
@@ -58,7 +59,7 @@ namespace BoardGame
         {
             StateMachine.BoardManager.SetCurrentButton(button);
 
-            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieces)
+            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieceList)
             {
                 if (piece.name != button.name)
                 {

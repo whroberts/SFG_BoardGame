@@ -44,7 +44,7 @@ namespace BoardGame
 
         private void OnClickSetCurrentButton()
         {
-            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieces)
+            foreach (GameObject piece in StateMachine.BoardManager.PlayerPieceList)
             {
                 Button newButton = piece.GetComponent<Button>();
 
