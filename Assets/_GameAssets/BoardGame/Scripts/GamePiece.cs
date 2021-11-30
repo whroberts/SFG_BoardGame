@@ -16,6 +16,7 @@ public class GamePiece : MonoBehaviour, IMoveable
 
     public bool _moved = false;
     public bool _cantMove = false;
+    public bool _taken = false;
     public Vector2 _savedGridID = new Vector2(0, 0);
     public Vector2 _newGridID = new Vector2(0, 0);
 

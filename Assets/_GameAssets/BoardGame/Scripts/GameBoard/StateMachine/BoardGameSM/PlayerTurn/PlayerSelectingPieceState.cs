@@ -10,6 +10,7 @@ namespace BoardGame
     public class PlayerSelectingPieceState : BoardGameState
     {
         [SerializeField] TMP_Text _playerTurnTextUI = null;
+        [SerializeField] TMP_Text _playerPiecesTaken = null;
 
         private int _playerTurnCount = 0;
 
@@ -19,10 +20,19 @@ namespace BoardGame
 
             _playerTurnCount++;
             _playerTurnTextUI.text = "Player Turn: " + _playerTurnCount.ToString();
+            _playerPiecesTaken.text = "Pieces Taken: " + StateMachine.BoardManager.PiecesTakenByPlayer;
 
             StateMachine.BoardManager.SetCurrentButton(null);
             ResetButtons();
             AddListeners();
+        }
+
+        public override void Tick()
+        {
+            if (StateMachine.BoardManager.EnemyPieceList.Count <= 0)
+            {
+                StateMachine.ChangeState<WinBoardGameState>();
+            }
         }
 
         public override void Exit()

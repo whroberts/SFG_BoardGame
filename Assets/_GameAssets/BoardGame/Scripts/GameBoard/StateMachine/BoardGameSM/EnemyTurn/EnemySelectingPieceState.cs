@@ -10,6 +10,7 @@ namespace BoardGame
     {
         [SerializeField] TMP_Text _enemyThinkingTextUI = null;
         [SerializeField] TMP_Text _enemyTurnsText = null;
+        [SerializeField] TMP_Text _enemyPiecesTaken = null;
 
         private int _enemyTurns = 0;
         [SerializeField] float _pauseDuration = 1.5f;
@@ -20,10 +21,19 @@ namespace BoardGame
             _enemyThinkingTextUI.gameObject.SetActive(true);
             _enemyTurns++;
             _enemyTurnsText.text = "Enemy Turn: " + _enemyTurns.ToString();
+            _enemyPiecesTaken.text = "Pieces Taken: " + StateMachine.BoardManager.PiecesTakenByEnemy;
 
             StateMachine.BoardManager.SetCurrentButton(null);
             ResetButtons();
             StartCoroutine(SelectButton());
+        }
+
+        public override void Tick()
+        {
+            if (StateMachine.BoardManager.PlayerPieceList.Count <= 0)
+            {
+                StateMachine.ChangeState<LoseBoardGameState>();
+            }
         }
 
         public override void Exit()

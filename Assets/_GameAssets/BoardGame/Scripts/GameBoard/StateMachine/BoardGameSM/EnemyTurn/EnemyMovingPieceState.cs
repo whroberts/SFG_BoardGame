@@ -15,7 +15,21 @@ namespace BoardGame
         public override void Enter()
         {
             Debug.Log("Enemy Moving Piece");
-            MovePieceDown();
+
+            int move = Random.Range(0, 2);
+
+            if (move == 0)
+            {
+                MovePieceDown();
+            }
+            else if (move == 1)
+            {
+                MovePieceDiagonalDownLeft();
+            }
+            else if (move == 2)
+            {
+                MovePieceDiagonalDownRight();
+            }
         }
 
         public override void Tick()
@@ -36,16 +50,16 @@ namespace BoardGame
             _commandStack.ExecuteCommand(moveDownCommand);
         }
 
-        public void MovePieceDiagonalLeft()
+        public void MovePieceDiagonalDownLeft()
         {
-            ICommand moveDiagonalLeft = new MoveDiagonalUpLeftCommand(StateMachine.BoardManager.PlayerCurrentButton);
-            _commandStack.ExecuteCommand(moveDiagonalLeft);
+            ICommand moveDiagonalDownLeft = new MoveDiagonalDownLeftCommand(StateMachine.BoardManager.PlayerCurrentButton);
+            _commandStack.ExecuteCommand(moveDiagonalDownLeft);
         }
 
-        public void MovePieceDiagonalRight()
+        public void MovePieceDiagonalDownRight()
         {
-            ICommand moveDiagonalRight = new MoveDiagonalUpRightCommand(StateMachine.BoardManager.PlayerCurrentButton);
-            _commandStack.ExecuteCommand(moveDiagonalRight);
+            ICommand moveDiagonalDownRight = new MoveDiagonalDownRightCommand(StateMachine.BoardManager.PlayerCurrentButton);
+            _commandStack.ExecuteCommand(moveDiagonalDownRight);
         }
 
         public void MovePieceJump()

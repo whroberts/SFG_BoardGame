@@ -35,6 +35,12 @@ namespace BoardGame
         List<GameObject> _destroyedPiecesList = new List<GameObject>();
         List<GamePiece> _piecesInContact = new List<GamePiece>();
 
+        private int _piecesTakenByEnemy = 0;
+        public int PiecesTakenByEnemy => _piecesTakenByEnemy;
+
+        private int _piecesTakenByPlayer = 0;
+        public int PiecesTakenByPlayer => _piecesTakenByPlayer;
+
         private List<GameObject> _playerPieceList = new List<GameObject>();
 
         private GameObject[,] _playerPiecesOnGrid;
@@ -152,17 +158,25 @@ namespace BoardGame
         {
             if (piece != null)
             {
-                if (_isOccupied[(int)newGridID.x, (int)newGridID.y])
+                if (newGridID.x >= 0 && newGridID.x <= 8 && newGridID.y >= 0 & newGridID.y <= 8)
                 {
-                    SetBoard();
-                    return true;
+                    if (_isOccupied[(int)newGridID.x, (int)newGridID.y])
+                    {
+                        SetBoard();
+                        return true;
+                    }
+                    else
+                    {
+                        _isOccupied[(int)piece.GridID.x, (int)piece.GridID.y] = false;
+                        piece.GridID = _gridID[(int)newGridID.x, (int)newGridID.y];
+                        _isOccupied[(int)newGridID.x, (int)newGridID.y] = true;
+                        SetBoard();
+                    }
+
                 }
                 else
                 {
-                    _isOccupied[(int)piece.GridID.x, (int)piece.GridID.y] = false;
-                    piece.GridID = _gridID[(int)newGridID.x, (int)newGridID.y];
-                    _isOccupied[(int)newGridID.x, (int)newGridID.y] = true;
-                    SetBoard();
+                    return true;
                 }
             }
             return false;
@@ -253,6 +267,9 @@ namespace BoardGame
             {
                 piece.gameObject.transform.position = _gridPosition[(int)savedGridID.x, (int)savedGridID.y];
                 piece._cantMove = false;
+                piece._moved = false;
+                piece.GridID = piece._savedGridID;
+                piece.numPiecesInContact = 0;
             }
             else
             {
@@ -329,28 +346,38 @@ namespace BoardGame
                     */
                     _allPiecesList.Remove(piece.gameObject);
 
-                    if (_playerPieceList.Contains(piece.gameObject))
-                    {
-                        _playerPieceList.Remove(piece.gameObject);
-                    }
-
-                    if (_enemyPieceList.Contains(piece.gameObject))
-                    {
-                        _enemyPieceList.Remove(piece.gameObject);
-                    }
-
                     _destroyedPiecesList.Add(piece.gameObject);
                     _allPiecesOnBoard[(int)piece.GridID.x, (int)piece.GridID.y] = null;
                     _isOccupied[(int)piece.GridID.x, (int)piece.GridID.y] = false;
 
                     Button button = piece.GetComponent<Button>();
+                    /*
                     ColorBlock cb = button.colors;
                     cb.disabledColor = new Color(75f / 255f, 75f / 255f, 75f / 255f, 255f);
-                    
                     button.colors = cb;
+                    */
                     button.interactable = false;
 
-                    //Destroy(piece.gameObject);
+
+                    if (_playerPieceList.Contains(piece.gameObject))
+                    {
+                        _playerPieceList.Remove(piece.gameObject);
+                        _piecesTakenByEnemy++;
+
+                        Vector2 playerPiecesTakenLoc = new Vector2(1500, 950);
+                        piece.gameObject.transform.position = playerPiecesTakenLoc;
+                        
+                    }
+
+                    if (_enemyPieceList.Contains(piece.gameObject))
+                    {
+                        _enemyPieceList.Remove(piece.gameObject);
+                        _piecesTakenByPlayer++;
+
+                        Vector2 enemyPiecesTakenLoc = new Vector2(1500, 100);
+                        piece.gameObject.transform.position = enemyPiecesTakenLoc;
+                        
+                    }
                 }
             }
             _piecesInContact.Clear();
