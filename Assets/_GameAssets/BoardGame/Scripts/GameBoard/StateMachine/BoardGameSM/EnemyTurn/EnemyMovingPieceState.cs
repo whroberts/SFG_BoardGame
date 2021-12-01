@@ -88,6 +88,7 @@ namespace BoardGame
                     script._cantMove = false;
                     script._moved = false;
                     button.interactable = false;
+                    script._audioSource.Play();
                     
                 }
                 StateMachine.BoardManager.EnemyCurrentButton.GetComponent<GamePiece>()._moved = false;

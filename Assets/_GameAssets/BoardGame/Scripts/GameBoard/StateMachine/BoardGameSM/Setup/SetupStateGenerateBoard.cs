@@ -64,14 +64,18 @@ namespace BoardGame
 
         float _waitTime = 0.01f;
 
+        private Sprite[] _gridTiles;
+
         public override void Enter()
         {
             //Debug.Log("Creating game board...");
 
             SetupBoard = GetComponent<SetupBoardGameBaseState>();
 
-            _gamePieceSprites = (Sprite[])Resources.LoadAll<Sprite>("GamePieces");
-            _gridTile = (Sprite)Resources.Load<Sprite>("GridSprite");
+            _gamePieceSprites = (Sprite[])Resources.LoadAll<Sprite>("GamePieces_v2");
+            //_gridTile = (Sprite)Resources.Load<Sprite>("GridSprite");
+
+            _gridTiles = (Sprite[])Resources.LoadAll<Sprite>("GridSprites");
 
             SetupBoard._createdBoard = false;
 
@@ -87,6 +91,8 @@ namespace BoardGame
 
         public void GenerateGrid(int cols, int rows)
         {
+            bool dark = true;
+
             _gridSize = new Vector2(cols - 1, rows - 1);
             _boardSize = (_tileSize * _gridSize);
 
@@ -108,7 +114,16 @@ namespace BoardGame
                     GridScript script = grid.GetComponent<GridScript>();
                     script.GridPosition = new Vector2(col, row);
 
-                    img.sprite = _gridTile;
+                    if (dark)
+                    {
+                        img.sprite = _gridTiles[0];
+                        dark = false;
+                    }
+                    else if (!dark)
+                    {
+                        img.sprite = _gridTiles[1];
+                        dark = true;
+                    }
 
                     grid.transform.position = new Vector2(posX - (_boardSize.x / 2), posY + (_boardSize.y / 2));
                     _gridPosition[col, row] = new Vector2(posX - (_boardSize.x / 2), posY + (_boardSize.y / 2));
@@ -138,17 +153,18 @@ namespace BoardGame
             {
                 for (int shape = shapes-1; shape >= 0; shape--)
                 {
-                    yield return new WaitForSeconds(_waitTime);
+                    yield return new WaitForSeconds(UnityEngine.Random.Range(0.25f, 0.5f));
 
                     _playerPiecesGridPositions[shape, color] = new Vector2(shape, color);
 
                     float posX = shape * _tileSize - _gamePiecesPanel.rect.x;
                     float posY = color * -_tileSize - _gamePiecesPanel.rect.y;
 
-                    GameObject gamePiece = new GameObject("Player: " + _gamePieceSprites[i].name, typeof(Image), typeof(Button), typeof(GamePiece));
+                    GameObject gamePiece = new GameObject("Player: " + _gamePieceSprites[i].name, typeof(Image), typeof(Button), typeof(GamePiece), typeof(AudioSource));
                     Image img = gamePiece.GetComponent<Image>();
                     Button button = gamePiece.GetComponent<Button>();
                     GamePiece script = gamePiece.GetComponent<GamePiece>();
+                    AudioSource audioSource = gamePiece.GetComponent<AudioSource>();
 
                     script.GridID = _playerPiecesGridPositions[shape, color];
                     script.BoardManager = StateMachine.BoardManager;
@@ -161,6 +177,11 @@ namespace BoardGame
 
                     gamePiece.gameObject.transform.SetParent(_gamePiecesPanel);
                     img.sprite = _gamePieceSprites[i];
+
+                    audioSource.clip = script.PlacementSound;
+                    audioSource.volume = 0.5f;
+                    audioSource.Play();
+                    audioSource.loop = false;
 
                     gamePiece.transform.position = new Vector2(posX - (_boardSize.x / 2), posY + (_boardSize.y / 2));
                     _playerPieceList.Add(gamePiece);
@@ -181,17 +202,18 @@ namespace BoardGame
             {
                 for (int shape = 0; shape < shapes; shape++)
                 {
-                    yield return new WaitForSeconds(_waitTime);
+                    yield return new WaitForSeconds(UnityEngine.Random.Range(0.15f, 0.35f));
 
                     _enemyPiecesGridPositions[shape, color] = new Vector2(shape, color);
 
                     float posX = shape * _tileSize - _gamePiecesPanel.rect.x;
                     float posY = color * -_tileSize - _gamePiecesPanel.rect.y;
 
-                    GameObject gamePiece = new GameObject("Enemy: "+_gamePieceSprites[i].name, typeof(Image), typeof(Button), typeof(GamePiece));
+                    GameObject gamePiece = new GameObject("Enemy: "+_gamePieceSprites[i].name, typeof(Image), typeof(Button), typeof(GamePiece), typeof(AudioSource));
                     Image img = gamePiece.GetComponent<Image>();
                     Button button = gamePiece.GetComponent<Button>();
                     GamePiece script = gamePiece.GetComponent<GamePiece>();
+                    AudioSource audioSource = gamePiece.GetComponent<AudioSource>();
 
                     script.GridID = _enemyPiecesGridPositions[shape, color];
                     script.BoardManager = StateMachine.BoardManager;
@@ -203,6 +225,11 @@ namespace BoardGame
 
                     gamePiece.gameObject.transform.SetParent(_gamePiecesPanel);
                     img.sprite = _gamePieceSprites[i];
+
+                    audioSource.clip = script.PlacementSound;
+                    audioSource.volume = 0.5f;
+                    audioSource.Play();
+                    audioSource.loop = false;
 
                     gamePiece.transform.position = new Vector2(posX - (_boardSize.x / 2), posY + (_boardSize.y / 2));
                     _enemyPieceList.Add(gamePiece);
@@ -225,12 +252,23 @@ namespace BoardGame
 
             if (script != null && button.name.Contains("Player"))
             {
+                //old color block
+                /*
                 ColorBlock cb = button.colors;
                 cb.normalColor = new Color(175f / 255f, 1f, 175f / 255f, 1f);
                 cb.selectedColor = new Color(0f, 1f, 0f, 1f);
                 cb.highlightedColor = cb.selectedColor;
                 cb.pressedColor = cb.selectedColor;
                 cb.disabledColor = new Color(200f / 255f, 1f, 200f / 255f, 1f);
+                */
+
+                //new color block
+                ColorBlock cb = button.colors;
+                cb.normalColor = Color.white;
+                cb.selectedColor = new Color(0f, 1f, 0f, 1f);
+                cb.highlightedColor = cb.selectedColor;
+                cb.pressedColor = cb.selectedColor;
+                cb.disabledColor = new Color(30f / 255f, 30f / 255f, 30f / 255f, 1f);
 
                 if (button.name.Contains("blue"))
                 {
@@ -248,6 +286,16 @@ namespace BoardGame
             }
             else if (script != null && button.name.Contains("Enemy"))
             {
+                //old color block
+                /*
+                ColorBlock cb = button.colors;
+                cb.disabledColor = new Color(1f, 200f / 255f, 200f / 255f, 1);
+                cb.normalColor = new Color(1f, 175f / 255f, 175f / 255f, 1);
+                cb.highlightedColor = cb.normalColor;
+                cb.pressedColor = cb.normalColor;
+                */
+
+                //new color block
                 ColorBlock cb = button.colors;
                 cb.disabledColor = new Color(1f, 200f / 255f, 200f / 255f, 1);
                 cb.normalColor = new Color(1f, 175f / 255f, 175f / 255f, 1);

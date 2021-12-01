@@ -1,0 +1,810 @@
+fileFormatVersion: 2
+guid: 111c7439972c5ff4c80381515844fe77
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5463035382172150263
+    second: redStar
+  - first:
+      213: 2135995225022477551
+    second: redTriangle
+  - first:
+      213: 5516938809166304422
+    second: redCircle
+  - first:
+      213: 7896598691275629076
+    second: redPlus
+  - first:
+      213: 7814894422485454139
+    second: redX
+  - first:
+      213: -2205906740543967647
+    second: greenStar
+  - first:
+      213: -1994824508150510804
+    second: greenTriangle
+  - first:
+      213: 5756352554475334053
+    second: greenCircle
+  - first:
+      213: 506114993291419963
+    second: greenPlus
+  - first:
+      213: -6303616877205156122
+    second: greenX
+  - first:
+      213: -3025817146908523981
+    second: blueStar
+  - first:
+      213: 3928953910354947004
+    second: blueTriangle
+  - first:
+      213: -4013841217532306938
+    second: blueCircle
+  - first:
+      213: 9032172787670349767
+    second: bluePlus
+  - first:
+      213: -271794214610534339
+    second: blueX
+  - first:
+      213: -7446750872712888197
+    second: redTrap
+  - first:
+      213: 1296542558639940382
+    second: redOmega
+  - first:
+      213: -2837505999044279607
+    second: redLamda
+  - first:
+      213: 7477956090626156097
+    second: redTripCirc
+  - first:
+      213: -4338674501635150784
+    second: GamePieces_v2_19
+  - first:
+      213: -2676926644343560462
+    second: GamePieces_v2_20
+  - first:
+      213: -3814085857547745607
+    second: blueTrap
+  - first:
+      213: 21291702956667521
+    second: blueOmega
+  - first:
+      213: 2496533024507227847
+    second: blueLamda
+  - first:
+      213: -6700367365263802372
+    second: blueTripCirc
+  - first:
+      213: -4745041408398285633
+    second: GamePieces_v2_25
+  - first:
+      213: -2900095543724373954
+    second: GamePieces_v2_26
+  - first:
+      213: 2390997452978062562
+    second: greenTrap
+  - first:
+      213: -7516196981112026521
+    second: greenOmega
+  - first:
+      213: -5910884435321927597
+    second: greenLamda
+  - first:
+      213: -6443034530672082283
+    second: greenTripCirc
+  - first:
+      213: -3039031723157134518
+    second: GamePieces_v2_31
+  - first:
+      213: 34219426030998176
+    second: GamePieces_v2_32
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 2
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 5
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: redStar
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 2886
+        width: 375
+        height: 355
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9061d3aa3466f24b0800000000000000
+      internalID: -5463035382172150263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redTriangle
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 2898
+        width: 352
+        height: 319
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe43565175494ad10800000000000000
+      internalID: 2135995225022477551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redCircle
+      rect:
+        serializedVersion: 2
+        x: 1111
+        y: 2897
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a49cefed9a109c40800000000000000
+      internalID: 5516938809166304422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redPlus
+      rect:
+        serializedVersion: 2
+        x: 1553
+        y: 2885
+        width: 352
+        height: 352
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4126c47fbaa569d60800000000000000
+      internalID: 7896598691275629076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redX
+      rect:
+        serializedVersion: 2
+        x: 2020
+        y: 2861
+        width: 400
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3d4d697215147c60800000000000000
+      internalID: 7814894422485454139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greenStar
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 2410
+        width: 375
+        height: 355
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16eac32c18b0361e0800000000000000
+      internalID: -2205906740543967647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greenTriangle
+      rect:
+        serializedVersion: 2
+        x: 633
+        y: 2422
+        width: 352
+        height: 319
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2b027acda5f054e0800000000000000
+      internalID: -1994824508150510804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greenCircle
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 2421
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a92a6b562ca2ef40800000000000000
+      internalID: 5756352554475334053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greenPlus
+      rect:
+        serializedVersion: 2
+        x: 1542
+        y: 2409
+        width: 352
+        height: 352
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3162a6a7e4160700800000000000000
+      internalID: 506114993291419963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greenX
+      rect:
+        serializedVersion: 2
+        x: 2009
+        y: 2385
+        width: 400
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ee870229dd0588a0800000000000000
+      internalID: -6303616877205156122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blueStar
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 1962
+        width: 375
+        height: 355
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3324b3b16532206d0800000000000000
+      internalID: -3025817146908523981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blueTriangle
+      rect:
+        serializedVersion: 2
+        x: 633
+        y: 1974
+        width: 352
+        height: 319
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbba695d3c2768630800000000000000
+      internalID: 3928953910354947004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blueCircle
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 1973
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60a5a2ccda8fb48c0800000000000000
+      internalID: -4013841217532306938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bluePlus
+      rect:
+        serializedVersion: 2
+        x: 1542
+        y: 1961
+        width: 352
+        height: 352
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c77a0fbb49b85d70800000000000000
+      internalID: 9032172787670349767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blueX
+      rect:
+        serializedVersion: 2
+        x: 2009
+        y: 1937
+        width: 400
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3002221a946a3cf0800000000000000
+      internalID: -271794214610534339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redTrap
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 1581
+        width: 404
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b704e1d2983d7a890800000000000000
+      internalID: -7446750872712888197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redOmega
+      rect:
+        serializedVersion: 2
+        x: 641
+        y: 1513
+        width: 334
+        height: 334
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e13e8e3769e3ef110800000000000000
+      internalID: 1296542558639940382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redLamda
+      rect:
+        serializedVersion: 2
+        x: 1132
+        y: 1486
+        width: 286
+        height: 361
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c20deed3572f98d0800000000000000
+      internalID: -2837505999044279607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redTripCirc
+      rect:
+        serializedVersion: 2
+        x: 1594
+        y: 1579
+        width: 300
+        height: 230
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 146adbbc17907c760800000000000000
+      internalID: 7477956090626156097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blueTrap
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 1108
+        width: 404
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b68606de15a11bc0800000000000000
+      internalID: -3814085857547745607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blueOmega
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 1053
+        width: 334
+        height: 334
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1823567e0b4ab4000800000000000000
+      internalID: 21291702956667521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blueLamda
+      rect:
+        serializedVersion: 2
+        x: 1132
+        y: 1039
+        width: 286
+        height: 361
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7cee8cffe8775a220800000000000000
+      internalID: 2496533024507227847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blueTripCirc
+      rect:
+        serializedVersion: 2
+        x: 1594
+        y: 1058
+        width: 300
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cffb4d0a1638303a0800000000000000
+      internalID: -6700367365263802372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greenTrap
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 635
+        width: 404
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e40f93f3878e2120800000000000000
+      internalID: 2390997452978062562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greenOmega
+      rect:
+        serializedVersion: 2
+        x: 632
+        y: 593
+        width: 334
+        height: 334
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76a44fe0baa11b790800000000000000
+      internalID: -7516196981112026521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greenLamda
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 575
+        width: 286
+        height: 361
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 358404c5ce158fda0800000000000000
+      internalID: -5910884435321927597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greenTripCirc
+      rect:
+        serializedVersion: 2
+        x: 1598
+        y: 588
+        width: 300
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59207b32b3eb596a0800000000000000
+      internalID: -6443034530672082283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: ca61d85ed8dd7dc4facfe2ef20416920
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -94,6 +94,7 @@ namespace BoardGame
                 {
                     Button button = pieces.GetComponent<Button>();
                     button.interactable = false;
+                    GamePiece piece = pieces.GetComponent<GamePiece>();
                 }
                 StateMachine.BoardManager.PlayerCurrentButton.GetComponent<GamePiece>()._moved = false;
                 StartCoroutine(StateMachine.BoardManager.Attacked());

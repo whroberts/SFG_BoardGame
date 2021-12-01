@@ -8,6 +8,13 @@ public class GamePiece : MonoBehaviour, IMoveable
 {
     [SerializeField] public StateMachine StateMachine = null;
     [SerializeField] public BoardManager BoardManager = null;
+
+    [Header("Audio")]
+    [SerializeField] public AudioClip PlacementSound = null;
+    [SerializeField] public AudioClip MovementSound1 = null;
+    [SerializeField] public AudioClip MovementSound2 = null;
+    [SerializeField] public AudioClip MovementSound3 = null;
+
     [SerializeField] public Vector2 GridID = new Vector2(0, 0);
     [SerializeField] public Color Color = new Color(0, 0, 0, 0);
     [SerializeField] public string Shape = "";
@@ -19,6 +26,27 @@ public class GamePiece : MonoBehaviour, IMoveable
     public bool _taken = false;
     public Vector2 _savedGridID = new Vector2(0, 0);
     public Vector2 _newGridID = new Vector2(0, 0);
+
+    AudioManager _audioManager;
+    public AudioSource _audioSource;
+
+    private void Awake()
+    {
+        _audioManager = FindObjectOfType<AudioManager>();
+        PlacementSound = _audioManager.PlacementSound;
+        MovementSound1 = _audioManager.MovementSound1;
+        MovementSound2 = _audioManager.MovementSound2;
+        MovementSound3 = _audioManager.MovementSound3;
+    }
+
+    private void Start()
+    {
+        //set up audio source
+        _audioSource = GetComponent<AudioSource>();
+        _audioSource.playOnAwake = false;
+        _audioSource.loop = false;
+
+    }
 
     void MovePiece(int newLocX, int newLocY)
     {
@@ -35,16 +63,70 @@ public class GamePiece : MonoBehaviour, IMoveable
     public void MoveUp()
     {
         MovePiece(0, -1);
+
+        int movementSoundChoice = Random.Range(0, 3);
+
+        if (movementSoundChoice == 0)
+        {
+            _audioSource.volume = 0.5f;
+            _audioSource.clip = MovementSound1;
+        }
+        else if (movementSoundChoice == 1)
+        {
+            _audioSource.volume = 0.5f;
+            _audioSource.clip = MovementSound2;
+        }
+        else if (movementSoundChoice == 2)
+        {
+            _audioSource.volume = 0.5f;
+            _audioSource.clip = MovementSound3;
+        }
     }
 
     public void MoveDiagonalUpLeft()
     {
         MovePiece(-1, -1);
+
+        int movementSoundChoice = Random.Range(0, 3);
+
+        if (movementSoundChoice == 0)
+        {
+            _audioSource.volume = 0.5f;
+            _audioSource.clip = MovementSound1;
+        }
+        else if (movementSoundChoice == 1)
+        {
+            _audioSource.volume = 0.5f;
+            _audioSource.clip = MovementSound2;
+        }
+        else if (movementSoundChoice == 2)
+        {
+            _audioSource.volume = 0.5f;
+            _audioSource.clip = MovementSound3;
+        }
     }
 
     public void MoveDiagonalUpRight()
     {
         MovePiece(1, -1);
+
+        int movementSoundChoice = Random.Range(0, 3);
+
+        if (movementSoundChoice == 0)
+        {
+            _audioSource.volume = 0.5f;
+            _audioSource.clip = MovementSound1;
+        }
+        else if (movementSoundChoice == 1)
+        {
+            _audioSource.volume = 0.5f;
+            _audioSource.clip = MovementSound2;
+        }
+        else if (movementSoundChoice == 2)
+        {
+            _audioSource.volume = 0.5f;
+            _audioSource.clip = MovementSound3;
+        }
     }
 
     
