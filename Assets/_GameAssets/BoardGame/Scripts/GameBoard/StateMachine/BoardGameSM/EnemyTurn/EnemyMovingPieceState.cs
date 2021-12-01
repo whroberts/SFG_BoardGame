@@ -91,7 +91,7 @@ namespace BoardGame
                     
                 }
                 StateMachine.BoardManager.EnemyCurrentButton.GetComponent<GamePiece>()._moved = false;
-                StateMachine.BoardManager.Attacked();
+                StartCoroutine(StateMachine.BoardManager.Attacked());
                 StateMachine.ChangeState<PlayerSelectingPieceState>();
             }
         }

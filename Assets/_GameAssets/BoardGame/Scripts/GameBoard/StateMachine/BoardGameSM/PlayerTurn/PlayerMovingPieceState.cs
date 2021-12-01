@@ -96,7 +96,7 @@ namespace BoardGame
                     button.interactable = false;
                 }
                 StateMachine.BoardManager.PlayerCurrentButton.GetComponent<GamePiece>()._moved = false;
-                StateMachine.BoardManager.Attacked();
+                StartCoroutine(StateMachine.BoardManager.Attacked());
 
                 StateMachine.ChangeState<EnemySelectingPieceState>();
             }

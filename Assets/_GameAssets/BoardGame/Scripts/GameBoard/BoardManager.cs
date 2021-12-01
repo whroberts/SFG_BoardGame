@@ -135,6 +135,8 @@ namespace BoardGame
                             if (_gridID[j, i] == script.GridID)
                             {
                                 _isOccupied[j, i] = true;
+                                
+                                //Debug.Log("X: " + j + ", Y: " + i + " " + _isOccupied[j, i]);
                             }
                         }
                     }
@@ -167,41 +169,84 @@ namespace BoardGame
                     }
                     else
                     {
+                        /*
                         _isOccupied[(int)piece.GridID.x, (int)piece.GridID.y] = false;
+                        Debug.Log("Set this grid to unoccupied: " + "X: " + piece.GridID.x + " Y: " + piece.GridID.y);
+
                         piece.GridID = _gridID[(int)newGridID.x, (int)newGridID.y];
+
                         _isOccupied[(int)newGridID.x, (int)newGridID.y] = true;
+                        Debug.Log("Set this grid to occupied: " + "X: " + newGridID.x + " Y: " + newGridID.y);
+                        */
+
                         SetBoard();
+                        return false;
                     }
 
                 }
                 else
                 {
+                    Debug.Log("Occupied Check Out of Bounds, return occupied");
                     return true;
                 }
             }
-            return false;
+            else
+            {
+                Debug.Log("Occupied Check no piece");
+                return true;
+            }
         }
 
         public bool JumpCheck(GamePiece piece, Vector2 jumpedGridID)
         {
             if (piece != null)
             {
-                if (_isOccupied[(int)jumpedGridID.x, (int)jumpedGridID.y])
+                if (jumpedGridID.x >= 0 && jumpedGridID.x <= 8 && jumpedGridID.y >= 0 & jumpedGridID.y <= 8)
                 {
-                    GameObject jumpedPiece = _allPiecesOnBoard[(int)jumpedGridID.x, (int)jumpedGridID.y];
-                    GamePiece jumpedScript = jumpedPiece.GetComponent<GamePiece>();
-
-
-                    if (jumpedScript.Shape == piece.Shape || jumpedScript.Color == piece.Color)
+                    if (_isOccupied[(int)jumpedGridID.x, (int)jumpedGridID.y])
                     {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
+                        GameObject jumpedPiece = _allPiecesOnBoard[(int)jumpedGridID.x, (int)jumpedGridID.y];
+
+                        if (jumpedPiece != null)
+                        {
+                            GamePiece jumpedScript = jumpedPiece.GetComponent<GamePiece>();
+
+                            if (jumpedScript.Shape == piece.Shape || jumpedScript.Color == piece.Color)
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                if (jumpedScript.Shape != piece.Shape)
+                                {
+                                    Debug.Log("Shape");
+                                }
+                                if (jumpedScript.Color != piece.Color)
+                                {
+                                    Debug.Log("Color");
+                                }
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("Jump check failed no piece to jump");
+                            return false;
+                        }
                     }
                 }
+                else
+                {
+                    Debug.Log("Out of Bounds, return can't jump");
+                    return false;
+                }
             }
+            else
+            {
+                Debug.Log("Jump Check no piece");
+                return false;
+            }
+            Debug.Log("Made it to end of Jump Check");
             return false;
         }
 
@@ -211,6 +256,9 @@ namespace BoardGame
 
             Vector2 newGridID = new Vector2(piece.GridID.x + gridMovement.x, piece.GridID.y + gridMovement.y);
             Vector2 jumpGridMovement = gridMovement * 2;
+            Debug.Log(gridMovement);
+
+            piece._newGridID = newGridID;
 
             if (!IsOccupiedCheck(piece, newGridID))
             {
@@ -219,12 +267,34 @@ namespace BoardGame
                 piece._cantMove = false;
                 _allPiecesOnBoard[(int)newGridID.x, (int)newGridID.y] = piece.gameObject;
                 _allPiecesOnBoard[(int)savedGridID.x, (int)savedGridID.y] = null;
+
+                _isOccupied[(int)piece.GridID.x, (int)piece.GridID.y] = false;
+                Debug.Log("Set this grid to unoccupied: " + "X: " + piece.GridID.x + " Y: " + piece.GridID.y);
+
+                piece.GridID = _gridID[(int)newGridID.x, (int)newGridID.y];
+
+                _isOccupied[(int)newGridID.x, (int)newGridID.y] = true;
+                Debug.Log("Set this grid to occupied: " + "X: " + newGridID.x + " Y: " + newGridID.y);
+
                 Debug.Log("Succeeded On Move");
             }
             else
             {
                 Debug.Log("Failed On Move");
+                Debug.Log("Place tried to Move To: " + newGridID);
+                if (newGridID.x >= 0 && newGridID.x <= 8 && newGridID.y >= 0 & newGridID.y <= 8)
+                {
+                    Debug.Log("Is Place Occupied: " + _isOccupied[(int)newGridID.x, (int)newGridID.y]);
+                }
                 Vector2 jumpGridID = new Vector2(piece.GridID.x + jumpGridMovement.x, piece.GridID.y + jumpGridMovement.y);
+                Debug.Log("Spot to Jump To: " + jumpGridID);
+
+                if (jumpGridID.x >= 0 && jumpGridID.x <= 8 && jumpGridID.y >= 0 & jumpGridID.y <= 8)
+                {
+                    Debug.Log("Is Place Occupied: " + _isOccupied[(int)jumpGridID.x, (int)jumpGridID.y]);
+                }
+
+                piece._newGridID = jumpGridID;
 
                 if (!IsOccupiedCheck(piece, jumpGridID))
                 {
@@ -235,6 +305,15 @@ namespace BoardGame
                         piece._cantMove = false;
                         _allPiecesOnBoard[(int)jumpGridID.x, (int)jumpGridID.y] = piece.gameObject;
                         _allPiecesOnBoard[(int)savedGridID.x, (int)savedGridID.y] = null;
+
+                        _isOccupied[(int)piece.GridID.x, (int)piece.GridID.y] = false;
+                        Debug.Log("Set this grid to unoccupied: " + "X: " + piece.GridID.x + " Y: " + piece.GridID.y);
+
+                        piece.GridID = _gridID[(int)jumpGridID.x, (int)jumpGridID.y];
+
+                        _isOccupied[(int)jumpGridID.x, (int)jumpGridID.y] = true;
+                        Debug.Log("Set this grid to occupied: " + "X: " + jumpGridID.x + " Y: " + jumpGridID.y);
+
                         Debug.Log("Succeeded On Jump Retry");
                     }
                     else
@@ -243,7 +322,8 @@ namespace BoardGame
                         piece._moved = false;
                         piece._cantMove = true;
                         piece.GridID = piece._savedGridID;
-                        Debug.Log("Failed On Jump Retry");
+
+                        Debug.Log("Failed On Jump Retry on jump check");
                     }
                 }
                 else
@@ -252,7 +332,7 @@ namespace BoardGame
                     piece._moved = false;
                     piece._cantMove = true;
                     piece.GridID = piece._savedGridID;
-                    Debug.Log("Failed On Jump Retry");
+                    Debug.Log("Failed On Jump Retry on occupied check");
                 }
                 
             }
@@ -270,6 +350,15 @@ namespace BoardGame
                 piece._moved = false;
                 piece.GridID = piece._savedGridID;
                 piece.numPiecesInContact = 0;
+
+                _isOccupied[(int)newGridID.x, (int)newGridID.y] = false;
+                Debug.Log("Set this grid to unoccupied: " + "X: " + newGridID.x + " Y: " + newGridID.y);
+
+                piece.GridID = _gridID[(int)savedGridID.x, (int)savedGridID.y];
+
+                _isOccupied[(int)savedGridID.x, (int)savedGridID.y] = true;
+                Debug.Log("Set this grid to occupied: " + "X: " + savedGridID.x + " Y: " + savedGridID.y);
+
             }
             else
             {
@@ -332,8 +421,10 @@ namespace BoardGame
             piece.numPiecesInContact = contactedPieces;
         }
 
-        public void Attacked()
+        public IEnumerator Attacked()
         {
+            yield return new WaitForSeconds(0.1f);
+
             foreach (GamePiece piece in _piecesInContact)
             {
 
@@ -363,8 +454,8 @@ namespace BoardGame
                     {
                         _playerPieceList.Remove(piece.gameObject);
                         _piecesTakenByEnemy++;
-
-                        Vector2 playerPiecesTakenLoc = new Vector2(1500, 950);
+                        yield return new WaitForSeconds(0.2f);
+                        Vector2 playerPiecesTakenLoc = new Vector2(1500 + (_piecesTakenByEnemy * 15), 950);
                         piece.gameObject.transform.position = playerPiecesTakenLoc;
                         
                     }
@@ -373,14 +464,15 @@ namespace BoardGame
                     {
                         _enemyPieceList.Remove(piece.gameObject);
                         _piecesTakenByPlayer++;
-
-                        Vector2 enemyPiecesTakenLoc = new Vector2(1500, 100);
+                        yield return new WaitForSeconds(0.2f);
+                        Vector2 enemyPiecesTakenLoc = new Vector2(1500 + (_piecesTakenByPlayer * 15), 100);
                         piece.gameObject.transform.position = enemyPiecesTakenLoc;
                         
                     }
                 }
             }
             _piecesInContact.Clear();
+            yield return new WaitForSeconds(0.1f);
         }
 
         public void EqualAttacking()

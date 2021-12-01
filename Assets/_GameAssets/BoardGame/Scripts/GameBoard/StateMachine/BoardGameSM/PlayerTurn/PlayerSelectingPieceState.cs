@@ -9,17 +9,17 @@ namespace BoardGame
 {
     public class PlayerSelectingPieceState : BoardGameState
     {
-        [SerializeField] TMP_Text _playerTurnTextUI = null;
+        //[SerializeField] TMP_Text _playerTurnTextUI = null;
         [SerializeField] TMP_Text _playerPiecesTaken = null;
 
-        private int _playerTurnCount = 0;
+        //private int _playerTurnCount = 0;
 
         public override void Enter()
         {
             //Debug.Log("Selecting Piece");
 
-            _playerTurnCount++;
-            _playerTurnTextUI.text = "Player Turn: " + _playerTurnCount.ToString();
+            //_playerTurnCount++;
+            //_playerTurnTextUI.text = "Player Turn: " + _playerTurnCount.ToString();
             _playerPiecesTaken.text = "Pieces Taken: " + StateMachine.BoardManager.PiecesTakenByPlayer;
 
             StateMachine.BoardManager.SetCurrentButton(null);
