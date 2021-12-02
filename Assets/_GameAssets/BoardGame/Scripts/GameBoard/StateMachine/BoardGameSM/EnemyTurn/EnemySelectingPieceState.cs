@@ -8,19 +8,13 @@ namespace BoardGame
 {
     public class EnemySelectingPieceState : BoardGameState
     {
-        //[SerializeField] TMP_Text _enemyThinkingTextUI = null;
-        //[SerializeField] TMP_Text _enemyTurnsText = null;
         [SerializeField] TMP_Text _enemyPiecesTaken = null;
-
-        //private int _enemyTurns = 0;
         [SerializeField] float _pauseDuration = 1.5f;
 
         public override void Enter()
         {
             Debug.Log("Enemy Selecting Piece");
-            //_enemyThinkingTextUI.gameObject.SetActive(true);
-            //_enemyTurns++;
-            //_enemyTurnsText.text = "Enemy Turn: " + _enemyTurns.ToString();
+
             _enemyPiecesTaken.text = "Pieces Taken: " + StateMachine.BoardManager.PiecesTakenByEnemy;
 
             StateMachine.BoardManager.SetCurrentButton(null);
@@ -38,7 +32,6 @@ namespace BoardGame
 
         public override void Exit()
         {
-            //_enemyThinkingTextUI.gameObject.SetActive(false);
             Debug.Log("Enemy Selected Piece");
         }
 

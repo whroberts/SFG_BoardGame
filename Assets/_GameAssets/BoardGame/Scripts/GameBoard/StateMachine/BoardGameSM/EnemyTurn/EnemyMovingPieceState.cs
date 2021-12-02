@@ -8,11 +8,14 @@ namespace BoardGame
 {
     public class EnemyMovingPieceState : BoardGameState
     {
+        [SerializeField] TMP_Text _chosenPieceText = null;
+
         CommandStack _commandStack = new CommandStack();
 
         public override void Enter()
         {
             Debug.Log("Enemy Moving Piece");
+            _chosenPieceText.text = StateMachine.BoardManager.EnemyCurrentButton.name;
 
             int move = Random.Range(0, 2);
 
@@ -38,6 +41,7 @@ namespace BoardGame
 
         public override void Exit()
         {
+            _chosenPieceText.text = "None";
             Debug.Log("Enemy Moved Piece");
         }
 
