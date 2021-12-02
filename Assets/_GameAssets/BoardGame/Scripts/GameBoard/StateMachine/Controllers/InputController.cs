@@ -23,26 +23,31 @@ namespace BoardGame
         
         public event Action PressedJumpDiagonalUpLeft = delegate { };
         public event Action PressedJumpDiagonalUpRight = delegate { };
+
+        public bool AllowPlayerInputs = false;
         
 
         private void Update()
         {
-            DetectConfirm();
-            DetectCancel();
+            if (AllowPlayerInputs)
+            {
+                DetectConfirm();
+                DetectCancel();
 
-            DetectLeftClick();
-            DetectRightClick();
+                DetectLeftClick();
+                DetectRightClick();
 
-            DetectUp();
-            DetectDown();
-            DetectLeft();
-            DetectRight();
+                DetectUp();
+                DetectDown();
+                DetectLeft();
+                DetectRight();
 
-            DetectJumpDiagonalUpLeft();
-            DetectJumpDiagonalUpRight();
-            DetectJump();
-            DetectDiagonalLeft();
-            DetectDiagonalRight();
+                DetectJumpDiagonalUpLeft();
+                DetectJumpDiagonalUpRight();
+                DetectJump();
+                DetectDiagonalLeft();
+                DetectDiagonalRight();
+            }
         }
 
         private void DetectConfirm()

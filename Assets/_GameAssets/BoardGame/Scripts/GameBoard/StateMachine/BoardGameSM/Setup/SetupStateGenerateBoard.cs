@@ -153,7 +153,7 @@ namespace BoardGame
             {
                 for (int shape = shapes-1; shape >= 0; shape--)
                 {
-                    //yield return new WaitForSeconds(UnityEngine.Random.Range(0.25f, 0.5f));
+                    yield return new WaitForSeconds(UnityEngine.Random.Range(0.15f, 0.35f));
 
                     _playerPiecesGridPositions[shape, color] = new Vector2(shape, color);
 
@@ -202,7 +202,7 @@ namespace BoardGame
             {
                 for (int shape = 0; shape < shapes; shape++)
                 {
-                    //yield return new WaitForSeconds(UnityEngine.Random.Range(0.15f, 0.35f));
+                    yield return new WaitForSeconds(UnityEngine.Random.Range(0.1f, 0.3f));
 
                     _enemyPiecesGridPositions[shape, color] = new Vector2(shape, color);
 

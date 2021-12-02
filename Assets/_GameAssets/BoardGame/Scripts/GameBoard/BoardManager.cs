@@ -481,12 +481,7 @@ namespace BoardGame
                 }
             }
             _piecesInContact.Clear();
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        public void EqualAttacking()
-        {
-
+            yield return new WaitForSeconds(0.5f);
         }
     }
 }

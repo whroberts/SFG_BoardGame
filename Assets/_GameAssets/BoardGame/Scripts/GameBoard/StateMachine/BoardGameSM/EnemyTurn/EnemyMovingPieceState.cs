@@ -90,8 +90,17 @@ namespace BoardGame
                 StateMachine.BoardManager.EnemyCurrentButton.GetComponent<GamePiece>()._moved = false;
                 StartCoroutine(StateMachine.BoardManager.Attacked());
                 StateMachine.BoardManager.EnemyCurrentButton.GetComponent<GamePiece>()._audioSource.Play();
-                StateMachine.ChangeState<PlayerSelectingPieceState>();
+
+                //StateMachine.ChangeState<PlayerSelectingPieceState>();
+                StartCoroutine(DelayForPlayerChange());
             }
+        }
+
+        private IEnumerator DelayForPlayerChange()
+        {
+            yield return new WaitForSeconds(0.75f);
+            StateMachine.Input.AllowPlayerInputs = true;
+            StateMachine.ChangeState<PlayerSelectingPieceState>();
         }
 
         public void UndoPiece()

@@ -55,6 +55,7 @@ namespace BoardGame
                 newButton.interactable = true;
             }
             _startButton.gameObject.SetActive(true);
+            StateMachine.Input.AllowPlayerInputs = true;
             StateMachine.ChangeState<PlayerSelectingPieceState>();
         }
 
