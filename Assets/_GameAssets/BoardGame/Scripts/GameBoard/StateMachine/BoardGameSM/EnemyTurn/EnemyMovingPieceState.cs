@@ -17,7 +17,7 @@ namespace BoardGame
             Debug.Log("Enemy Moving Piece");
             _chosenPieceText.text = StateMachine.BoardManager.EnemyCurrentButton.name;
 
-            int move = Random.Range(0, 2);
+            int move = Random.Range(0, 3);
 
             if (move == 0)
             {
@@ -82,6 +82,7 @@ namespace BoardGame
             if (StateMachine.BoardManager.EnemyCurrentButton.GetComponent<GamePiece>()._moved && 
                 !StateMachine.BoardManager.EnemyCurrentButton.GetComponent<GamePiece>()._cantMove)
             {
+                /*
                 foreach (GameObject pieces in StateMachine.BoardManager.EnemyPieceList)
                 {
                     Button button = pieces.GetComponent<Button>();
@@ -91,6 +92,10 @@ namespace BoardGame
                     button.interactable = false;
                     
                 }
+                */
+
+                StartCoroutine(DelayOnFoundValidMovement());
+
                 StateMachine.BoardManager.EnemyCurrentButton.GetComponent<GamePiece>()._moved = false;
                 StartCoroutine(StateMachine.BoardManager.Attacked());
                 StateMachine.BoardManager.EnemyCurrentButton.GetComponent<GamePiece>()._audioSource.Play();
@@ -100,9 +105,25 @@ namespace BoardGame
             }
         }
 
+        private IEnumerator DelayOnFoundValidMovement()
+        {
+            yield return new WaitForSeconds(1f);
+            foreach (GameObject pieces in StateMachine.BoardManager.EnemyPieceList)
+            {
+                Button button = pieces.GetComponent<Button>();
+                GamePiece script = pieces.GetComponent<GamePiece>();
+                script._cantMove = false;
+                script._moved = false;
+                button.interactable = false;
+
+            }
+
+            yield return new WaitForSeconds(1f);
+        }
+
         private IEnumerator DelayForPlayerChange()
         {
-            yield return new WaitForSeconds(0.75f);
+            yield return new WaitForSeconds(1.25f);
             StateMachine.Input.AllowPlayerInputs = true;
             StateMachine.ChangeState<PlayerSelectingPieceState>();
         }

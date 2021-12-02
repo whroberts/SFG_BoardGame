@@ -9,11 +9,16 @@ namespace BoardGame
     {
         bool _changedScene = false;
 
+        AudioManager _audioManager;
+
         public override void Enter()
         {
             Debug.Log("Entering Lose State");
             SceneManager.LoadScene(3);
             _changedScene = true;
+
+            _audioManager = FindObjectOfType<AudioManager>();
+            StartCoroutine(_audioManager.PlayLoseSound());
         }
 
         public override void Tick()

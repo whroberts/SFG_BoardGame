@@ -81,9 +81,14 @@ namespace BoardGame
         public Color[,] EnemyPiecesColor => _enemyPiecesColor;
         public String[,] EnemyPiecesShape => _enemyPiecesShape;
 
+        AudioManager _audioManager;
+        AudioSource _managerSource;
+
         private void OnEnable()
         {
             SetupStateGenerateBoard.BoardData += GetData;
+            _audioManager = FindObjectOfType<AudioManager>();
+            _managerSource = _audioManager.GetComponent<AudioSource>();
         }
 
         private void GetData()
@@ -464,7 +469,11 @@ namespace BoardGame
                             _playerPiecesCaptureLoc.position.y + UnityEngine.Random.Range(-100f, 50f));
                         piece.gameObject.transform.SetParent(_playerPiecesCaptureLoc);
                         piece.gameObject.transform.position = playerPiecesTakenLoc;
-                        
+
+                        AudioSource audioSource = piece.GetComponent<AudioSource>();
+                        audioSource.clip = _audioManager.PlayerPieceTakenSound;
+                        audioSource.Play();
+
                     }
 
                     if (_enemyPieceList.Contains(piece.gameObject))
@@ -476,7 +485,11 @@ namespace BoardGame
                             _enemyPiecesCaptureLoc.position.y + UnityEngine.Random.Range(-100f, 50f));
                         piece.gameObject.transform.SetParent(_enemyPiecesCaptureLoc);
                         piece.gameObject.transform.position = enemyPiecesTakenLoc;
-                        
+
+                        AudioSource audioSource = piece.GetComponent<AudioSource>();
+                        audioSource.clip = _audioManager.EnemyPieceTakenSound;
+                        audioSource.Play();
+
                     }
                 }
             }

@@ -145,3 +145,7 @@ MonoBehaviour:
   MovementSound1: {fileID: 8300000, guid: f4ca8871b16138942a2a58545bfc3080, type: 3}
   MovementSound2: {fileID: 8300000, guid: 9bf0ff4ec46659d47ac46e6ac8f8e5e5, type: 3}
   MovementSound3: {fileID: 8300000, guid: d8b17da11cdd6994b8801c48aebfe599, type: 3}
+  WinSound: {fileID: 8300000, guid: 92f6467c49eea4b43b434486b5c5c2bf, type: 3}
+  LoseSound: {fileID: 8300000, guid: a0f42375f70919945ab3b102e8ae99d6, type: 3}
+  PlayerPieceTakenSound: {fileID: 8300000, guid: bdb0f3fd6fd4e3e4c8a143f3637d0256, type: 3}
+  EnemyPieceTakenSound: {fileID: 8300000, guid: 5be1e8dd857d6e243bc27c1b6c9983ba, type: 3}
