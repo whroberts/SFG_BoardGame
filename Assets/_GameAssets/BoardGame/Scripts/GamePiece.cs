@@ -45,6 +45,7 @@ public class GamePiece : MonoBehaviour, IMoveable
         _audioSource = GetComponent<AudioSource>();
         _audioSource.playOnAwake = false;
         _audioSource.loop = false;
+        _audioSource.volume = 0.25f;
 
     }
 

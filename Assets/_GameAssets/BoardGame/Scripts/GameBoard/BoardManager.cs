@@ -466,7 +466,7 @@ namespace BoardGame
                         yield return new WaitForSeconds(0.2f);
                         //Vector2 playerPiecesTakenLoc = new Vector2(1500 + (_piecesTakenByEnemy * 15), 950);
                         Vector2 playerPiecesTakenLoc = new Vector2(_playerPiecesCaptureLoc.position.x + UnityEngine.Random.Range(-135f, 135f),
-                            _playerPiecesCaptureLoc.position.y + UnityEngine.Random.Range(-100f, 50f));
+                            _playerPiecesCaptureLoc.position.y + UnityEngine.Random.Range(-125f, 25f));
                         piece.gameObject.transform.SetParent(_playerPiecesCaptureLoc);
                         piece.gameObject.transform.position = playerPiecesTakenLoc;
 
@@ -482,7 +482,7 @@ namespace BoardGame
                         _piecesTakenByPlayer++;
                         yield return new WaitForSeconds(0.2f);
                         Vector2 enemyPiecesTakenLoc = new Vector2(_enemyPiecesCaptureLoc.position.x + UnityEngine.Random.Range(-135f, 135f),
-                            _enemyPiecesCaptureLoc.position.y + UnityEngine.Random.Range(-100f, 50f));
+                            _enemyPiecesCaptureLoc.position.y + UnityEngine.Random.Range(-125f, 25f));
                         piece.gameObject.transform.SetParent(_enemyPiecesCaptureLoc);
                         piece.gameObject.transform.position = enemyPiecesTakenLoc;
 
