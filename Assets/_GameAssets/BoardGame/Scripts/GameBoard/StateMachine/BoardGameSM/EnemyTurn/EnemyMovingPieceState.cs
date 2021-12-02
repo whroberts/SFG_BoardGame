@@ -8,8 +8,6 @@ namespace BoardGame
 {
     public class EnemyMovingPieceState : BoardGameState
     {
-        [SerializeField] TMP_Text _enemyThinkingTextUI = null;
-
         CommandStack _commandStack = new CommandStack();
 
         public override void Enter()
@@ -40,7 +38,6 @@ namespace BoardGame
 
         public override void Exit()
         {
-            _enemyThinkingTextUI.gameObject.SetActive(false);
             Debug.Log("Enemy Moved Piece");
         }
 
@@ -88,11 +85,11 @@ namespace BoardGame
                     script._cantMove = false;
                     script._moved = false;
                     button.interactable = false;
-                    script._audioSource.Play();
                     
                 }
                 StateMachine.BoardManager.EnemyCurrentButton.GetComponent<GamePiece>()._moved = false;
                 StartCoroutine(StateMachine.BoardManager.Attacked());
+                StateMachine.BoardManager.EnemyCurrentButton.GetComponent<GamePiece>()._audioSource.Play();
                 StateMachine.ChangeState<PlayerSelectingPieceState>();
             }
         }

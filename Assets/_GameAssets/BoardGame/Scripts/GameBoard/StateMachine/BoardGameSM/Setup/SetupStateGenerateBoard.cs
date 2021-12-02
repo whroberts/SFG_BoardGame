@@ -72,7 +72,7 @@ namespace BoardGame
 
             SetupBoard = GetComponent<SetupBoardGameBaseState>();
 
-            _gamePieceSprites = (Sprite[])Resources.LoadAll<Sprite>("GamePieces_v2");
+            _gamePieceSprites = (Sprite[])Resources.LoadAll<Sprite>("GamePieces_v3");
             //_gridTile = (Sprite)Resources.Load<Sprite>("GridSprite");
 
             _gridTiles = (Sprite[])Resources.LoadAll<Sprite>("GridSprites");
@@ -153,7 +153,7 @@ namespace BoardGame
             {
                 for (int shape = shapes-1; shape >= 0; shape--)
                 {
-                    yield return new WaitForSeconds(UnityEngine.Random.Range(0.25f, 0.5f));
+                    //yield return new WaitForSeconds(UnityEngine.Random.Range(0.25f, 0.5f));
 
                     _playerPiecesGridPositions[shape, color] = new Vector2(shape, color);
 
@@ -202,7 +202,7 @@ namespace BoardGame
             {
                 for (int shape = 0; shape < shapes; shape++)
                 {
-                    yield return new WaitForSeconds(UnityEngine.Random.Range(0.15f, 0.35f));
+                    //yield return new WaitForSeconds(UnityEngine.Random.Range(0.15f, 0.35f));
 
                     _enemyPiecesGridPositions[shape, color] = new Vector2(shape, color);
 
@@ -264,22 +264,30 @@ namespace BoardGame
 
                 //new color block
                 ColorBlock cb = button.colors;
-                cb.normalColor = Color.white;
-                cb.selectedColor = new Color(0f, 1f, 0f, 1f);
-                cb.highlightedColor = cb.selectedColor;
-                cb.pressedColor = cb.selectedColor;
-                cb.disabledColor = new Color(30f / 255f, 30f / 255f, 30f / 255f, 1f);
+                cb.disabledColor = new Color(200f / 255f, 200f / 255f, 200f / 255f, 1f);
 
                 if (button.name.Contains("blue"))
                 {
+                    cb.normalColor = Color.blue;
+                    cb.highlightedColor = new Color(0f, 0f, 80f/255f, 1f);
+                    cb.selectedColor = Color.blue;
+                    cb.pressedColor = new Color(0f, 0f, 160f / 255f, 1f);
                     script.Color = Color.blue;
                 }
                 else if (button.name.Contains("green"))
                 {
+                    cb.normalColor = Color.green;
+                    cb.highlightedColor = new Color(0f, 80f / 255f, 0f, 1f);
+                    cb.selectedColor = Color.green;
+                    cb.pressedColor = new Color(0f, 160f / 255f, 0f, 1f);
                     script.Color = Color.green;
                 }
                 else if (button.name.Contains("red"))
                 {
+                    cb.normalColor = Color.red;
+                    cb.highlightedColor = new Color(80f / 255f, 0f, 0f, 1f);
+                    cb.selectedColor = Color.red;
+                    cb.pressedColor = new Color(160f / 255f, 0f, 0f, 1f);
                     script.Color = Color.red;
                 }
                 button.colors = cb;
@@ -297,26 +305,28 @@ namespace BoardGame
 
                 //new color block
                 ColorBlock cb = button.colors;
-                cb.disabledColor = new Color(1f, 200f / 255f, 200f / 255f, 1);
-                cb.normalColor = new Color(1f, 175f / 255f, 175f / 255f, 1);
-                cb.highlightedColor = cb.normalColor;
-                cb.pressedColor = cb.normalColor;
+                cb.disabledColor = new Color(50f / 255f, 50f / 255f, 50f / 255f, 1);
 
                 if (button.name.Contains("blue"))
                 {
+                    cb.normalColor = new Color(175f / 255f, 175f / 255f, 1f, 1);
                     cb.selectedColor = Color.blue;
                     script.Color = Color.blue;
                 }
                 else if (button.name.Contains("green"))
                 {
+                    cb.normalColor = new Color(175f / 255f, 1f, 175f / 255f, 1);
                     cb.selectedColor = Color.green;
                     script.Color = Color.green;
                 }
                 else if (button.name.Contains("red"))
                 {
+                    cb.normalColor = new Color(1f, 175f / 255f, 175f / 255f, 1);
                     cb.selectedColor = Color.red;
                     script.Color = Color.red;
                 }
+                cb.highlightedColor = cb.normalColor;
+                cb.pressedColor = cb.normalColor;
                 button.colors = cb;
             }
 

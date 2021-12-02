@@ -56,6 +56,24 @@ public class GamePiece : MonoBehaviour, IMoveable
             Vector2 _gridMovement = new Vector2(newLocX, newLocY);
             _savedGridID = GridID;
             StartCoroutine(BoardManager.MovePiece(this, _gridMovement, _savedGridID));
+
+            int movementSoundChoice = Random.Range(0, 3);
+
+            if (movementSoundChoice == 0)
+            {
+                _audioSource.volume = 0.5f;
+                _audioSource.clip = MovementSound1;
+            }
+            else if (movementSoundChoice == 1)
+            {
+                _audioSource.volume = 0.5f;
+                _audioSource.clip = MovementSound2;
+            }
+            else if (movementSoundChoice == 2)
+            {
+                _audioSource.volume = 0.5f;
+                _audioSource.clip = MovementSound3;
+            }
         }
     }
 
@@ -63,70 +81,19 @@ public class GamePiece : MonoBehaviour, IMoveable
     public void MoveUp()
     {
         MovePiece(0, -1);
-
-        int movementSoundChoice = Random.Range(0, 3);
-
-        if (movementSoundChoice == 0)
-        {
-            _audioSource.volume = 0.5f;
-            _audioSource.clip = MovementSound1;
-        }
-        else if (movementSoundChoice == 1)
-        {
-            _audioSource.volume = 0.5f;
-            _audioSource.clip = MovementSound2;
-        }
-        else if (movementSoundChoice == 2)
-        {
-            _audioSource.volume = 0.5f;
-            _audioSource.clip = MovementSound3;
-        }
+        _audioSource.Play();
     }
 
     public void MoveDiagonalUpLeft()
     {
         MovePiece(-1, -1);
-
-        int movementSoundChoice = Random.Range(0, 3);
-
-        if (movementSoundChoice == 0)
-        {
-            _audioSource.volume = 0.5f;
-            _audioSource.clip = MovementSound1;
-        }
-        else if (movementSoundChoice == 1)
-        {
-            _audioSource.volume = 0.5f;
-            _audioSource.clip = MovementSound2;
-        }
-        else if (movementSoundChoice == 2)
-        {
-            _audioSource.volume = 0.5f;
-            _audioSource.clip = MovementSound3;
-        }
+        _audioSource.Play();
     }
 
     public void MoveDiagonalUpRight()
     {
         MovePiece(1, -1);
-
-        int movementSoundChoice = Random.Range(0, 3);
-
-        if (movementSoundChoice == 0)
-        {
-            _audioSource.volume = 0.5f;
-            _audioSource.clip = MovementSound1;
-        }
-        else if (movementSoundChoice == 1)
-        {
-            _audioSource.volume = 0.5f;
-            _audioSource.clip = MovementSound2;
-        }
-        else if (movementSoundChoice == 2)
-        {
-            _audioSource.volume = 0.5f;
-            _audioSource.clip = MovementSound3;
-        }
+        _audioSource.Play();
     }
 
     

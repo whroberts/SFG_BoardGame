@@ -12,6 +12,10 @@ namespace BoardGame
         [SerializeField] SetupStateGenerateBoard GenerateBoard = null;
         [SerializeField] SetupBoardGameBaseState SetupBoard = null;
 
+        [Header("UI")]
+        [SerializeField] Transform _playerPiecesCaptureLoc = null;
+        [SerializeField] Transform _enemyPiecesCaptureLoc = null;
+
         private Button _playerCurrentButton = null;
         private Button _enemyCurrentButton = null;
         public Button EnemyCurrentButton => _enemyCurrentButton;
@@ -455,7 +459,10 @@ namespace BoardGame
                         _playerPieceList.Remove(piece.gameObject);
                         _piecesTakenByEnemy++;
                         yield return new WaitForSeconds(0.2f);
-                        Vector2 playerPiecesTakenLoc = new Vector2(1500 + (_piecesTakenByEnemy * 15), 950);
+                        //Vector2 playerPiecesTakenLoc = new Vector2(1500 + (_piecesTakenByEnemy * 15), 950);
+                        Vector2 playerPiecesTakenLoc = new Vector2(_playerPiecesCaptureLoc.position.x + UnityEngine.Random.Range(-135f, 135f),
+                            _playerPiecesCaptureLoc.position.y + UnityEngine.Random.Range(-100f, 50f));
+                        piece.gameObject.transform.SetParent(_playerPiecesCaptureLoc);
                         piece.gameObject.transform.position = playerPiecesTakenLoc;
                         
                     }
@@ -465,7 +472,9 @@ namespace BoardGame
                         _enemyPieceList.Remove(piece.gameObject);
                         _piecesTakenByPlayer++;
                         yield return new WaitForSeconds(0.2f);
-                        Vector2 enemyPiecesTakenLoc = new Vector2(1500 + (_piecesTakenByPlayer * 15), 100);
+                        Vector2 enemyPiecesTakenLoc = new Vector2(_enemyPiecesCaptureLoc.position.x + UnityEngine.Random.Range(-135f, 135f),
+                            _enemyPiecesCaptureLoc.position.y + UnityEngine.Random.Range(-100f, 50f));
+                        piece.gameObject.transform.SetParent(_enemyPiecesCaptureLoc);
                         piece.gameObject.transform.position = enemyPiecesTakenLoc;
                         
                     }
